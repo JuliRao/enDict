@@ -9,8 +9,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
-public class Search {
-	public Document getDocument(String url){
+public class Search implements common.Searchable {
+	private Document getDocument(String url){
 		try{
 			return Jsoup.connect(url).get();
 		}catch(IOException e){

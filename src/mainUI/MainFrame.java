@@ -7,10 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import theme.MyTheme;
+import mainUI.functionUI.FunctionPanel;
+import mainUI.functionUI.FunctionPanelCreator;
+import mainUI.momentsUI.MomentsPanel;
+import mainUI.wordUI.WordPanel;
+
 public class MainFrame extends JFrame {
-	private ImageIcon background = new ImageIcon("data/image/pheonix.jpg"); 	// 背景图片
+	private ImageIcon background = new ImageIcon(MyTheme.Instance().getBackgroundPicture()); 	// 背景图片
 	private ImageIcon background2 = new ImageIcon("data/image/tree.jpg"); 	// 背景图片
-	private ImageIcon icon =  new ImageIcon("data/image/tree.jpg");
+	private ImageIcon icon =  new ImageIcon(MyTheme.Instance().getPaneIcon());
 	
 	private JLabel label = new JLabel(background);
 	
@@ -28,14 +34,14 @@ public class MainFrame extends JFrame {
 		this.setResizable(false);
 		this.setVisible(true);
 		
-        Image temp = icon.getImage().getScaledInstance(20, 25, Image.SCALE_DEFAULT);  
+        Image temp = icon.getImage().getScaledInstance(22, 22, Image.SCALE_DEFAULT);  
         icon = new ImageIcon(temp);
         mainPane.addTab("词典", icon, wordPanel);
         mainPane.addTab("动态", icon, momentsPanel);
         mainPane.setBounds(40, 40, 650, 450);
         this.add(mainPane);
         
-        functionPanel.setBounds(40, 500, 650, 30);
+        functionPanel.setBounds(40, 500, 650, 37);
         this.add(functionPanel);
         
         // 把背景图片显示在一个标签里面  

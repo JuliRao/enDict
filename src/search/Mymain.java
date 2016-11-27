@@ -5,7 +5,7 @@ public class Mymain {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String dstWord = "execute";
+		String dstWord = "what";
 		Search s = new Search();
 //		htmlRequest s = new htmlRequest();
 		Vector<String> Baidu = s.getBaiduMean(dstWord);

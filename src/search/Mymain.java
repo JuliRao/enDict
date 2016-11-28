@@ -28,7 +28,7 @@ public class Mymain {
 		for(String m : youdao){
 			System.out.println(m);
 		}
-		Vector<String> Jinshan = s.getJinshanMean(dstWord);
+/*		Vector<String> Jinshan = s.getJinshanMean(dstWord);
 		System.out.println("Jinshan");
 		flag = 0;
 		for(String m : Jinshan){
@@ -40,7 +40,7 @@ public class Mymain {
 				System.out.println(m);
 				flag = 0;
 			}
-		}
+		}*/
 	}
 
 }

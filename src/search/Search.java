@@ -62,6 +62,42 @@ public class Search implements common.Searchable {
 		return mean;
 	}
 	
+	public Vector<String> getBingMean(String dstWord){
+		Vector<String> mean = new Vector();
+		String url = "http://cn.bing.com/dict/search?q="+dstWord;
+		Document doc = getDocument(url);
+		String p = doc.select("meta[name=description]").get(0).attr("content");
+//		System.out.println(p);
+		String []pSplit = p.split("£¬");
+//		for(int i = 0; i < pSplit.length();i++)
+//			System.out.println(pSplit[i]);
+		String []pSpSp;
+		if(dstWord.contains(" "))
+			pSpSp = pSplit[1].split(" ");
+		else
+			pSpSp = pSplit[3].split(" ");
+//		String q;
+		for(int i = 0; i < pSpSp.length;i++){
+//			if(pSpSp[i+1][0]<='z'&&pSpSp[i+1][0]>='a')
+			mean.add(pSpSp[i]+pSpSp[i+1]);
+			i++;
+		}
+//		Vector<String> pSplit = p.split(",");
+		
+//		for(int i = 0; i < p.length();i++){
+			
+//		}
+//		System.out.println(p);
+		return mean;
+	}
+
+//	@Override
+//	public Vector<String> getJinshanMean(String word) {
+		// TODO Auto-generated method stub
+//		return null;
+//	}
+	
+	/*
 	public Vector<String> getJinshanMean(String dstWord){
 		Vector<String> mean = new Vector<>();
 		String url = "http://www.iciba.com/"+dstWord;
@@ -93,5 +129,5 @@ public class Search implements common.Searchable {
 //			mean.add(m);
 		}
 		return mean;
-	}
+	}*/
 }

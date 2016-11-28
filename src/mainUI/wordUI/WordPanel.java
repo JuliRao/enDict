@@ -33,7 +33,7 @@ public class WordPanel extends JPanel {
 	private void goSearch() {
 		String word = wordText.getText();
 		displayable.displayBaidu(searchable.getBaiduMean(word));
-		displayable.displayJinShan(searchable.getJinshanMean(word));
+		displayable.displayJinShan(searchable.getBingMean(word));
 		displayable.displayYoudao(searchable.getYoudaoMean(word));
 	}
 	

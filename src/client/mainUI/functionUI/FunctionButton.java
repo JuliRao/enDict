@@ -10,8 +10,8 @@ import javax.swing.JButton;
 import client.theme.MyTheme;
 
 public class FunctionButton extends JButton {
-	private static int width = 30;
-	private static int height = 30;
+	private static int width = 33;
+	private static int height = 33;
 	
 	private ImageIcon icon;
 	private ImageIcon reverseIcon;
@@ -22,6 +22,7 @@ public class FunctionButton extends JButton {
 	}
 	
 	public FunctionButton(String path) {
+		//this.setBorder(null);
 		this.setBackground(Color.WHITE);
 		icon = new ImageIcon(path);
 		Image temp = icon.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);  

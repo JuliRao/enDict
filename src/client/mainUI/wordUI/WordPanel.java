@@ -13,9 +13,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import common.ThreeMeanings;
 import client.common.Displayable;
 import client.common.Refreshable;
 import client.common.Searchable;
+import client.connect.MyClient;
 import client.search.Search;
 import client.theme.MyTheme;
 
@@ -26,15 +28,15 @@ public class WordPanel extends JPanel {
 	private WordCheckBoxs checkBoxs = new WordCheckBoxs(new String[]{"有道词典", "百度词典", "必应词典"}, 50, 65);
 	private WordTransPanel transPanel = new WordTransPanel();
 	
-	private Searchable searchable = new Search();
 	private Refreshable refreshable = transPanel;
 	private Displayable displayable = transPanel;
 	
 	private void goSearch() {
 		String word = wordText.getText();
-		displayable.displayBaidu(searchable.getBaiduMean(word));
-		displayable.displayBing(searchable.getBingMean(word));
-		displayable.displayYoudao(searchable.getYoudaoMean(word));
+		ThreeMeanings threeMeanings = MyClient.Instance().searchWord(word);
+		displayable.displayBaidu(threeMeanings.getBaidu());
+		displayable.displayBing(threeMeanings.getBing());
+		displayable.displayYoudao(threeMeanings.getYoudao());
 	}
 	
 	public WordPanel() {

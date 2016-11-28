@@ -25,10 +25,10 @@ public class Server {
 			System.out.println(inetAddress.getHostAddress() + " " + inetAddress.getHostName());
 			
 			DataInputStream inputStream = new DataInputStream(socket.getInputStream());
-			
 			ObjectOutputStream toClient = new ObjectOutputStream(socket.getOutputStream());
+			
 //			@SuppressWarnings("deprecation")
-			String dstWord=inputStream.readUTF();
+			String dstWord = inputStream.readUTF();
 	//				char a = inputStream.r
 			System.out.println(dstWord);
 			Search s = new Search();

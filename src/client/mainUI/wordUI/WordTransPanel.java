@@ -33,11 +33,21 @@ public class WordTransPanel extends JPanel implements Refreshable, Displayable {
 
 	public void refresh(boolean []accessable) {
 		this.removeAll();
+		
+		boolean all = true;
 		for(int i = 0; i < accessable.length; ++ i) {
 			if(accessable[i]) {
+				all = false;
 				this.add(dictionaryList.get(i));
 			}
 		}
+		
+		// all not selected
+		if(all == true) {
+			for(DictionaryPanel dictionaryPanel : dictionaryList)
+				this.add(dictionaryPanel);
+		}
+		
 		this.validate();
 		this.repaint();
 	}

@@ -18,6 +18,7 @@ interface MomentsTheme {
 }
 
 interface FunctionTheme {
+	public String getReverseIcon();
 	public String getUserIcon();
 	public String getPicIcon();
 	public String getNoteIcon();

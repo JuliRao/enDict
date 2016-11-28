@@ -12,7 +12,7 @@ public class Tst {
 		try {
 			Socket socket = new Socket("114.212.130.243", 3000);
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-			out.writeDouble(23333);
+			out.writeDouble(23333); 
 			
 /*			while(true) {
 				

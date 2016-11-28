@@ -61,4 +61,9 @@ public class DefaultTheme implements Theme {
 	public String getSearchIcon() {
 		return "data/image/planet/elestial.png";
 	}
+
+	@Override
+	public String getReverseIcon() {
+		return "data/image/planet/mars.png";
+	}
 }

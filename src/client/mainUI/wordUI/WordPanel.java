@@ -23,7 +23,7 @@ public class WordPanel extends JPanel {
 	private WordLabel wordLabel = new WordLabel("EN ", 20, 20);
 	private WordText wordText = new WordText(55, 20);
 	private WordButton searchButton = new WordButton(new ImageIcon(MyTheme.Instance().getSearchIcon()), 580, 20);
-	private WordCheckBoxs checkBoxs = new WordCheckBoxs(new String[]{"有道词典", "百度词典", "金山词霸"}, 50, 65);
+	private WordCheckBoxs checkBoxs = new WordCheckBoxs(new String[]{"有道词典", "百度词典", "必应词典"}, 50, 65);
 	private WordTransPanel transPanel = new WordTransPanel();
 	
 	private Searchable searchable = new Search();

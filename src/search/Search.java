@@ -68,7 +68,7 @@ public class Search implements common.Searchable {
 		Document doc = getDocument(url);
 		String p = doc.select("meta[name=description]").get(0).attr("content");
 //		System.out.println(p);
-		String []pSplit = p.split("£¬");
+		String []pSplit = p.split("ï¼Œ");
 //		for(int i = 0; i < pSplit.length();i++)
 //			System.out.println(pSplit[i]);
 		String []pSpSp;

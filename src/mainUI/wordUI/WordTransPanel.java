@@ -21,7 +21,7 @@ public class WordTransPanel extends JPanel implements Refreshable, Displayable {
 	public WordTransPanel() {
 		dictionaryList.add(new DictionaryPanel("有道词典"));
 		dictionaryList.add(new DictionaryPanel("百度词霸"));
-		dictionaryList.add(new DictionaryPanel("金山词典"));
+		dictionaryList.add(new DictionaryPanel("必应词典"));
 		
 		for(DictionaryPanel dictionaryPanel : dictionaryList)
 			this.add(dictionaryPanel);

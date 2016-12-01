@@ -28,6 +28,7 @@ public class Server {
 			ObjectOutputStream toClient = new ObjectOutputStream(socket.getOutputStream());
 			
 //			@SuppressWarnings("deprecation")
+<<<<<<< HEAD
 			
 			while(true) {
 				String dstWord = inputStream.readUTF();
@@ -41,6 +42,23 @@ public class Server {
 	//			System.out.println(inputStream.readDouble());
 			}
 			
+=======
+			while(true){
+				String dstWord = inputStream.readUTF();
+	//				char a = inputStream.r
+				System.out.println(dstWord);
+				Search s = new Search();
+				ThreeMeanings mean = new ThreeMeanings(s.getBaiduMean(dstWord), s.getYoudaoMean(dstWord), s.getBingMean(dstWord));
+//			mean.getMean(s.getBaiduMean(dstWord), s.getYoudaoMean(dstWord), s.getBingMean(dstWord));
+			
+				toClient.writeObject(mean);
+//			System.out.println(inputStream.readDouble());
+			}
+			
+//			while(true) {
+				
+//			}
+>>>>>>> server
 		} catch (IOException e) {
 			// TODO 鑷姩鐢熸垚鐨� catch 鍧�
 			e.printStackTrace();

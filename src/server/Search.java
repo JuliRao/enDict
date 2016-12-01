@@ -70,12 +70,20 @@ public class Search {
 //		System.out.println(p);
 		String []pSplit = p.split("，");
 		String []pSpSp;
+		int j = 0;
+		for(j = 0; j < pSplit.length;j++){
+			if(pSplit[j].contains("必应")||pSplit[j].contains("美[")||pSplit[j].contains("英["))
+				continue;
+			else
+				break;
+		}
+		pSpSp = pSplit[j].split(" ");
 //		for(int i = 0; i < pSplit.length();i++)
 //			System.out.println(pSplit[i]);
-		if(dstWord.contains(" "))
-			pSpSp = pSplit[1].split(" ");
-		else
-			pSpSp = pSplit[3].split(" ");
+//		if(dstWord.contains(" "))
+//			pSpSp = pSplit[1].split(" ");
+//		else
+//			pSpSp = pSplit[3].split(" ");
 //		String q;
 		for(int i = 0; i < pSpSp.length;i++){
 //			if(pSpSp[i+1][0]<='z'&&pSpSp[i+1][0]>='a')

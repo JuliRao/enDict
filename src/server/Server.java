@@ -25,23 +25,24 @@ public class Server {
 			System.out.println(inetAddress.getHostAddress() + " " + inetAddress.getHostName());
 			
 			DataInputStream inputStream = new DataInputStream(socket.getInputStream());
-			
 			ObjectOutputStream toClient = new ObjectOutputStream(socket.getOutputStream());
+			
 //			@SuppressWarnings("deprecation")
-			String dstWord=inputStream.readUTF();
+			while(true){
+				String dstWord = inputStream.readUTF();
 	//				char a = inputStream.r
-			System.out.println(dstWord);
-			Search s = new Search();
-			ThreeMeanings mean = new ThreeMeanings(s.getBaiduMean(dstWord), s.getYoudaoMean(dstWord), s.getBingMean(dstWord));
+				System.out.println(dstWord);
+				Search s = new Search();
+				ThreeMeanings mean = new ThreeMeanings(s.getBaiduMean(dstWord), s.getYoudaoMean(dstWord), s.getBingMean(dstWord));
 //			mean.getMean(s.getBaiduMean(dstWord), s.getYoudaoMean(dstWord), s.getBingMean(dstWord));
 			
-			toClient.writeObject(mean);
+				toClient.writeObject(mean);
 //			System.out.println(inputStream.readDouble());
-			
-			
-			while(true) {
-				
 			}
+			
+//			while(true) {
+				
+//			}
 		} catch (IOException e) {
 			// TODO 鑷姩鐢熸垚鐨� catch 鍧�
 			e.printStackTrace();

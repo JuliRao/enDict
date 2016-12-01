@@ -18,6 +18,8 @@ public class WordText extends JTextField {
 	private static int width = 500;
 	private static int height = 30;
 	
+	private boolean isLegal = true;
+	
 	public WordText() {
 		this.setLayout(null);
 		this.setSize(width, height);
@@ -54,11 +56,21 @@ public class WordText extends JTextField {
 		return false;
 	}
 	
+	public boolean isLegal() {
+		return isLegal;
+	}
+
+	public void setLegal(boolean isLegal) {
+		this.isLegal = isLegal;
+	}
+
 	class TextDocumentListener implements DocumentListener {
 		public void insertUpdate(DocumentEvent e) {
+			
 	        String word = getText();
 			for(int i = 0; i < word.length(); ++ i) {
 				if(!isLegalChar(word.charAt(i))) {
+					setLegal(false);
 					setFont(MyTheme.Instance().getErrorFont());
 					setForeground(MyTheme.Instance().getErrorColor());
 					repaint();
@@ -66,6 +78,7 @@ public class WordText extends JTextField {
 				}
 			}
 			
+			setLegal(true);
 			setForeground(Color.black);
 			setFont(MyTheme.Instance().getFont());
 			repaint();
@@ -75,9 +88,11 @@ public class WordText extends JTextField {
          * 文本内容减少时出发这个方法
          */    
         public void removeUpdate(DocumentEvent e) {
+        	
 	        String word = getText();
 			for(int i = 0; i < word.length(); ++ i) {
 				if(!isLegalChar(word.charAt(i))) {
+					setLegal(false);
 					setFont(MyTheme.Instance().getErrorFont());
 					setForeground(MyTheme.Instance().getErrorColor());
 					repaint();
@@ -85,6 +100,7 @@ public class WordText extends JTextField {
 				}
 			}
 			
+			setLegal(true);
 			setForeground(Color.black);
 			setFont(MyTheme.Instance().getFont());
 			repaint();

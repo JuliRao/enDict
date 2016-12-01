@@ -64,10 +64,12 @@ public class WordPanel extends JPanel {
 		// 响应回车操作
 		wordText.addKeyListener(new KeyListener() {
 			
-		    public void keyPressed(KeyEvent e) {  
-		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {  
-		        	goSearch();
-		        }
+		    public void keyPressed(KeyEvent e) {
+		    	if(wordText.isLegal()) {
+			        if (e.getKeyCode() == KeyEvent.VK_ENTER) {  
+			        	goSearch();
+			        }
+		    	}
 		    }  
 		    public void keyReleased(KeyEvent e) {  
 
@@ -102,7 +104,9 @@ public class WordPanel extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				goSearch();
+				if(wordText.isLegal()) {
+					goSearch();
+				}
 			}
 		});
 	}

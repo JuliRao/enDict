@@ -26,7 +26,9 @@ interface FunctionTheme {
 
 public interface Theme extends LoginTheme, WordTheme, FunctionTheme, MomentsTheme {
 	public Color getBackgroundColor();
+	public Color getErrorColor();
 	public Font getFont();
+	public Font getErrorFont();
 	public String getBackgroundPicture();
 	public String getPaneIcon();
 }

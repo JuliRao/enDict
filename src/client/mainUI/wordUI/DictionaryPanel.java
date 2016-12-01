@@ -49,7 +49,6 @@ public class DictionaryPanel extends JPanel {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO 自动生成的方法存根
-				
 			}
 			
 			@Override
@@ -77,5 +76,6 @@ public class DictionaryPanel extends JPanel {
 			translation.append(string + "\r\n");
 		}
 		translation.repaint();
+		//this.setPreferredSize(new Dimension(300, translation.getWidth()));
 	}
 }

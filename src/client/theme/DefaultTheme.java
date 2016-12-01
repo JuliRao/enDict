@@ -66,4 +66,14 @@ public class DefaultTheme implements Theme {
 	public String getReverseIcon() {
 		return "data/image/planet/mars.png";
 	}
+
+	@Override
+	public Font getErrorFont() {
+		return new Font("微软雅黑", Font.BOLD, 14);
+	}
+
+	@Override
+	public Color getErrorColor() {
+		return Color.red;
+	}
 }

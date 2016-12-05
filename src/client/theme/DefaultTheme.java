@@ -79,6 +79,6 @@ public class DefaultTheme implements Theme {
 
 	@Override
 	public Font getCardFont() {
-		return new Font("Serif", Font.BOLD, 60);
+		return new Font("Serif", Font.BOLD, 20);
 	}
 }

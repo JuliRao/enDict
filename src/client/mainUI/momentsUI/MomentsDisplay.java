@@ -3,14 +3,25 @@ package client.mainUI.momentsUI;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import client.theme.MyTheme;
 
 public class MomentsDisplay extends JPanel {
 	public MomentsDisplay() {
 		setLayout(null);
-		setBackground(Color.red);
-		//setBackground(MyTheme.Instance().getBackgroundColor());
+		setBackground(MyTheme.Instance().getBackgroundColor());
+		
+		JLabel label = new JLabel(new ImageIcon("data/image/card/a.png"));
+		label.setBounds(this.getX() + 10, this.getY() + 10, 380, 380);
+		add(label);
+		
+		JLabel label2 = new JLabel(new ImageIcon("data/image/card/summer2.jpg"));
+		label2.setBounds(this.getX() + 10, this.getY() + 400, 380, 380);
+		add(label2);
 	}
 	
 	public void addPicture() {

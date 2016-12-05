@@ -2,7 +2,7 @@ package client.common;
 
 
 public class Info {
-	static private String word;
+	static private String word = "";
 	static private Searchable meanings;
 	
 	public static Searchable getMeanings() {

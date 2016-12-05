@@ -13,12 +13,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import common.Dictionary;
 import common.ThreeMeanings;
 import client.common.Displayable;
+import client.common.Info;
 import client.common.Refreshable;
 import client.common.Searchable;
 import client.connect.MyClient;
-import client.search.Search;
 import client.theme.MyTheme;
 
 public class WordPanel extends JPanel {
@@ -33,10 +34,11 @@ public class WordPanel extends JPanel {
 	
 	private void goSearch() {
 		String word = wordText.getText();
-		ThreeMeanings threeMeanings = MyClient.Instance().searchWord(word);
-		displayable.displayBaidu(threeMeanings.getBaidu());
-		displayable.displayBing(threeMeanings.getBing());
-		displayable.displayYoudao(threeMeanings.getYoudao());
+		MyClient.Instance().searchWord(word);
+		Searchable threeMeanings = Info.getMeanings();
+		displayable.displayBaidu(threeMeanings.getMeaning(Dictionary.Baidu));
+		displayable.displayBing(threeMeanings.getMeaning(Dictionary.Bing));
+		displayable.displayYoudao(threeMeanings.getMeaning(Dictionary.YouDao));
 	}
 	
 	public WordPanel() {

@@ -1,8 +1,6 @@
 //package common;
 package server;
 
-import common.ThreeMeanings;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,6 +9,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.*;
 import java.util.Vector;
+
+import common.ThreeMeanings;
 
 
 public class Server {

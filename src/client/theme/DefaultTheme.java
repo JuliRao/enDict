@@ -76,4 +76,9 @@ public class DefaultTheme implements Theme {
 	public Color getErrorColor() {
 		return Color.red;
 	}
+
+	@Override
+	public Font getCardFont() {
+		return new Font("Serif", Font.BOLD, 20);
+	}
 }

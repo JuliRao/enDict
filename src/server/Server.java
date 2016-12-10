@@ -1,48 +1,48 @@
 //package common;
 package server;
 
+
 import common.ThreeMeanings;
 //import server.Search;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.*;
-import java.util.Vector;
-
 
 public class Server {
-
-//	@SuppressWarnings("deprecation")
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	
+	private int clientNo = 0;
+	
+	public Server() {
 		try {
-			ServerSocket serverSocket = new ServerSocket(3000);
-			Socket socket = serverSocket.accept();
-			InetAddress inetAddress = socket.getInetAddress();
-			System.out.println(inetAddress.getHostAddress() + " " + inetAddress.getHostName());
-			
-			DataInputStream inputStream = new DataInputStream(socket.getInputStream());
-			ObjectOutputStream toClient = new ObjectOutputStream(socket.getOutputStream());
+			ServerSocket serverSocket = new ServerSocket(8000);
 			
 			while(true) {
-				String dstWord = inputStream.readUTF();
-		//				char a = inputStream.r
-				System.out.println(dstWord);
-				Search s = new Search();
-				ThreeMeanings mean = new ThreeMeanings(s.getBaiduMean(dstWord), s.getYoudaoMean(dstWord), s.getBingMean(dstWord));
-	//			mean.getMean(s.getBaiduMean(dstWord), s.getYoudaoMean(dstWord), s.getBingMean(dstWord));
+				Socket socket = serverSocket.accept();
+				InetAddress inetAddress = socket.getInetAddress();
+				System.out.println("Client " + clientNo + "'s host name is " + inetAddress.getHostAddress());
+				System.out.println("Client " + clientNo + "'s IP Address is " + inetAddress.getHostName());
 				
-				toClient.writeObject(mean);
-	//			System.out.println(inputStream.readDouble());
+				// create a new task for the connection
+				HandleAClient task = new HandleAClient(socket);
+				Thread thread = new Thread(task);
+				
+				// start the new thread
+				thread.start();
+				
+				// Increment clientNo
+				clientNo ++;
 			}
 
 		} catch (IOException e) {
-			// TODO 鑷姩鐢熸垚鐨� catch 鍧�
 			e.printStackTrace();
 		}
 	}
 
+	public static void main(String[] args) {
+		new Server();
+	}
 }

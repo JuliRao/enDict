@@ -1,11 +1,15 @@
 package client.connect;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import common.ThreeMeanings;
+import client.common.Info;
+import client.common.Searchable;
+import client.common.SearchableApater;
 
 public class Client {
 	private Socket socket;
@@ -14,31 +18,34 @@ public class Client {
 	
 	Client() {
 		try {
-			socket = new Socket("localhost", 3000);
-			System.out.println("server connected.");
+			socket = new Socket("localhost", 8000);
+			System.out.println("Server connected.");
 			toServer = new DataOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 			//socket = new Socket("114.212.130.243", 3000);
 		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
 	}
 	
-	public ThreeMeanings searchWord(String word) {
-		ThreeMeanings meanings = null;
+	public void searchWord(String word) {
 		try {
-//			DataOutputStream toServer = new DataOutputStream(socket.getOutputStream());
-//			ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-			
 			toServer.writeUTF(word);
-			meanings = (ThreeMeanings)input.readObject();
+			ThreeMeanings meanings = (ThreeMeanings)input.readObject();
+			Info.setMeanings(new SearchableApater(meanings));
+			Info.setWord(word);
 			toServer.flush();
-//			toServer.close();
 		} catch (IOException | ClassNotFoundException e) {
-			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
-		return meanings;
+	}
+	
+	public void closeConnection() {
+		System.out.println("Close the Client socket and the io.");
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,18 +1,29 @@
-package client.mainUI.functionUI;
+package client.mainUI.pictureUI;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import client.mainUI.pictureUI.CardCreator;
-import client.mainUI.pictureUI.CardFrame;
+import javax.swing.JButton;
 
+import client.theme.MyTheme;
 
-public class PicButton extends FunctionButton {
-	public PicButton(String path) {
-		super(path);
-		this.setToolTipText("单词图片");
+public class CardButton extends JButton {
+	
+	private static int width = 150;
+	private static int height = 30;
+	
+	private Mediator mediator;
+	
+	public CardButton(Mediator mediator, String s, int x, int y) {
+		this.mediator = mediator;
+		
+		this.setText(s);
+		this.setBounds(x, y, width, height);
+		this.setLayout(null);
+		this.setBackground(MyTheme.Instance().getBackgroundColor());
 		
 		addMouseListener(new MouseListener() {
+			
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO 自动生成的方法存根
@@ -39,8 +50,12 @@ public class PicButton extends FunctionButton {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new CardCreator().createCard();
-				new CardFrame();
+				if(getText().contains("all")) {
+					System.out.println("send all");
+				}
+				else {
+					System.out.println("send");
+				}
 			}
 		});
 	}

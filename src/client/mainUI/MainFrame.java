@@ -1,12 +1,15 @@
 package client.mainUI;
 
 import java.awt.Image;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import client.connect.MyClient;
 import client.mainUI.functionUI.FunctionPanel;
 import client.mainUI.functionUI.FunctionPanelCreator;
 import client.mainUI.momentsUI.MomentsPanel;
@@ -49,6 +52,45 @@ public class MainFrame extends JFrame {
         JPanel imagePanel = (JPanel) this.getContentPane();  
         imagePanel.setOpaque(false);  
         this.getContentPane().add(label, new Integer(Integer.MIN_VALUE)); 
+        
+        // 关闭窗口时关闭连接
+        this.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				MyClient.Instance();
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				//MyClient.Instance().closeConnection();
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+
+			}
+		});
 	}
 	
 	public void changeBackground() {

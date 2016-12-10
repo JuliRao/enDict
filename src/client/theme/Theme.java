@@ -22,6 +22,7 @@ interface FunctionTheme {
 	public String getUserIcon();
 	public String getPicIcon();
 	public String getNoteIcon();
+	public Font getCardFont();
 }
 
 public interface Theme extends LoginTheme, WordTheme, FunctionTheme, MomentsTheme {

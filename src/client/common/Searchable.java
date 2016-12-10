@@ -2,8 +2,8 @@ package client.common;
 
 import java.util.Vector;
 
+import common.Dictionary;
+
 public interface Searchable {
-	public Vector<String> getBaiduMean(String word);
-	public Vector<String> getYoudaoMean(String word);
-	public Vector<String> getBingMean(String word);
+	public Vector<String> getMeaning(Dictionary dictionary);
 }

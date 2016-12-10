@@ -20,7 +20,7 @@ public class Search {
 		return null;
 	}
 	
-	public Vector<String> getBaiduMean(String dstWord){
+/*	public Vector<String> getBaiduMean(String dstWord){
 		Vector<String> mean = new Vector<>();
 		String url = "http://dict.baidu.com/s?wd="+dstWord+"&device=pc&from=home&q="+dstWord;
 
@@ -48,7 +48,7 @@ public class Search {
 //		return mean;
 
 		return mean;
-	}
+	}*/
 	
 	public Vector<String> getYoudaoMean(String dstWord){
 		Vector<String> mean = new Vector<>();
@@ -85,7 +85,11 @@ public class Search {
 //		else
 //			pSpSp = pSplit[3].split(" ");
 //		String q;
+
 		for(int i = 0; i+1 < pSpSp.length;i++){
+
+//		for(int i = 0; i < pSpSp.length; i++){
+
 //			if(pSpSp[i+1][0]<='z'&&pSpSp[i+1][0]>='a')
 			mean.add(pSpSp[i]+pSpSp[i+1]);
 			i++;
@@ -98,7 +102,7 @@ public class Search {
 //		System.out.println(p);
 		return mean;
 	}
-/*	
+	
 	public Vector<String> getJinshanMean(String dstWord){
 		Vector<String> mean = new Vector<>();
 		String url = "http://www.iciba.com/"+dstWord;
@@ -130,5 +134,5 @@ public class Search {
 //			mean.add(m);
 		}
 		return mean;
-	}*/
+	}
 }

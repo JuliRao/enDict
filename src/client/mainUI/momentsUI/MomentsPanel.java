@@ -23,6 +23,6 @@ public class MomentsPanel extends JPanel {
 		
 		add(scrollTable);
 		add(scrollPane);
-		momentsDisplay.setPreferredSize(new Dimension(1000,1000));
+		momentsDisplay.setPreferredSize(new Dimension(400, 1000));
 	}
 }

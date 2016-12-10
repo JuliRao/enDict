@@ -1,15 +1,17 @@
 package server.database;
 import java.sql.*;
+import java.util.Vector;
 
 public class MyData {
 	private String driver = "com.mysql.jdbc.Driver";
 	private String url = "jdbc:mysql://localhost:3306/DictData";
 	private String user = "root";
 	private String password = "ab123456";
-	private Connection con = null;
-	private Statement stmt = null;
+	private static Connection con = null;
+	private static Statement stmt = null;
+	private static MyData database = null;
 	
-	public void createConnection(){
+	private MyData(){
 		try {
 			Class.forName(driver);
 			System.out.println("Driver loaded");
@@ -22,7 +24,12 @@ public class MyData {
 			e.printStackTrace();
 		}
 	}
-	public void thumbsup(String word,String dict) throws SQLException{
+	public static MyData createConnection(){
+		if(database == null)
+			database = new MyData();
+		return database;
+	}
+	public static boolean thumbup(String word,String dict) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select * from wordUp where word = '"
 				+word+"';");
 		if(resultSet.next() == true){
@@ -63,12 +70,20 @@ public class MyData {
 //			stmt.executeUpdate("insert into  wordUp(word, count)\n"+
 //							"values ('"+word+"',1);");
 //		}
+		return true;
 	}
-	public void addUser(String username,String password) throws SQLException{
+	public static boolean addUser(String username,String password) throws SQLException{
+		ResultSet resultSet = stmt.executeQuery("select state "
+				+ "from Dictuser where username = '" +username+"';");
+		if(resultSet.next() == true)
+			return false;
+		
 		stmt.executeUpdate("insert into Dictuser (username,password,friend)\n"+
 							"values ('"+username+"','"+password+"','');");
+		return true;
+//		return 
 	}
-	public boolean IfUser(String Iusername,String Ipassword) throws SQLException{
+	public static boolean IfUser(String Iusername,String Ipassword) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select state "
 				+ "from Dictuser where username = '" +Iusername +"' and password = '"+Ipassword+"';");
 //		System.out.println();
@@ -79,7 +94,7 @@ public class MyData {
 			return true;
 		}
 	}
-	public boolean addFriend(String username,String friend) throws SQLException{
+	public static boolean addFriend(String username,String friend) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select * from Dictuser where username = '"
 				+username+"';");
 //		ResultSet setFriend = stmt.executeQuery("select * from Dictuser where username = '"
@@ -97,7 +112,20 @@ public class MyData {
 		}
 		return true;
 	}
-	public void exit(String username) throws SQLException{
+	public static boolean exit(String username) throws SQLException{
+		ResultSet resultSet = stmt.executeQuery("select state "
+				+ "from Dictuser where username = '" +username +"';");
+		if(resultSet.next()==false)
+			return false;
 		stmt.executeUpdate("update dictuser set state = 0 where username = '"+username+"';");
+		return true;
+	}
+	public static Vector<String> onlineUser() throws SQLException{
+		ResultSet resultSet = stmt.executeQuery("select username from dictuser where state = 1");
+		Vector<String> user = new Vector<String>();
+		while(resultSet.next()){
+			user.add(resultSet.getString(1));
+		}
+		return user;
 	}
 }

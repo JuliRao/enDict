@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import common.ThreeMeanings;
@@ -13,14 +14,14 @@ import client.common.SearchableApater;
 
 public class Client {
 	private Socket socket;
-	DataOutputStream toServer;
+	ObjectOutputStream toServer;
 	ObjectInputStream input;
 	
 	Client() {
 		try {
 			socket = new Socket("localhost", 8000);
 			System.out.println("Server connected.");
-			toServer = new DataOutputStream(socket.getOutputStream());
+			toServer = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 			//socket = new Socket("114.212.130.243", 3000);
 		} catch (IOException e) {

@@ -28,8 +28,7 @@ public class ClientSend extends Thread implements Send {
 			e.printStackTrace();
 		}
 	}
-	
-	// no
+
 	public void searchWord(String word) {
 		try {
 			Info.setWord(word);
@@ -53,7 +52,6 @@ public class ClientSend extends Thread implements Send {
 		}
 	}
 	
-	// no
 	public void login(String user, String password) {
 		System.out.println("Click login");
 	}
@@ -65,18 +63,20 @@ public class ClientSend extends Thread implements Send {
 	public void sendCard() {
 		System.out.println("Start sending...");
 	}
-	
-	// easy
+
 	public void like(Dictionary dictionary) {
 		System.out.println("Like " + dictionary.getName());
 	}
 	
-	// no
 	public void getUserList() {
 		System.out.println("Get all the user");
 	}
 	
-	public void getPicture() {
+	public void getCard() {
+		
+	}
+
+	public void getCards() {
 		
 	}
 }

@@ -1,21 +1,16 @@
 package client.mainUI;
 
 import java.awt.Image;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.sound.midi.Receiver;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
-import client.common.Receive;
 import client.common.Send;
 import client.mainUI.functionUI.FunctionButton;
 import client.mainUI.functionUI.FunctionPanel;
 import client.mainUI.functionUI.FunctionPanelCreator;
-import client.mainUI.functionUI.UserButton;
 import client.mainUI.momentsUI.MomentsPanel;
 import client.mainUI.wordUI.WordPanel;
 import client.theme.MyTheme;
@@ -29,7 +24,7 @@ public class MainFrame extends JFrame {
 	
 	private WordPanel wordPanel = new WordPanel();
 	private MomentsPanel momentsPanel = new MomentsPanel();
-	private MainPane mainPane = new MainPane();
+	private JTabbedPane mainPane = new JTabbedPane();
 	private FunctionPanel functionPanel = new FunctionPanelCreator().createFunctionPanel();
 	
 	private Send send;
@@ -61,6 +56,8 @@ public class MainFrame extends JFrame {
         imagePanel.setOpaque(false);  
         this.getContentPane().add(label, new Integer(Integer.MIN_VALUE)); 
         
+        // 设置相应操作
+        momentsPanel.setSend(send);
         wordPanel.setSend(send);
         ((FunctionButton) functionPanel.getComponent(1)).setSend(send);
         ((FunctionButton) functionPanel.getComponent(2)).setSend(send);

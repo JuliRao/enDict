@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -15,17 +16,19 @@ public class CardFrame extends JFrame {
 	private CardMediator mediator = new CardMediator();
 	private CardTable cardTable;
 	private JLabel picture = new JLabel(new ImageIcon(Config.getCardBuffer()));
-	private JScrollPane scrollTable = new JScrollPane(cardTable);
+	private JScrollPane scrollTable;
 	private JButton sendButton = new CardButton(mediator, "Send", 25, 330);
 	private JButton sendAllButton = new CardButton(mediator, "Send all", 25, 365);
-	
+
 	private Send send;
 
+	// TODO ？？？
 	public CardFrame(Send send) {
 		this.send = send;
 		send.getUserList();
 		
 		cardTable = new CardTable(mediator);
+		scrollTable = new JScrollPane(cardTable);
 		
 		this.setLayout(null);
 		this.setTitle("发送单词卡");
@@ -40,6 +43,7 @@ public class CardFrame extends JFrame {
 		picture.setIcon(new ImageIcon(Config.getCardBuffer()));
 		picture.repaint();
 		this.validate();
+
 		add(scrollTable);
 		add(picture);
 		add(sendButton);

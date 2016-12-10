@@ -9,4 +9,5 @@ public interface Send {
 	public void sendCard();
 	public void like(Dictionary dictionary);
 	public void getUserList();
+	public void getCards();
 }

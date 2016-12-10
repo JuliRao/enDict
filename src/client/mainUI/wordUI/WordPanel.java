@@ -19,7 +19,7 @@ import client.common.Displayable;
 import client.common.Info;
 import client.common.Refreshable;
 import client.common.Searchable;
-import client.connect.MyClient;
+import client.common.Send;
 import client.theme.MyTheme;
 
 public class WordPanel extends JPanel {
@@ -32,9 +32,19 @@ public class WordPanel extends JPanel {
 	private Refreshable refreshable = transPanel;
 	private Displayable displayable = transPanel;
 	
+	private Send send;
+	
+	public Send getSend() {
+		return send;
+	}
+
+	public void setSend(Send send) {
+		this.send = send;
+	}
+
 	private void goSearch() {
 		String word = wordText.getText();
-		MyClient.Instance().searchWord(word);
+		send.searchWord(word);
 		Searchable threeMeanings = Info.getMeanings();
 		displayable.displayBaidu(threeMeanings.getMeaning(Dictionary.Baidu));
 		displayable.displayBing(threeMeanings.getMeaning(Dictionary.Bing));

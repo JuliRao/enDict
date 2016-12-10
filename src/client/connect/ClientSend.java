@@ -8,16 +8,16 @@ import java.net.Socket;
 import common.ThreeMeanings;
 import client.common.Info;
 import client.common.SearchableApater;
-import client.mainUI.MainFrame;
+import client.common.Send;
 
-public class Client implements Runnable {
+public class ClientSend extends Thread implements Send {
 	private Socket socket;
 	DataOutputStream toServer;
 	ObjectInputStream input;
 	
-	Client() {
+	public ClientSend(Socket socket) {
 		try {
-			socket = new Socket("localhost", 8000);
+			this.socket = socket;
 			System.out.println("Server connected.");
 			toServer = new DataOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
@@ -49,13 +49,11 @@ public class Client implements Runnable {
 	}
 
 	@Override
-	public void run() {
-		while(true) {
-			
-		}
-	}
-	
-	public static void main(String[] args) {
-		new Client();
-	}
+    public void run() {
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

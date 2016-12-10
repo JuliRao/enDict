@@ -22,7 +22,6 @@ public class FunctionButton extends JButton {
 	}
 	
 	public FunctionButton(String path) {
-		//this.setBorder(null);
 		this.setBackground(Color.WHITE);
 		icon = new ImageIcon(path);
 		Image temp = icon.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);  

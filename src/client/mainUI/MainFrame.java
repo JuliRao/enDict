@@ -4,12 +4,14 @@ import java.awt.Image;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.sound.midi.Receiver;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import client.connect.MyClient;
+import client.common.Receive;
+import client.common.Send;
 import client.mainUI.functionUI.FunctionPanel;
 import client.mainUI.functionUI.FunctionPanelCreator;
 import client.mainUI.momentsUI.MomentsPanel;
@@ -28,7 +30,11 @@ public class MainFrame extends JFrame {
 	private MainPane mainPane = new MainPane();
 	private FunctionPanel functionPanel = new FunctionPanelCreator().createFunctionPanel();
 	
-	public MainFrame() {
+	private Send send;
+
+	public MainFrame(Send send) {
+		this.send = send;
+		
 		this.setTitle("萌娆词典 - Zhou XinMeng & MaRao");
 		//this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,44 +59,7 @@ public class MainFrame extends JFrame {
         imagePanel.setOpaque(false);  
         this.getContentPane().add(label, new Integer(Integer.MIN_VALUE)); 
         
-        // 关闭窗口时关闭连接
-        this.addWindowListener(new WindowListener() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				MyClient.Instance();
-			}
-			
-			@Override
-			public void windowIconified(WindowEvent e) {
-
-			}
-			
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-
-			}
-			
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-
-			}
-			
-			@Override
-			public void windowClosing(WindowEvent e) {
-				
-			}
-			
-			@Override
-			public void windowClosed(WindowEvent e) {
-				//MyClient.Instance().closeConnection();
-			}
-			
-			@Override
-			public void windowActivated(WindowEvent e) {
-
-			}
-		});
+        wordPanel.setSend(send);
 	}
 	
 	public void changeBackground() {

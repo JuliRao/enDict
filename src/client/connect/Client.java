@@ -1,5 +1,6 @@
 package client.connect;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,8 +18,8 @@ public class Client {
 	
 	Client() {
 		try {
-			socket = new Socket("localhost", 3000);
-			System.out.println("server connected.");
+			socket = new Socket("localhost", 8000);
+			System.out.println("Server connected.");
 			toServer = new DataOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 			//socket = new Socket("114.212.130.243", 3000);
@@ -30,11 +31,20 @@ public class Client {
 	public void searchWord(String word) {
 		try {
 			toServer.writeUTF(word);
-			ThreeMeanings meanings  = (ThreeMeanings)input.readObject();
+			ThreeMeanings meanings = (ThreeMeanings)input.readObject();
 			Info.setMeanings(new SearchableApater(meanings));
 			Info.setWord(word);
 			toServer.flush();
 		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void closeConnection() {
+		System.out.println("Close the Client socket and the io.");
+		try {
+			socket.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

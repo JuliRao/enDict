@@ -10,22 +10,25 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import common.Dictionary;
+
+import client.common.Send;
 import client.theme.MyTheme;
 
 public class DictionaryPanel extends JPanel {
 	private JTextArea translation = new JTextArea();
 	private JButton button = new HeartButton();
 	private JScrollPane scrollPane = new JScrollPane(translation);
-	private String dictionaryName;
+	private Dictionary dictionary;
 	
-	public DictionaryPanel(String name) {
-		dictionaryName = name;
+	public DictionaryPanel(Dictionary dictionary) {
+		this.dictionary = dictionary;
 		setLayout(null);
 		setBackground(MyTheme.Instance().getBackgroundColor());
 		
 		translation.setFont(MyTheme.Instance().getFont());
 		translation.setPreferredSize(new Dimension(390, 405));
-		translation.setText(name);
+		translation.setText(dictionary.getName());
 		translation.setBackground(MyTheme.Instance().getBackgroundColor());
 		translation.setLineWrap(true);
 		translation.setWrapStyleWord(true);
@@ -65,13 +68,14 @@ public class DictionaryPanel extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Click heart");
+				Send send = ((WordPanel)getParent().getParent()).getSend();
+				send.like(dictionary);
 			}
 		});
 	}
 	
 	public void displayMeaning(Vector<String> meanings) {
-		translation.setText(dictionaryName + "\r\n");
+		translation.setText(dictionary.getName() + "\r\n");
 		for(String string : meanings) {
 			translation.append(string + "\r\n");
 		}

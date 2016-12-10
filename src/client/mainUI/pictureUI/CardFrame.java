@@ -8,17 +8,25 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
+import client.common.Send;
 import client.config.Config;
 
 public class CardFrame extends JFrame {
 	private CardMediator mediator = new CardMediator();
-	private CardTable cardTable = new CardTable(mediator);
+	private CardTable cardTable;
 	private JLabel picture = new JLabel(new ImageIcon(Config.getCardBuffer()));
 	private JScrollPane scrollTable = new JScrollPane(cardTable);
 	private JButton sendButton = new CardButton(mediator, "Send", 25, 330);
 	private JButton sendAllButton = new CardButton(mediator, "Send all", 25, 365);
+	
+	private Send send;
 
-	public CardFrame() {
+	public CardFrame(Send send) {
+		this.send = send;
+		send.getUserList();
+		
+		cardTable = new CardTable(mediator);
+		
 		this.setLayout(null);
 		this.setTitle("发送单词卡");
 		this.setResizable(false);
@@ -40,5 +48,14 @@ public class CardFrame extends JFrame {
 		mediator.setSendAllButton(sendAllButton);
 		mediator.setSendButton(sendButton);
 		mediator.setTable(cardTable);
+		mediator.setSend(send);
+	}
+
+	public Send getSend() {
+		return send;
+	}
+
+	public void setSend(Send send) {
+		this.send = send;
 	}
 }

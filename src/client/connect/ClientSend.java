@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+import common.Dictionary;
 import common.ThreeMeanings;
 import client.common.Info;
 import client.common.SearchableApater;
@@ -19,21 +20,25 @@ public class ClientSend extends Thread implements Send {
 		try {
 			this.socket = socket;
 			System.out.println("Server connected.");
-			toServer = new DataOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
+			toServer = new DataOutputStream(socket.getOutputStream());
+
 			//socket = new Socket("114.212.130.243", 3000);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	// no
 	public void searchWord(String word) {
 		try {
+			Info.setWord(word);
 			toServer.writeUTF(word);
+			toServer.flush();
+
 			ThreeMeanings meanings = (ThreeMeanings)input.readObject();
 			Info.setMeanings(new SearchableApater(meanings));
-			Info.setWord(word);
-			toServer.flush();
+			
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -47,13 +52,31 @@ public class ClientSend extends Thread implements Send {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-    public void run() {
-        try {
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	
+	// no
+	public void login(String user, String password) {
+		System.out.println("Click login");
+	}
+	
+	public void signIn(String user, String password) {
+		System.out.println("Click sign in");
+	}
+	
+	public void sendCard() {
+		System.out.println("Start sending...");
+	}
+	
+	// easy
+	public void like(Dictionary dictionary) {
+		System.out.println("Like " + dictionary.getName());
+	}
+	
+	// no
+	public void getUserList() {
+		System.out.println("Get all the user");
+	}
+	
+	public void getPicture() {
+		
+	}
 }

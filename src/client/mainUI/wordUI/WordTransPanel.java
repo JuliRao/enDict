@@ -7,6 +7,8 @@ import java.util.Vector;
 
 import javax.swing.JPanel;
 
+import common.Dictionary;
+
 import client.common.Displayable;
 import client.common.Refreshable;
 import client.theme.MyTheme;
@@ -18,9 +20,9 @@ public class WordTransPanel extends JPanel implements Refreshable, Displayable {
 	private ArrayList<DictionaryPanel> dictionaryList = new ArrayList<DictionaryPanel>();
 	
 	public WordTransPanel() {
-		dictionaryList.add(new DictionaryPanel("有道词典"));
-		dictionaryList.add(new DictionaryPanel("百度词霸"));
-		dictionaryList.add(new DictionaryPanel("必应词典"));
+		dictionaryList.add(new DictionaryPanel(Dictionary.YouDao));
+		dictionaryList.add(new DictionaryPanel(Dictionary.Baidu));
+		dictionaryList.add(new DictionaryPanel(Dictionary.Bing));
 		
 		for(DictionaryPanel dictionaryPanel : dictionaryList)
 			this.add(dictionaryPanel);

@@ -12,8 +12,10 @@ import javax.swing.JPanel;
 
 import client.common.Receive;
 import client.common.Send;
+import client.mainUI.functionUI.FunctionButton;
 import client.mainUI.functionUI.FunctionPanel;
 import client.mainUI.functionUI.FunctionPanelCreator;
+import client.mainUI.functionUI.UserButton;
 import client.mainUI.momentsUI.MomentsPanel;
 import client.mainUI.wordUI.WordPanel;
 import client.theme.MyTheme;
@@ -60,6 +62,8 @@ public class MainFrame extends JFrame {
         this.getContentPane().add(label, new Integer(Integer.MIN_VALUE)); 
         
         wordPanel.setSend(send);
+        ((FunctionButton) functionPanel.getComponent(1)).setSend(send);
+        ((FunctionButton) functionPanel.getComponent(2)).setSend(send);
 	}
 	
 	public void changeBackground() {

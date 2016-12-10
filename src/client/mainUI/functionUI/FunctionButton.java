@@ -7,12 +7,14 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import client.common.Send;
 import client.theme.MyTheme;
 
 public class FunctionButton extends JButton {
 	private static int width = 33;
 	private static int height = 33;
 	
+	protected Send send;
 	private ImageIcon icon;
 	private ImageIcon reverseIcon;
 	
@@ -44,5 +46,13 @@ public class FunctionButton extends JButton {
 		Image temp = icon.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);  
         icon = new ImageIcon(temp);
         this.setIcon(icon);
+	}
+
+	public Send getSend() {
+		return send;
+	}
+
+	public void setSend(Send send) {
+		this.send = send;
 	}
 }

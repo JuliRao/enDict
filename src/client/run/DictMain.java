@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import client.connect.ClientReceive;
 import client.connect.ClientSend;
 import client.mainUI.MainFrame;
 
@@ -18,8 +17,7 @@ public class DictMain {
 			client = new Socket("localhost", 8000);
 
 			ClientSend send = new ClientSend(client);
-			ClientReceive receive = new ClientReceive(client);
-			
+
 			MainFrame frame = new MainFrame(send);
 			frame.addWindowListener(new WindowListener() {
 				
@@ -51,7 +49,7 @@ public class DictMain {
 				@Override
 				public void windowClosed(WindowEvent e) {
 					send.closeConnection();
-					receive.closeConnection();
+					//receive.closeConnection();
 				}
 				
 				@Override
@@ -60,8 +58,7 @@ public class DictMain {
 				}
 			});
 			
-			send.start();
-			receive.start();
+			send.start();	
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

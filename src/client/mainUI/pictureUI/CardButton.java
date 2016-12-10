@@ -50,12 +50,13 @@ public class CardButton extends JButton {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(getText().contains("all")) {
+				mediator.startSend();
+				/*if(getText().contains("all")) {
 					System.out.println("send all");
 				}
 				else {
 					System.out.println("send");
-				}
+				}*/
 			}
 		});
 	}

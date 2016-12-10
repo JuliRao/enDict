@@ -6,7 +6,6 @@ import java.awt.event.MouseListener;
 import client.mainUI.pictureUI.CardCreator;
 import client.mainUI.pictureUI.CardFrame;
 
-
 public class PicButton extends FunctionButton {
 	public PicButton(String path) {
 		super(path);
@@ -40,7 +39,7 @@ public class PicButton extends FunctionButton {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				new CardCreator().createCard();
-				new CardFrame();
+				new CardFrame(send);
 			}
 		});
 	}

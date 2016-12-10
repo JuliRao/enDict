@@ -15,14 +15,24 @@ import javax.swing.JScrollPane;
 
 import common.Dictionary;
 import common.ThreeMeanings;
+import client.common.Connection;
 import client.common.Displayable;
 import client.common.Info;
 import client.common.Refreshable;
 import client.common.Searchable;
-import client.connect.MyClient;
 import client.theme.MyTheme;
 
 public class WordPanel extends JPanel {
+	private Connection connection;
+	
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+
 	private WordLabel wordLabel = new WordLabel("EN ", 20, 20);
 	private WordText wordText = new WordText(55, 20);
 	private WordButton searchButton = new WordButton(new ImageIcon(MyTheme.Instance().getSearchIcon()), 580, 20);
@@ -34,7 +44,7 @@ public class WordPanel extends JPanel {
 	
 	private void goSearch() {
 		String word = wordText.getText();
-		MyClient.Instance().searchWord(word);
+		connection.searchWord(word);
 		Searchable threeMeanings = Info.getMeanings();
 		displayable.displayBaidu(threeMeanings.getMeaning(Dictionary.Baidu));
 		displayable.displayBing(threeMeanings.getMeaning(Dictionary.Bing));

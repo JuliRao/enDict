@@ -1,52 +1,49 @@
 package client.mainUI;
 
-import java.awt.Image;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import client.connect.MyClient;
+import common.ThreeMeanings;
+import client.common.Connection;
+import client.common.Info;
+import client.common.SearchableApater;
 import client.mainUI.functionUI.FunctionPanel;
 import client.mainUI.functionUI.FunctionPanelCreator;
-import client.mainUI.momentsUI.MomentsPanel;
-import client.mainUI.wordUI.WordPanel;
 import client.theme.MyTheme;
 
-public class MainFrame extends JFrame {
-	private ImageIcon background = new ImageIcon(MyTheme.Instance().getBackgroundPicture()); 	// 背景图片
-	private ImageIcon background2 = new ImageIcon("data/image/tree.jpg"); 	// 背景图片
-	private ImageIcon icon =  new ImageIcon(MyTheme.Instance().getPaneIcon());
+public class Client extends JFrame implements Connection {
+	private Socket socket;
+	private DataOutputStream toServer;
+	private ObjectInputStream input;
 	
-	private JLabel label = new JLabel(background);
-	
-	private WordPanel wordPanel = new WordPanel();
-	private MomentsPanel momentsPanel = new MomentsPanel();
-	private MainPane mainPane = new MainPane();
+	private MainPane mainPane = new MainPane(this);
 	private FunctionPanel functionPanel = new FunctionPanelCreator().createFunctionPanel();
-	
-	public MainFrame() {
+	private ImageIcon background = new ImageIcon(MyTheme.Instance().getBackgroundPicture()); 	// 背景图片
+	private JLabel label = new JLabel(background);
+
+	public Client() {
 		this.setTitle("萌娆词典 - Zhou XinMeng & MaRao");
-		//this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(740, 600);
 		this.setLayout(null);
 		this.setResizable(false);
 		this.setVisible(true);
 		
-        Image temp = icon.getImage().getScaledInstance(22, 22, Image.SCALE_DEFAULT);  
-        icon = new ImageIcon(temp);
-        mainPane.addTab("词典", icon, wordPanel);
-        mainPane.addTab("动态", icon, momentsPanel);
-        mainPane.setBounds(40, 40, 650, 450);
+		// 添加组件
         this.add(mainPane);
         
         functionPanel.setBounds(40, 500, 650, 37);
         this.add(functionPanel);
-        
+		
         // 把背景图片显示在一个标签里面  
         label.setBounds(0, 0, this.getWidth(), this.getHeight());  
         JPanel imagePanel = (JPanel) this.getContentPane();  
@@ -58,7 +55,7 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void windowOpened(WindowEvent e) {
-				MyClient.Instance();
+				connect();
 			}
 			
 			@Override
@@ -83,7 +80,7 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void windowClosed(WindowEvent e) {
-				//MyClient.Instance().closeConnection();
+				closeConnection();
 			}
 			
 			@Override
@@ -93,10 +90,21 @@ public class MainFrame extends JFrame {
 		});
 	}
 	
+	public void connect() {
+		try {
+			socket = new Socket("localhost", 8000);
+			System.out.println("Server connected.");
+			toServer = new DataOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void changeBackground() {
 		this.remove(label);
 		
-		label = new JLabel(background2);
+		label = new JLabel(background);
 		label.setBounds(0, 0, this.getWidth(), this.getHeight());  
         JPanel imagePanel = (JPanel) this.getContentPane();  
         imagePanel.setOpaque(false);  
@@ -105,5 +113,38 @@ public class MainFrame extends JFrame {
 		
 		validate();
 		repaint();
+	}
+	
+	public void searchWord(String word) {
+		try {
+			toServer.writeUTF(word);
+			ThreeMeanings meanings = (ThreeMeanings)input.readObject();
+			Info.setMeanings(new SearchableApater(meanings));
+			Info.setWord(word);
+			toServer.flush();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean login(String name, String password) {
+		return true;
+	}
+	
+	public boolean signIn(String name, String password) {
+		return true;
+	}
+	
+	public void closeConnection() {
+		System.out.println("Close the Client socket and the io.");
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		new Client();
 	}
 }

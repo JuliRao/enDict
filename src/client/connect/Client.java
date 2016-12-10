@@ -1,6 +1,5 @@
 package client.connect;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -8,10 +7,10 @@ import java.net.Socket;
 
 import common.ThreeMeanings;
 import client.common.Info;
-import client.common.Searchable;
 import client.common.SearchableApater;
+import client.mainUI.MainFrame;
 
-public class Client {
+public class Client implements Runnable {
 	private Socket socket;
 	DataOutputStream toServer;
 	ObjectInputStream input;
@@ -47,5 +46,16 @@ public class Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void run() {
+		while(true) {
+			
+		}
+	}
+	
+	public static void main(String[] args) {
+		new Client();
 	}
 }

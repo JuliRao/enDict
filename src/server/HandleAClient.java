@@ -1,7 +1,6 @@
 package server;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -38,7 +37,6 @@ public class HandleAClient implements Runnable {
             try {
 				socket.close();
 			} catch (IOException e) {
-				// TODO 自动生成的 catch 块
 				e.printStackTrace();
 			}
 		}

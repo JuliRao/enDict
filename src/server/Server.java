@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
 	
 	private int clientNo = 0;
+	private ArrayList<HandleAClient> list = new ArrayList<HandleAClient>();
 	
 	public Server() {
 		try {
@@ -34,6 +36,10 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void removeClient() {
+		-- clientNo;
 	}
 
 	public static void main(String[] args) {

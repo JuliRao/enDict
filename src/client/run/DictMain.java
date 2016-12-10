@@ -6,9 +6,5 @@ public class DictMain {
 
 	public static void main(String[] args) {
 		new MainFrame();
-		
-		//new CardFrame();
-		//new LoginFrame();
-		//frame.changeBackground();
 	}
 }

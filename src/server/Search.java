@@ -85,7 +85,7 @@ public class Search {
 //		else
 //			pSpSp = pSplit[3].split(" ");
 //		String q;
-		for(int i = 0; i < pSpSp.length;i++){
+		for(int i = 0; i+1 < pSpSp.length;i++){
 //			if(pSpSp[i+1][0]<='z'&&pSpSp[i+1][0]>='a')
 			mean.add(pSpSp[i]+pSpSp[i+1]);
 			i++;

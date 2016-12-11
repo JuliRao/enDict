@@ -13,12 +13,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import client.common.Send;
+import client.common.UserList;
+import client.mainUI.UserTable;
 import client.theme.MyTheme;
 import client.theme.Theme;
 
 public class MomentsPanel extends JPanel {
 	private MomentsTable momentsTable = new MomentsTable();
 	private MomentsDisplay momentsDisplay = new MomentsDisplay();
+	
+	public MomentsDisplay getMomentsDisplay() {
+		return momentsDisplay;
+	}
+
 	private JScrollPane scrollTable = new JScrollPane(momentsTable);
 	private JScrollPane scrollPane = new JScrollPane(momentsDisplay);
 	private JCheckBox checkBox = new JCheckBox("显示离线用户");
@@ -92,6 +99,14 @@ public class MomentsPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				send.getUserList();
+
+				if(checkBox.isSelected()) {
+					momentsTable.showAll();
+				}
+				else {
+					momentsTable.showOnline();
+				}
+				
 				send.getCards();
 			}
 		});

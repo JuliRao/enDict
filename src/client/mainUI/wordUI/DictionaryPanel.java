@@ -17,7 +17,7 @@ import client.theme.MyTheme;
 
 public class DictionaryPanel extends JPanel {
 	private JTextArea translation = new JTextArea();
-	private JButton button = new HeartButton();
+	private HeartButton button = new HeartButton();
 	private JScrollPane scrollPane = new JScrollPane(translation);
 	private Dictionary dictionary;
 	
@@ -69,7 +69,16 @@ public class DictionaryPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Send send = ((WordPanel)getParent().getParent()).getSend();
-				send.like(dictionary);
+				if(button.isFilled()) {
+					button.stroke();
+					button.repaint();
+					send.unlike(dictionary);
+				}
+				else {
+					button.fill();
+					button.repaint();
+					send.like(dictionary);
+				}
 			}
 		});
 	}
@@ -79,7 +88,9 @@ public class DictionaryPanel extends JPanel {
 		for(String string : meanings) {
 			translation.append(string + "\r\n");
 		}
+		
+		button.stroke();
+		button.repaint();
 		translation.repaint();
-		//this.setPreferredSize(new Dimension(300, translation.getWidth()));
 	}
 }

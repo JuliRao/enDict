@@ -18,7 +18,6 @@ public class UserTable extends JTable {
 		super(100, 1);
 		String[] columnName = {"用户"};
 		
-		UserList.initList();
 		ArrayList<User> list = UserList.getList();
 		Object[][] data = new Object[list.size()][];
 		for(int i = 0; i < list.size(); ++ i) {

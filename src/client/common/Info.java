@@ -1,15 +1,26 @@
 package client.common;
 
+import common.Dictionary;
 
 public class Info {
+	static private Dictionary defaultDictionary = Dictionary.Bing;
 	static private String word = "";
-	static private Searchable meanings;
+	static private Meanings meanings = new Meanings();
+	static String userName = null;
 	
-	public static Searchable getMeanings() {
+	public static String getUserName() {
+		return userName;
+	}
+
+	public static void setUserName(String userName) {
+		Info.userName = userName;
+	}
+
+	public static Meanings getMeanings() {
 		return meanings;
 	}
 	
-	public static void setMeanings(Searchable meanings) {
+	public static void setMeanings(Meanings meanings) {
 		Info.meanings = meanings;
 	}
 	
@@ -19,5 +30,13 @@ public class Info {
 	
 	public static void setWord(String word) {
 		Info.word = word;
+	}
+
+	public static Dictionary getDefaultDictionary() {
+		return defaultDictionary;
+	}
+
+	public static void setDefaultDictionary(Dictionary defaultDictionary) {
+		Info.defaultDictionary = defaultDictionary;
 	}
 }

@@ -1,5 +1,5 @@
 package client.mainUI.pictureUI;
 
 public interface Mediator {
-	void startSend();
+	void startSend(boolean isAll);
 }

@@ -9,59 +9,58 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import common.Dictionary;
+
 public class WordCheckBoxs extends JPanel {
 	private static int width = 80;
 	private static int height = 300;
 	
-	private ArrayList<JCheckBox> checkBoxList = new ArrayList<JCheckBox>();
-	
-	public ArrayList<JCheckBox> getCheckBoxList() {
-		return checkBoxList;
+	private Map<JCheckBox, Dictionary> checkMap = new HashMap<JCheckBox, Dictionary>();
+	public Set<JCheckBox> getBoxs() {
+		return checkMap.keySet();
 	}
 
-	public void setCheckBoxList(ArrayList<JCheckBox> checkBoxList) {
-		this.checkBoxList = checkBoxList;
-	}
-
-	public WordCheckBoxs(String[] texts) {
-		for(String string : texts) {
-			JCheckBox checkBox = new JCheckBox(string);
+	public WordCheckBoxs(Dictionary []dictionaries) {
+		for(int i = 0; i < dictionaries.length; ++ i) {
+			JCheckBox checkBox = new JCheckBox(dictionaries[i].getName());
 			checkBox.setBackground(Color.WHITE);
 			this.add(checkBox);
-			checkBoxList.add(checkBox);
+			checkMap.put(checkBox, dictionaries[i]);
 		}
+
 		this.setBackground(Color.WHITE);
 		this.setSize(width, height);
 		this.setLayout(new GridLayout(6, 1));
 	}
 	
-	public WordCheckBoxs(String[] texts, int x, int y) {
-		for(String string : texts) {
-			JCheckBox checkBox = new JCheckBox(string);
+	public WordCheckBoxs(Dictionary []dictionaries, int x, int y) {
+		for(int i = 0; i < dictionaries.length; ++ i) {
+			JCheckBox checkBox = new JCheckBox(dictionaries[i].getName());
 			checkBox.setBackground(Color.WHITE);
-			checkBox.setSelected(true);
 			this.add(checkBox);
-			checkBoxList.add(checkBox);
+			checkMap.put(checkBox, dictionaries[i]);
 		}
+
 		this.setBackground(Color.WHITE);
 		this.setBounds(x, y, width, height);
 		this.setLayout(new GridLayout(6, 1));
 	}
 	
-	boolean[] isAccessable() {
-		boolean accessable[] = new boolean[checkBoxList.size()];
-		for(int i = 0; i < checkBoxList.size(); ++ i) {
-			if(checkBoxList.get(i).isSelected())
-				accessable[i] = true;
-			else 
-				accessable[i] = false; 
+	ArrayList<Dictionary> getAccessible() {
+		ArrayList<Dictionary> dictionaries = new ArrayList<Dictionary>();
+		for(JCheckBox checkBox : checkMap.keySet()) {
+			if(checkBox.isSelected())
+				dictionaries.add(checkMap.get(checkBox));
 		}
-		return accessable;
+		return dictionaries;
 	}
 }

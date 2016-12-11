@@ -20,12 +20,25 @@ public enum Dictionary {
 	public String getEnglishName() {
 		switch(this) {
 		case Baidu:
-			return "Jinshan";
+			return "baidu";
 		case YouDao:
-			return "Youdao";
+			return "youdao";
 		case Bing:
-			return "Bing";
+			return "bing";
 		}
 		return "";
+	}
+	
+	public static Dictionary getDictionary(String name) {
+		if(name.equals("baidu"))
+			return Baidu;
+		else if(name.equals("youdao"))
+			return YouDao;
+		else if(name.equals("bing")) {
+			return Bing;
+		}
+		else {
+			return null;
+		}
 	}
 }

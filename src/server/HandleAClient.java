@@ -13,6 +13,7 @@ import com.mysql.jdbc.DatabaseMetaData;
 import common.ThreeMeanings;
 import common.RequestData;
 import common.ResponseData;
+import common.dataType;
 import server.database.MyData;
 
 
@@ -37,7 +38,7 @@ public class HandleAClient implements Runnable {
 		}
 		else
 			data.add("User not exist");
-		res.setType("login");
+		res.setType(dataType.login);
 		res.setResponse(data);
 		return res;
 	}
@@ -50,7 +51,7 @@ public class HandleAClient implements Runnable {
 			data.add("user not exist");
 		else
 			data.add("logout successfully");
-		res.setType("logout");
+		res.setType(dataType.logout);
 		res.setResponse(data);
 		return res;
 	
@@ -66,11 +67,11 @@ public class HandleAClient implements Runnable {
 		else
 			data.add("sign up successfully");
 		res.setResponse(data);
-		res.setType("signUp");
+		res.setType(dataType.signUp);
 		return res;
 	}
 
-	private ResponseData search(RequestData req){
+	private ResponseData search(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
 		String dstWord = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
@@ -80,7 +81,24 @@ public class HandleAClient implements Runnable {
 		Vector<String> bing = s.getBingMean(dstWord);
 //		ThreeMeanings means = new ThreeMeanings(s.getJinshanMean(dstWord),s.getYoudaoMean(dstWord),s.getBingMean(dstWord));
 //		for(int i = 0; i < )
-		data.add("Jinshan");
+		Vector<String> dictsort = database.getThumb(dstWord);
+		for(int i = 0; i < 3; i++){
+			String dict = dictsort.elementAt(i);
+			data.add(dict);
+			if(dict == "jinshan"){
+				for(int j = 0; j < jinshan.size(); j++)
+					data.add(jinshan.elementAt(j));
+			}
+			else if(dict == "youdao"){
+				for(int j = 0; j < youdao.size(); j++)
+					data.add(youdao.elementAt(j));
+			}
+			else{
+				for(int j = 0; j < bing.size(); j++)
+					data.add(bing.elementAt(j));
+			}
+		}
+		/*data.add("Jinshan");
 		for(int i = 0; i < jinshan.size(); i++)
 			data.add(jinshan.elementAt(i));
 		data.add("Youdao");
@@ -88,9 +106,9 @@ public class HandleAClient implements Runnable {
 			data.add(youdao.elementAt(i));
 		data.add("Bing");
 		for(int i = 0; i < bing.size(); i++)
-			data.add(bing.elementAt(i));
+			data.add(bing.elementAt(i));*/
 		res.setResponse(data);
-		res.setType("search");
+		res.setType(dataType.search);
 		return res;
 	}
 	
@@ -99,7 +117,7 @@ public class HandleAClient implements Runnable {
 //		String username = req.getRequest().elementAt(0);
 		Vector<String> data = database.onlineUser();
 		res.setResponse(data);
-		res.setType("online");
+		res.setType(dataType.online);
 		return res;
 	}
 	
@@ -113,7 +131,7 @@ public class HandleAClient implements Runnable {
 		else
 			data.add("failed");
 		res.setResponse(data);
-		res.setType("thumbUp");
+		res.setType(dataType.thumbUp);
 		return res;
 	}
 
@@ -123,7 +141,7 @@ public class HandleAClient implements Runnable {
 		Vector<String> data = new Vector<String>();
 
 		res.setResponse(data);
-		res.setType("sendMail");
+		res.setType(dataType.sendMail);
 		return res;
 	}
 	
@@ -132,7 +150,7 @@ public class HandleAClient implements Runnable {
 		String username = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
 		res.setResponse(data);
-		res.setType("receiveMail");
+		res.setType(dataType.receiveMail);
 		return res;
 	}
 	
@@ -146,42 +164,50 @@ public class HandleAClient implements Runnable {
 			
 			while(true) {
 				RequestData req = (RequestData)inputStream.readObject();
-				if(req.getRequestType() == "login"){
+				if(req.getRequestType() == dataType.login){
+					System.out.println("login");
 					ResponseData res = login(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
-				else if(req.getRequestType() == "logout"){
+				else if(req.getRequestType() == dataType.logout){
+					System.out.println("logout");
 					ResponseData res = logout(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
-				else if(req.getRequestType() == "signUp"){
+				else if(req.getRequestType() == dataType.signUp){
+					System.out.println("signUp");
 					ResponseData res = signUp(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
-				else if(req.getRequestType() == "search"){
+				else if(req.getRequestType() == dataType.search){
+					System.out.println("search");
 					ResponseData res = search(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
-				else if(req.getRequestType() == "online"){
+				else if(req.getRequestType() == dataType.online){
+					System.out.println("online");
 					ResponseData res = online(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
-				else if(req.getRequestType() == "thumbUp"){
+				else if(req.getRequestType() == dataType.thumbUp){
+					System.out.println("thumbUp");
 					ResponseData res = thumbUp(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
-				else if(req.getRequestType() == "sendMail"){
+				else if(req.getRequestType() == dataType.sendMail){
+					System.out.println("sendMail");
 					ResponseData res = sendmail(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
-				else if(req.getRequestType() == "receiveMail"){
+				else if(req.getRequestType() ==dataType. receiveMail){
+					System.out.println("receiveMail");
 					ResponseData res = receivemail(req);
 					toClient.writeObject(res);
 					toClient.flush();

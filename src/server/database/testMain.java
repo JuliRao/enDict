@@ -14,7 +14,7 @@ public class testMain {
 //		if(sql == sql2)
 //			System.out.println("heiheihei");
 		try {
-			Vector<String> data = sql.getMessage("apple");
+			Vector<String> data = sql.getThumb("mango");
 			for(int i = 0; i < data.size(); i++){
 				System.out.println(data.elementAt(i));
 			}

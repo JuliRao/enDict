@@ -158,4 +158,51 @@ public class MyData {
 		}*/
 		return message;
 	}
+	public static synchronized Vector<String> getThumb(String dstWord) throws SQLException{
+		ResultSet resultSet = stmt.executeQuery("select baidu, youdao, bing from wordup where word = '"
+				+dstWord+"';");
+		Vector<String> dictsort = new Vector<String>();
+		int jinshan = 0;
+		int youdao = 0;
+		int bing = 0;
+		if(resultSet.next()){
+			jinshan = resultSet.getInt(1);
+			youdao = resultSet.getInt(2);
+			bing = resultSet.getInt(3);
+		}
+		if(jinshan >= youdao && jinshan >= bing){
+			dictsort.add("jinshan");
+			if(youdao > bing){
+				dictsort.add("youdao");
+				dictsort.add("bing");
+			}
+			else{
+				dictsort.add("bing");
+				dictsort.add("youdao");
+			}
+		}
+		else if(youdao >= jinshan && youdao >= bing){
+			dictsort.add("youdao");
+			if(jinshan > bing){
+				dictsort.add("jinshan");
+				dictsort.add("bing");
+			}
+			else{
+				dictsort.add("bing");
+				dictsort.add("jinshan");
+			}
+		}
+		else{
+			dictsort.add("bing");
+			if(jinshan > youdao){
+				dictsort.add("jinshan");
+				dictsort.add("youdao");
+			}
+			else{
+				dictsort.add("youdao");
+				dictsort.add("jinshan");
+			}
+		}
+		return dictsort;
+	}
 }

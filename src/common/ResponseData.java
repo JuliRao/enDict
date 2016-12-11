@@ -1,12 +1,14 @@
 package common;
 
 import java.util.Vector;
+import common.dataType;
 
 public class ResponseData {
-	private String responseType;
+//	private String responseType;
+	private dataType responseType;
 	private Vector<String> response = new Vector<String>();
 	
-	public String getResponseType(){
+	public dataType getResponseType(){
 		return this.responseType;
 	}
 	
@@ -14,7 +16,7 @@ public class ResponseData {
 		return this.response;
 	}
 	
-	public void setType(String type){
+	public void setType(dataType type){
 		this.responseType=type;
 	}
 	

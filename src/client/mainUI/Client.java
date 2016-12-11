@@ -97,7 +97,7 @@ public class Client extends JFrame implements Send {
 		requestData.setType(dataType.search);
 		Vector<String> strings = new Vector<String>();
 		strings.add(word);
-		
+		requestData.setRequest(strings);
 		ResponseData responseData = null;
 		try {
 			toServer.writeObject(requestData);
@@ -245,7 +245,7 @@ public class Client extends JFrame implements Send {
 	
 	public static void main(String[] args) {
 		try {
-			new Client(new Socket("114.212.130.243", 8000));
+			new Client(new Socket("localhost", 8000));
 			//new Client(new Socket("localhost", 8000));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

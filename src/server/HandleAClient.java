@@ -74,15 +74,19 @@ public class HandleAClient implements Runnable {
 
 	private ResponseData search(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
+//		System.out.println("jjjmm");
 		String dstWord = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
 		Search s = new Search();
+//		System.out.println(dstWord);
 		Vector<String> jinshan = s.getJinshanMean(dstWord);
 		Vector<String> youdao = s.getYoudaoMean(dstWord);
 		Vector<String> bing = s.getBingMean(dstWord);
 //		ThreeMeanings means = new ThreeMeanings(s.getJinshanMean(dstWord),s.getYoudaoMean(dstWord),s.getBingMean(dstWord));
 //		for(int i = 0; i < )
 		Vector<String> dictsort = database.getThumb(dstWord);
+//		for(int i = 0; i < dictsort.size();i++)
+//			System.out.println(dictsort.elementAt(i));
 		for(int i = 0; i < dictsort.size(); i++){
 			String dict = dictsort.elementAt(i);
 			data.add(dict);
@@ -135,12 +139,33 @@ public class HandleAClient implements Runnable {
 		res.setType(dataType.thumbUp);
 		return res;
 	}
+	
+	private ResponseData thumbDown(RequestData req) throws SQLException{
+		ResponseData res = new ResponseData();
+		String word = req.getRequest().elementAt(0);
+		String dict = req.getRequest().elementAt(1);
+		Vector<String> data = new Vector<String>();
+		if(database.thumbdown(word, dict))
+			data.add("success");
+		else
+			data.add("failed");
+		res.setResponse(data);
+		res.setType(dataType.thumbDown);
+		return res;
+	}
 
 	private ResponseData sendmail(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
-		String username = req.getRequest().elementAt(0);
+		String sender = req.getRequest().elementAt(0);
+		String receiver = req.getRequest().elementAt(1);
+		String message = req.getRequest().elementAt(2);
 		Vector<String> data = new Vector<String>();
-
+		
+		if(database.sendMessage(sender, receiver, message))
+			data.add("send successfully");
+		else
+			data.add("user not exist");
+		
 		res.setResponse(data);
 		res.setType(dataType.sendMail);
 		return res;
@@ -150,6 +175,9 @@ public class HandleAClient implements Runnable {
 		ResponseData res = new ResponseData();
 		String username = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
+		
+		data = database.getMessage(username);
+		
 		res.setResponse(data);
 		res.setType(dataType.receiveMail);
 		return res;
@@ -164,7 +192,7 @@ public class HandleAClient implements Runnable {
 			ObjectOutputStream toClient = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 			while(true) {
-				System.out.println("sss");
+//				System.out.println("sss");
 				RequestData req = (RequestData)inputStream.readObject();
 				if(req.getRequestType() == dataType.login){
 					System.out.println("login");
@@ -199,6 +227,12 @@ public class HandleAClient implements Runnable {
 				else if(req.getRequestType() == dataType.thumbUp){
 					System.out.println("thumbUp");
 					ResponseData res = thumbUp(req);
+					toClient.writeObject(res);
+					toClient.flush();
+				}
+				else if(req.getRequestType() == dataType.thumbDown){
+					System.out.println("thumbDown");
+					ResponseData res = thumbDown(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}

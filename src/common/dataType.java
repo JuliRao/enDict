@@ -7,6 +7,7 @@ public enum dataType {
 	search,
 	online,
 	thumbUp,
+	thumbDown,
 	sendMail,
 	receiveMail,
 }

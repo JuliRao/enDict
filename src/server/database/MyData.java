@@ -35,7 +35,7 @@ public class MyData {
 				+word+"';");
 		if(resultSet.next() == true){
 			int n = 0;
-			if(dict == "baidu")
+			if(dict == "jinshan")
 				n = resultSet.getInt(2);
 			else if(dict == "youdao")
 				n = resultSet.getInt(3);
@@ -122,9 +122,14 @@ public class MyData {
 		return true;
 	}
 	public static synchronized Vector<String> onlineUser() throws SQLException{
-		ResultSet resultSet = stmt.executeQuery("select username from dictuser where state = 1;");
+		ResultSet resultSet = stmt.executeQuery("select username,state from dictuser;");
 		Vector<String> user = new Vector<String>();
 		while(resultSet.next()){
+			int ifOnline = resultSet.getInt(2);
+			if(ifOnline == 1)
+				user.add("Online");
+			else
+				user.add("notOnline");
 			user.add(resultSet.getString(1));
 		}
 		return user;
@@ -144,8 +149,7 @@ public class MyData {
 		Vector<String> message =  new Vector<String>();
 		while(resultSet.next()){
 			String p = "";
-			p = p + resultSet.getString(1) + " / ";
-			p = p + resultSet.getString(2);
+			p = p + resultSet.getString(1) + " / " + resultSet.getString(2);
 			message.add(p);
 		}
 		/*if(resultSet.next()==false){
@@ -165,11 +169,13 @@ public class MyData {
 		int jinshan = 0;
 		int youdao = 0;
 		int bing = 0;
+//		System.out.println(jinshan);
 		if(resultSet.next()){
 			jinshan = resultSet.getInt(1);
 			youdao = resultSet.getInt(2);
 			bing = resultSet.getInt(3);
 		}
+
 		if(jinshan >= youdao && jinshan >= bing){
 			dictsort.add("jinshan");
 			if(youdao > bing){
@@ -204,5 +210,28 @@ public class MyData {
 			}
 		}
 		return dictsort;
+	}
+	public static synchronized boolean thumbdown(String word, String dict) throws SQLException{
+		ResultSet resultSet = stmt.executeQuery("select * from wordup where word = '"
+				+word+"';");
+		if(resultSet.next()){
+			int n = 0;
+			if(dict == "baidu")
+				n = resultSet.getInt(1);
+			else if(dict == "youdao")
+				n = resultSet.getInt(2);
+			else
+				n = resultSet.getInt(3);
+			if(n != 0)
+				n--;
+			String s = n + "";
+			if(dict == "baidu")
+				stmt.executeUpdate("update wordUp set baidu = "+s+" where word = '"+word+"';");
+			else if(dict == "youdao")
+				stmt.executeUpdate("update wordUp set youdao = "+s+" where word = '"+word+"';");
+			else 
+				stmt.executeUpdate("update wordUp set bing = "+s+" where word = '"+word+"';");
+		}
+		return true;
 	}
 }

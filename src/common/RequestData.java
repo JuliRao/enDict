@@ -2,11 +2,13 @@ package common;
 
 import java.util.Vector;
 
+import common.dataType;
+
 public class RequestData {
-	private String requestType;
+	private  dataType requestType;
 	private Vector<String> request = new Vector<String>();
 	
-	public String getRequestType(){
+	public dataType getRequestType(){
 		return this.requestType;
 	}
 	
@@ -14,7 +16,7 @@ public class RequestData {
 		return this.request;
 	}
 	
-	public void setType(String type){
+	public void setType(dataType type){
 		this.requestType = type;
 	}
 	

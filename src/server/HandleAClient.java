@@ -70,7 +70,7 @@ public class HandleAClient implements Runnable {
 		return res;
 	}
 
-	private ResponseData search(RequestData req){
+	private ResponseData search(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
 		String dstWord = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
@@ -80,7 +80,24 @@ public class HandleAClient implements Runnable {
 		Vector<String> bing = s.getBingMean(dstWord);
 //		ThreeMeanings means = new ThreeMeanings(s.getJinshanMean(dstWord),s.getYoudaoMean(dstWord),s.getBingMean(dstWord));
 //		for(int i = 0; i < )
-		data.add("Jinshan");
+		Vector<String> dictsort = database.getThumb(dstWord);
+		for(int i = 0; i < 3; i++){
+			String dict = dictsort.elementAt(i);
+			data.add(dict);
+			if(dict == "jinshan"){
+				for(int j = 0; j < jinshan.size(); j++)
+					data.add(jinshan.elementAt(j));
+			}
+			else if(dict == "youdao"){
+				for(int j = 0; j < youdao.size(); j++)
+					data.add(youdao.elementAt(j));
+			}
+			else{
+				for(int j = 0; j < bing.size(); j++)
+					data.add(bing.elementAt(j));
+			}
+		}
+		/*data.add("Jinshan");
 		for(int i = 0; i < jinshan.size(); i++)
 			data.add(jinshan.elementAt(i));
 		data.add("Youdao");
@@ -88,7 +105,7 @@ public class HandleAClient implements Runnable {
 			data.add(youdao.elementAt(i));
 		data.add("Bing");
 		for(int i = 0; i < bing.size(); i++)
-			data.add(bing.elementAt(i));
+			data.add(bing.elementAt(i));*/
 		res.setResponse(data);
 		res.setType("search");
 		return res;
@@ -117,7 +134,6 @@ public class HandleAClient implements Runnable {
 		return res;
 	}
 
-	
 	private ResponseData sendmail(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
 		String username = req.getRequest().elementAt(0);
@@ -160,41 +176,49 @@ public class HandleAClient implements Runnable {
 			while(true) {
 				RequestData req = (RequestData)inputStream.readObject();
 				if(req.getRequestType() == "login"){
+					System.out.println("login");
 					ResponseData res = login(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
 				else if(req.getRequestType() == "logout"){
+					System.out.println("logout");
 					ResponseData res = logout(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
 				else if(req.getRequestType() == "signUp"){
+					System.out.println("signUp");
 					ResponseData res = signUp(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
 				else if(req.getRequestType() == "search"){
+					System.out.println("search");
 					ResponseData res = search(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
 				else if(req.getRequestType() == "online"){
+					System.out.println("online");
 					ResponseData res = online(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
 				else if(req.getRequestType() == "thumbUp"){
+					System.out.println("thumbUp");
 					ResponseData res = thumbUp(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
 				else if(req.getRequestType() == "sendMail"){
+					System.out.println("sendMail");
 					ResponseData res = sendmail(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}
 				else if(req.getRequestType() == "receiveMail"){
+					System.out.println("receiveMail");
 					ResponseData res = receivemail(req);
 					toClient.writeObject(res);
 					toClient.flush();

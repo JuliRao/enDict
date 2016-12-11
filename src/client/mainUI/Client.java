@@ -17,6 +17,7 @@ import common.Dictionary;
 import common.RequestData;
 import common.ResponseData;
 import common.ThreeMeanings;
+import common.dataType;
 import client.common.Info;
 import client.common.SearchableApater;
 import client.common.Send;
@@ -66,8 +67,10 @@ public class Client extends JFrame implements Send {
         this.socket = socket;
 		
 		try {
-			input = new ObjectInputStream(socket.getInputStream());
 			toServer = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
+			
+			System.out.println("oooo");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -88,17 +91,29 @@ public class Client extends JFrame implements Send {
 	}
 	
 	public void searchWord(String word) {
+		System.out.println("Search " + word);
+		
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.search);
+		Vector<String> strings = new Vector<String>();
+		strings.add(word);
+		
+		ResponseData responseData = null;
 		try {
-			Info.setWord(word);
-			toServer.writeUTF(word);
+			toServer.writeObject(requestData);
 			toServer.flush();
-
-			ThreeMeanings meanings = (ThreeMeanings)input.readObject();
-			Info.setMeanings(new SearchableApater(meanings));
 			
-		} catch (IOException | ClassNotFoundException e) {
+			responseData = (ResponseData) input.readObject();
+			while(responseData.getResponseType() != dataType.search)
+				responseData = (ResponseData) input.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		strings = responseData.getResponse();
+		System.out.println(strings.get(0));
 	}
 	
 	public void closeConnection() {
@@ -114,18 +129,28 @@ public class Client extends JFrame implements Send {
 		System.out.println("Click login");
 		
 		RequestData data = new RequestData();
-		data.setType(type);
+		data.setType(dataType.login);
 		Vector<String> strings = new Vector<String>(2);
 		strings.add(user);
 		strings.add(password);
 		data.setRequest(strings);
-		toServer.writeObject(data);
-		toServer.flush();
 		
-		ResponseData responseData;
-		while(responseData.getResponseType() != )
+		ResponseData responseData = null;
+		try {
+			toServer.writeObject(data);
+			toServer.flush();
+			
 			responseData = (ResponseData) input.readObject();
+			while(responseData.getResponseType() != dataType.login)
+				responseData = (ResponseData) input.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		strings = responseData.getResponse();
+		System.out.println(strings.get(0));
 		if(strings.get(0).contains("successfully")) {
 			return true;
 		}
@@ -133,23 +158,35 @@ public class Client extends JFrame implements Send {
 	}
 	
 	public boolean signIn(String user, String password) {
+		System.out.println("Click sign up");
+		
 		RequestData data = new RequestData();
-		data.setType(type);
+		data.setType(dataType.signUp);
 		Vector<String> strings = new Vector<String>(2);
 		strings.add(user);
 		strings.add(password);
 		data.setRequest(strings);
-		toServer.writeObject(data);
-		toServer.flush();
 		
-		ResponseData responseData;
-		while(responseData.getResponseType() != )
+		ResponseData responseData = null;
+		try {
+			toServer.writeObject(data);
+			toServer.flush();
+			
 			responseData = (ResponseData) input.readObject();
+			while(responseData.getResponseType() != dataType.signUp)
+				responseData = (ResponseData) input.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		strings = responseData.getResponse();
+		System.out.println(strings.get(0));
 		if(strings.get(0).contains("successfully")) {
 			return true;
 		}
-		return false;
+		return false;	
 	}
 	
 	public void sendCard() {
@@ -159,11 +196,43 @@ public class Client extends JFrame implements Send {
 	public void like(Dictionary dictionary) {
 		System.out.println("Like " + dictionary.getName());
 		
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.thumbUp);
+		Vector<String> strings = new Vector<String>();
+		strings.add(Info.getWord());
+		strings.add(dictionary.getEnglishName());
+		requestData.setRequest(strings);
 		
+		try {
+			toServer.writeObject(requestData);
+			toServer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void unlike(Dictionary dictionary) {
+		System.out.println("Unlike " + dictionary.getName());
+		
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.thumbUp);
+		Vector<String> strings = new Vector<String>();
+		strings.add(Info.getWord());
+		strings.add(dictionary.getEnglishName());
+		requestData.setRequest(strings);
+		
+		try {
+			toServer.writeObject(requestData);
+			toServer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void getUserList() {
 		System.out.println("Get all the user");
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.online);
 	}
 	
 	public void getCard() {

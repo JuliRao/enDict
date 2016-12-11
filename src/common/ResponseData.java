@@ -1,9 +1,11 @@
 package common;
 
+import java.io.Serializable;
 import java.util.Vector;
+
 import common.dataType;
 
-public class ResponseData {
+public class ResponseData implements Serializable {
 //	private String responseType;
 	private dataType responseType;
 	private Vector<String> response = new Vector<String>();

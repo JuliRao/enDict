@@ -117,22 +117,20 @@ public class HandleAClient implements Runnable {
 		return res;
 	}
 
-	
-	private ResponseData sendmail(RequestData req){
+	private ResponseData sendmail(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
 		String username = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
-		
+
 		res.setResponse(data);
 		res.setType("sendMail");
 		return res;
 	}
 	
-	private ResponseData receivemail(RequestData req){
+	private ResponseData receivemail(RequestData req) throws SQLException {
 		ResponseData res = new ResponseData();
 		String username = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
-		
 		res.setResponse(data);
 		res.setType("receiveMail");
 		return res;

@@ -88,7 +88,7 @@ public class WordPanel extends JPanel {
 		    }  
 		    public void keyTyped(KeyEvent e) {  
 		    	
-		    }  
+		    }
 		});
 		
 		searchButton.addMouseListener(new MouseListener(

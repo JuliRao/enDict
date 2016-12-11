@@ -14,7 +14,6 @@ public class MainPane extends JTabbedPane {
 	WordPanel wordPanel = new WordPanel();
 	MomentsPanel momentsPanel = new MomentsPanel();
 
-
 	public MainPane() {
 		Image temp = icon.getImage().getScaledInstance(22, 22, Image.SCALE_DEFAULT);  
         icon = new ImageIcon(temp);

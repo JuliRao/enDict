@@ -1,20 +1,30 @@
 //package common;
 package server;
 
+
+import common.ThreeMeanings;
+//import server.Search;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
+
+import server.database.*;
 
 public class Server {
 	
 	private int clientNo = 0;
-	private ArrayList<HandleAClient> list = new ArrayList<HandleAClient>();
-	
+	private MyData database;
+
 	public Server() {
 		try {
+			database = MyData.createConnection();
 			ServerSocket serverSocket = new ServerSocket(8000);
+//			MyData database = new MyData();
+//			database.createConnection();
 			
 			while(true) {
 				Socket socket = serverSocket.accept();

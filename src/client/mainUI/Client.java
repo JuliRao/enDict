@@ -3,15 +3,21 @@ package client.mainUI;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import common.Dictionary;
+import common.RequestData;
+import common.ResponseData;
 import common.ThreeMeanings;
+import common.dataType;
 import client.common.Info;
 import client.common.SearchableApater;
 import client.common.Send;
@@ -22,7 +28,7 @@ import client.theme.MyTheme;
 
 public class Client extends JFrame implements Send {
 	private Socket socket;
-	DataOutputStream toServer;
+	ObjectOutputStream toServer;
 	ObjectInputStream input;
 	
 	private ImageIcon background = new ImageIcon(MyTheme.Instance().getBackgroundPicture()); 	// 背景图片
@@ -33,22 +39,14 @@ public class Client extends JFrame implements Send {
 	private FunctionPanel functionPanel = new FunctionPanelCreator().createFunctionPanel();
 	
 	public Client(Socket socket) {
-		this.socket = socket;
 		System.out.println("Server connected.");
-		try {
-			input = new ObjectInputStream(socket.getInputStream());
-			toServer = new DataOutputStream(socket.getOutputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		this.setTitle("萌娆词典 - Zhou XinMeng & MaRao");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(740, 600);
 		this.setLayout(null);
 		this.setResizable(false);
 		this.setVisible(true);
-		
+
         functionPanel.setBounds(40, 500, 650, 37);
         this.add(functionPanel);
         mainPane.setBounds(40, 40, 650, 450);
@@ -61,10 +59,21 @@ public class Client extends JFrame implements Send {
         this.getContentPane().add(label, new Integer(Integer.MIN_VALUE)); 
         
         // 设置相应操作
-       mainPane.momentsPanel.setSend(this);
-       mainPane.wordPanel.setSend(this);
+        mainPane.momentsPanel.setSend(this);
+        mainPane.wordPanel.setSend(this);
         ((FunctionButton) functionPanel.getComponent(1)).setSend(this);
         ((FunctionButton) functionPanel.getComponent(2)).setSend(this);
+        
+        this.socket = socket;
+		
+		try {
+			toServer = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
+			
+			System.out.println("oooo");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void changeBackground() {
@@ -82,17 +91,29 @@ public class Client extends JFrame implements Send {
 	}
 	
 	public void searchWord(String word) {
+		System.out.println("Search " + word);
+		
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.search);
+		Vector<String> strings = new Vector<String>();
+		strings.add(word);
+		
+		ResponseData responseData = null;
 		try {
-			Info.setWord(word);
-			toServer.writeUTF(word);
+			toServer.writeObject(requestData);
 			toServer.flush();
-
-			ThreeMeanings meanings = (ThreeMeanings)input.readObject();
-			Info.setMeanings(new SearchableApater(meanings));
 			
-		} catch (IOException | ClassNotFoundException e) {
+			responseData = (ResponseData) input.readObject();
+			while(responseData.getResponseType() != dataType.search)
+				responseData = (ResponseData) input.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		strings = responseData.getResponse();
+		System.out.println(strings.get(0));
 	}
 	
 	public void closeConnection() {
@@ -104,12 +125,68 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
-	public void login(String user, String password) {
+	public boolean login(String user, String password) {
 		System.out.println("Click login");
+		
+		RequestData data = new RequestData();
+		data.setType(dataType.login);
+		Vector<String> strings = new Vector<String>(2);
+		strings.add(user);
+		strings.add(password);
+		data.setRequest(strings);
+		
+		ResponseData responseData = null;
+		try {
+			toServer.writeObject(data);
+			toServer.flush();
+			
+			responseData = (ResponseData) input.readObject();
+			while(responseData.getResponseType() != dataType.login)
+				responseData = (ResponseData) input.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		strings = responseData.getResponse();
+		System.out.println(strings.get(0));
+		if(strings.get(0).contains("successfully")) {
+			return true;
+		}
+		return false;	
 	}
 	
-	public void signIn(String user, String password) {
-		System.out.println("Click sign in");
+	public boolean signIn(String user, String password) {
+		System.out.println("Click sign up");
+		
+		RequestData data = new RequestData();
+		data.setType(dataType.signUp);
+		Vector<String> strings = new Vector<String>(2);
+		strings.add(user);
+		strings.add(password);
+		data.setRequest(strings);
+		
+		ResponseData responseData = null;
+		try {
+			toServer.writeObject(data);
+			toServer.flush();
+			
+			responseData = (ResponseData) input.readObject();
+			while(responseData.getResponseType() != dataType.signUp)
+				responseData = (ResponseData) input.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		strings = responseData.getResponse();
+		System.out.println(strings.get(0));
+		if(strings.get(0).contains("successfully")) {
+			return true;
+		}
+		return false;	
 	}
 	
 	public void sendCard() {
@@ -118,10 +195,44 @@ public class Client extends JFrame implements Send {
 
 	public void like(Dictionary dictionary) {
 		System.out.println("Like " + dictionary.getName());
+		
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.thumbUp);
+		Vector<String> strings = new Vector<String>();
+		strings.add(Info.getWord());
+		strings.add(dictionary.getEnglishName());
+		requestData.setRequest(strings);
+		
+		try {
+			toServer.writeObject(requestData);
+			toServer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void unlike(Dictionary dictionary) {
+		System.out.println("Unlike " + dictionary.getName());
+		
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.thumbUp);
+		Vector<String> strings = new Vector<String>();
+		strings.add(Info.getWord());
+		strings.add(dictionary.getEnglishName());
+		requestData.setRequest(strings);
+		
+		try {
+			toServer.writeObject(requestData);
+			toServer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void getUserList() {
 		System.out.println("Get all the user");
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.online);
 	}
 	
 	public void getCard() {
@@ -134,7 +245,8 @@ public class Client extends JFrame implements Send {
 	
 	public static void main(String[] args) {
 		try {
-			new Client(new Socket("localhost", 8000));
+			new Client(new Socket("114.212.130.243", 8000));
+			//new Client(new Socket("localhost", 8000));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

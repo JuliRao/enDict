@@ -1,11 +1,16 @@
 package common;
 
+import java.io.Serializable;
 import java.util.Vector;
 import java.io.Serializable;
 
 import common.dataType;
 
+/*<<<<<<< HEAD
 public class RequestData implements Serializable{
+=======*/
+public class RequestData implements Serializable {
+
 	private  dataType requestType;
 	private Vector<String> request = new Vector<String>();
 //	private byte[];

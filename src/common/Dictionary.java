@@ -16,4 +16,16 @@ public enum Dictionary {
 		}
 		return "";
 	}
+	
+	public String getEnglishName() {
+		switch(this) {
+		case Baidu:
+			return "Jinshan";
+		case YouDao:
+			return "Youdao";
+		case Bing:
+			return "Bing";
+		}
+		return "";
+	}
 }

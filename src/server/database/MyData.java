@@ -33,31 +33,32 @@ public class MyData {
 	public static synchronized boolean thumbup(String word,String dict) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select * from wordUp where word = '"
 				+word+"';");
-		if(resultSet.next() == true){
+		if(resultSet.next()){
 			int n = 0;
-			if(dict == "jinshan")
+			if(dict.equals("baidu"))
 				n = resultSet.getInt(2);
-			else if(dict == "youdao")
+			else if(dict.equals("youdao"))
 				n = resultSet.getInt(3);
-			else if(dict == "bing")
+			else if(dict.equals("bing"))
 				n = resultSet.getInt(4);
 			n++;
 			String s = "";
 			s = n + "";
-			if(dict == "baidu")
+			System.out.println(s);
+			if(dict.equals("baidu"))
 				stmt.executeUpdate("update wordup set baidu = "+s+" where word = '"+word+"';");
-			else if(dict == "youdao")
+			else if(dict.equals("youdao"))
 				stmt.executeUpdate("update wordup set youdao = "+s+" where word = '"+word+"';");
-			else if(dict == "bing")
+			else if(dict.equals("bing"))
 				stmt.executeUpdate("update wordup set bing = "+s+" where word = '"+word+"';");
 			
 		}
 		else{
-			if(dict == "baidu")
+			if(dict.equals("baidu"))
 				stmt.executeUpdate("insert into wordup(word,baidu,youdao,bing) values('"+word+"',1,0,0);");
-			else if(dict == "youdao")
+			else if(dict.equals("youdao"))
 				stmt.executeUpdate("insert into wordup(word,baidu,youdao,bing) values('"+word+"',0,1,0);");
-			else if(dict == "bing")
+			else if(dict.equals("bing"))
 				stmt.executeUpdate("insert into wordup(word,baidu,youdao,bing) values('"+word+"',0,0,1);");
 		}
 //		if(resultSet.next() == true){
@@ -134,23 +135,27 @@ public class MyData {
 		}
 		return user;
 	}
-	public static synchronized boolean sendMessage(String sender, String receiver, String data) throws SQLException{
+	public static synchronized boolean sendMessage(String sender, String receiver, String word ,String data) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select username from dictuser where username = '"+receiver+"';");
 		if(resultSet.next() == false)
 			return false;
-		stmt.executeUpdate("insert into message(receiver, sender, data) values ('"
-				+receiver+"','"+sender+"','"+data+"');");
+		stmt.executeUpdate("insert into message(receiver, sender, data,word) values ('"
+				+receiver+"','"+sender+"','"+data+"','"+word+"');");
 		
 		return true;
 	}
 	public static synchronized Vector<String> getMessage(String username) throws SQLException{
-		ResultSet resultSet = stmt.executeQuery("select sender, data from message where receiver = '"
+		ResultSet resultSet = stmt.executeQuery("select sender, data ,word from message where receiver = '"
 				+ username + "';");
 		Vector<String> message =  new Vector<String>();
 		while(resultSet.next()){
-			String p = "";
-			p = p + resultSet.getString(1) + " / " + resultSet.getString(2);
-			message.add(p);
+			System.out.println(resultSet.getString(2));
+			message.add(resultSet.getString(1));
+			message.add(resultSet.getString(3));
+			message.add(resultSet.getString(2));
+//			String p = "";
+//			p = p + resultSet.getString(1) + " / " + resultSet.getString(2);
+//			message.add(p);
 		}
 		/*if(resultSet.next()==false){
 			message.add("user not found");
@@ -177,7 +182,7 @@ public class MyData {
 		}
 
 		if(jinshan >= youdao && jinshan >= bing){
-			dictsort.add("jinshan");
+			dictsort.add("baidu");
 			if(youdao > bing){
 				dictsort.add("youdao");
 				dictsort.add("bing");
@@ -190,23 +195,23 @@ public class MyData {
 		else if(youdao >= jinshan && youdao >= bing){
 			dictsort.add("youdao");
 			if(jinshan > bing){
-				dictsort.add("jinshan");
+				dictsort.add("baidu");
 				dictsort.add("bing");
 			}
 			else{
 				dictsort.add("bing");
-				dictsort.add("jinshan");
+				dictsort.add("baidu");
 			}
 		}
 		else{
 			dictsort.add("bing");
 			if(jinshan > youdao){
-				dictsort.add("jinshan");
+				dictsort.add("baidu");
 				dictsort.add("youdao");
 			}
 			else{
 				dictsort.add("youdao");
-				dictsort.add("jinshan");
+				dictsort.add("baidu");
 			}
 		}
 		return dictsort;
@@ -216,18 +221,18 @@ public class MyData {
 				+word+"';");
 		if(resultSet.next()){
 			int n = 0;
-			if(dict == "baidu")
+			if(dict.equals("baidu"))
 				n = resultSet.getInt(1);
-			else if(dict == "youdao")
+			else if(dict.equals("youdao"))
 				n = resultSet.getInt(2);
 			else
 				n = resultSet.getInt(3);
 			if(n != 0)
 				n--;
 			String s = n + "";
-			if(dict == "baidu")
+			if(dict.equals("baidu"))
 				stmt.executeUpdate("update wordUp set baidu = "+s+" where word = '"+word+"';");
-			else if(dict == "youdao")
+			else if(dict.equals("youdao"))
 				stmt.executeUpdate("update wordUp set youdao = "+s+" where word = '"+word+"';");
 			else 
 				stmt.executeUpdate("update wordUp set bing = "+s+" where word = '"+word+"';");

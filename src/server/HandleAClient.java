@@ -47,6 +47,7 @@ public class HandleAClient implements Runnable {
 	private ResponseData logout(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
 		String username = req.getRequest().elementAt(0);
+		System.out.println(username);
 		Vector<String> data = new Vector<String>();
 		if(database.exit(username)==false)
 			data.add("user not exist");
@@ -84,17 +85,18 @@ public class HandleAClient implements Runnable {
 		Vector<String> bing = s.getBingMean(dstWord);
 //		ThreeMeanings means = new ThreeMeanings(s.getJinshanMean(dstWord),s.getYoudaoMean(dstWord),s.getBingMean(dstWord));
 //		for(int i = 0; i < )
+//		System.out.println(jinshan.elementAt(0));
 		Vector<String> dictsort = database.getThumb(dstWord);
-//		for(int i = 0; i < dictsort.size();i++)
-//			System.out.println(dictsort.elementAt(i));
+/*		for(int i = 0; i < dictsort.size();i++)
+			System.out.println(dictsort.elementAt(i));*/
 		for(int i = 0; i < dictsort.size(); i++){
 			String dict = dictsort.elementAt(i);
 			data.add(dict);
-			if(dict == "jinshan"){
+			if(dict.equals("baidu")){
 				for(int j = 0; j < jinshan.size(); j++)
 					data.add(jinshan.elementAt(j));
 			}
-			else if(dict == "youdao"){
+			else if(dict.equals("youdao")){
 				for(int j = 0; j < youdao.size(); j++)
 					data.add(youdao.elementAt(j));
 			}
@@ -130,6 +132,8 @@ public class HandleAClient implements Runnable {
 		ResponseData res = new ResponseData();
 		String word = req.getRequest().elementAt(0);
 		String dict = req.getRequest().elementAt(1);
+		System.out.println(word);
+		System.out.println(dict);
 		Vector<String> data = new Vector<String>();
 		if(database.thumbup(word, dict))
 			data.add("success");
@@ -156,15 +160,31 @@ public class HandleAClient implements Runnable {
 
 	private ResponseData sendmail(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
-		String sender = req.getRequest().elementAt(0);
-		String receiver = req.getRequest().elementAt(1);
-		String message = req.getRequest().elementAt(2);
+		String sender = User;
+		String word = req.getRequest().elementAt(0);
+		String message = req.getRequest().elementAt(1);
+		Vector<String> Recev = new Vector<String>();
 		Vector<String> data = new Vector<String>();
+		for(int i = 2; i < req.getRequest().size(); i++){
+			String receiver = req.getRequest().elementAt(i);
+			if(database.sendMessage(sender, receiver,word, message)){
+				String m = receiver + " send successfully";
+				data.add(m);
+			}
+			else{
+				String m = receiver + " user not exists";
+				data.add(m);
+			}
+		}
+//		String receiver = req.getRequest().elementAt(1);
 		
-		if(database.sendMessage(sender, receiver, message))
+//		String message = req.getRequest().elementAt(2);
+		
+		
+		/*if(database.sendMessage(sender, receiver, message))
 			data.add("send successfully");
 		else
-			data.add("user not exist");
+			data.add("user not exist");*/
 		
 		res.setResponse(data);
 		res.setType(dataType.sendMail);
@@ -173,11 +193,18 @@ public class HandleAClient implements Runnable {
 	
 	private ResponseData receivemail(RequestData req) throws SQLException {
 		ResponseData res = new ResponseData();
-		String username = req.getRequest().elementAt(0);
+		System.out.println(User);
+		String username = User;
 		Vector<String> data = new Vector<String>();
-		
+		/*Vector<String> message = database.getMessage(username);
+		for(int i = 0; i < message.size(); i++){
+			String p = message.elementAt(i);
+			String []sp = p.split(" / ");
+			data.add(sp[0]);
+			String []spsp = sp[1].split("?");
+			data.a
+		}*/
 		data = database.getMessage(username);
-		
 		res.setResponse(data);
 		res.setType(dataType.receiveMail);
 		return res;

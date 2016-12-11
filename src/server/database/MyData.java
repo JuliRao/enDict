@@ -1,6 +1,7 @@
 package server.database;
 import java.sql.*;
 import java.util.Vector;
+//import java
 
 public class MyData {
 	private String driver = "com.mysql.jdbc.Driver";
@@ -24,12 +25,12 @@ public class MyData {
 			e.printStackTrace();
 		}
 	}
-	public static MyData createConnection(){
+	public static synchronized MyData createConnection(){
 		if(database == null)
 			database = new MyData();
 		return database;
 	}
-	public static boolean thumbup(String word,String dict) throws SQLException{
+	public static synchronized boolean thumbup(String word,String dict) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select * from wordUp where word = '"
 				+word+"';");
 		if(resultSet.next() == true){
@@ -72,7 +73,7 @@ public class MyData {
 //		}
 		return true;
 	}
-	public static boolean addUser(String username,String password) throws SQLException{
+	public static synchronized boolean addUser(String username,String password) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select state "
 				+ "from Dictuser where username = '" +username+"';");
 		if(resultSet.next() == true)
@@ -83,7 +84,7 @@ public class MyData {
 		return true;
 //		return 
 	}
-	public static boolean IfUser(String Iusername,String Ipassword) throws SQLException{
+	public static synchronized boolean IfUser(String Iusername,String Ipassword) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select state "
 				+ "from Dictuser where username = '" +Iusername +"' and password = '"+Ipassword+"';");
 //		System.out.println();
@@ -94,7 +95,7 @@ public class MyData {
 			return true;
 		}
 	}
-	public static boolean addFriend(String username,String friend) throws SQLException{
+	public static synchronized boolean addFriend(String username,String friend) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select * from Dictuser where username = '"
 				+username+"';");
 //		ResultSet setFriend = stmt.executeQuery("select * from Dictuser where username = '"
@@ -112,7 +113,7 @@ public class MyData {
 		}
 		return true;
 	}
-	public static boolean exit(String username) throws SQLException{
+	public static synchronized boolean exit(String username) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select state "
 				+ "from Dictuser where username = '" +username +"';");
 		if(resultSet.next()==false)
@@ -120,12 +121,41 @@ public class MyData {
 		stmt.executeUpdate("update dictuser set state = 0 where username = '"+username+"';");
 		return true;
 	}
-	public static Vector<String> onlineUser() throws SQLException{
-		ResultSet resultSet = stmt.executeQuery("select username from dictuser where state = 1");
+	public static synchronized Vector<String> onlineUser() throws SQLException{
+		ResultSet resultSet = stmt.executeQuery("select username from dictuser where state = 1;");
 		Vector<String> user = new Vector<String>();
 		while(resultSet.next()){
 			user.add(resultSet.getString(1));
 		}
 		return user;
+	}
+	public static synchronized boolean sendMessage(String sender, String receiver, String data) throws SQLException{
+		ResultSet resultSet = stmt.executeQuery("select username from dictuser where username = '"+receiver+"';");
+		if(resultSet.next() == false)
+			return false;
+		stmt.executeUpdate("insert into message(receiver, sender, data) values ('"
+				+receiver+"','"+sender+"','"+data+"');");
+		
+		return true;
+	}
+	public static synchronized Vector<String> getMessage(String username) throws SQLException{
+		ResultSet resultSet = stmt.executeQuery("select sender, data from message where receiver = '"
+				+ username + "';");
+		Vector<String> message =  new Vector<String>();
+		while(resultSet.next()){
+			String p = "";
+			p = p + resultSet.getString(1) + " / ";
+			p = p + resultSet.getString(2);
+			message.add(p);
+		}
+		/*if(resultSet.next()==false){
+			message.add("user not found");
+		}
+		else{
+			while(resultSet.next()){
+				message.add(resultSet.getString(1));
+			}
+		}*/
+		return message;
 	}
 }

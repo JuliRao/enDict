@@ -28,10 +28,11 @@ public class HandleAClient implements Runnable {
 	
 	private ResponseData login(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
-		String username = res.getResponse().elementAt(0);
-		String password = res.getResponse().elementAt(1);
+		String username = req.getRequest().elementAt(0);
+		String password = req.getRequest().elementAt(1);
 		boolean ifUser = database.IfUser(username, password);
 		Vector<String> data = new Vector<String>();
+		System.out.println(ifUser);
 		if(ifUser == true){
 			data.add("login successfully");
 			User = username;
@@ -82,7 +83,7 @@ public class HandleAClient implements Runnable {
 //		ThreeMeanings means = new ThreeMeanings(s.getJinshanMean(dstWord),s.getYoudaoMean(dstWord),s.getBingMean(dstWord));
 //		for(int i = 0; i < )
 		Vector<String> dictsort = database.getThumb(dstWord);
-		for(int i = 0; i < 3; i++){
+		for(int i = 0; i < dictsort.size(); i++){
 			String dict = dictsort.elementAt(i);
 			data.add(dict);
 			if(dict == "jinshan"){
@@ -159,10 +160,11 @@ public class HandleAClient implements Runnable {
 		database = MyData.createConnection();
 //		MyData database = MyData.createConnection();
 		try{
-			ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+//			System.out.println("s");
 			ObjectOutputStream toClient = new ObjectOutputStream(socket.getOutputStream());
-			
+			ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 			while(true) {
+				System.out.println("sss");
 				RequestData req = (RequestData)inputStream.readObject();
 				if(req.getRequestType() == dataType.login){
 					System.out.println("login");

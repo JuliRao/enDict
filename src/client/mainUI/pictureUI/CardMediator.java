@@ -2,13 +2,20 @@ package client.mainUI.pictureUI;
 
 import javax.swing.JButton;
 
+import client.common.Send;
+
 public class CardMediator implements Mediator {
 	private CardTable table;
 	private JButton sendButton;
 	private JButton sendAllButton;
+	private Send send;
 	
 	public void setTable(CardTable table){
 		this.table = table;
+	}
+	
+	public void setSend(Send send) {
+		this.send = send;
 	}
 	
 	public void setSendButton(JButton sendButton) {
@@ -19,7 +26,7 @@ public class CardMediator implements Mediator {
 		this.sendAllButton = sendAllButton;
 	}
 	
-	public void send() {
-		
+	public void startSend() {
+		send.sendCard();
 	}
 }

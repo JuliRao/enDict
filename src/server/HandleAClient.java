@@ -138,28 +138,16 @@ public class HandleAClient implements Runnable {
 		ResponseData res = new ResponseData();
 		String username = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
-		
-		String sender = req.getRequest().elementAt(0);
-		String receiver = req.getRequest().elementAt(1);
-		String message = req.getRequest().elementAt(2);
-		
-		if(database.sendMessage(sender, receiver, message))
-			data.add("send successfully");
-		else
-			data.add("reveiver not exist");
-		
+
 		res.setResponse(data);
 		res.setType("sendMail");
 		return res;
 	}
 	
-	private ResponseData receivemail(RequestData req) throws SQLException{
+	private ResponseData receivemail(RequestData req) throws SQLException {
 		ResponseData res = new ResponseData();
 		String username = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
-		
-		data = database.getMessage(username);
-		
 		res.setResponse(data);
 		res.setType("receiveMail");
 		return res;

@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import client.common.Send;
+
 public class LoginFrame extends JFrame {
 	private JTextField usrName = new LoginText(130, 35);
 	private JPasswordField usrPassword = new LoginPassword(130, 85);
@@ -20,7 +22,7 @@ public class LoginFrame extends JFrame {
 	private JButton loginButton = new LoginButton("登录", 130, 160);
 	private JButton signInButton = new LoginButton("注册", 345, 160);
 	
-	public LoginFrame() {
+	public LoginFrame(Send send) {
 		this.setLayout(null);
 		this.setTitle("萌娆词典 - 登录");
 		this.setResizable(false);
@@ -64,7 +66,8 @@ public class LoginFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO 自动生成的方法存根
-				System.out.println("Click login");
+				String password = new String(usrPassword.getPassword());
+				send.login(usrName.getText(), password);
 			}
 		});
 		
@@ -96,8 +99,9 @@ public class LoginFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO 自动生成的方法存根
-				System.out.println("Click sign in");
+				String password = new String(usrPassword.getPassword());
+				send.signIn(usrName.getText(), password);
 			}
 		});
-	}	
+	}
 }

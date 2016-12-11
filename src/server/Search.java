@@ -3,7 +3,9 @@ package server;
 //#package common;
 import java.io.IOException;
 import java.util.Vector;
+import java.util.regex.Matcher;
 //import javax.lang.model.element.Element;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -85,11 +87,40 @@ public class Search {
 //		else
 //			pSpSp = pSplit[3].split(" ");
 //		String q;
-		for(int i = 0; i < pSpSp.length; i++){
+		String q = "";
+		for(int i = 0; i < pSpSp.length;i++){
+//			System.out.println(pSpSp[i]);
+			Pattern pattern = Pattern.compile("[.\\x22]+");
+			Pattern pa = Pattern.compile("[：\\x22]+");
+			Matcher matcher = pattern.matcher(pSpSp[i]);
+			Matcher ma = pa.matcher(pSpSp[i]);
+			if(matcher.find()){
+//				System.out.println("match");
+				if(q!="")
+					mean.add(q);
+				q="";
+				mean.add(pSpSp[i]);
+			}
+			else if(ma.find()){
+//				System.out.println("!!!");
+				mean.add(q);
+				mean.add(pSpSp[i]);
+				q="";
+			}
+			else{
+//				System.out.println("not match");
+				q+=pSpSp[i];
+			}
+//				mean.add(pSpSp[i]);
+//		for(int i = 0; i < pSpSp.length; i++){
+//			if(pSpSp[i] == "[.\x22]+"){
+				
+//			}
 //			if(pSpSp[i+1][0]<='z'&&pSpSp[i+1][0]>='a')
-			mean.add(pSpSp[i]+pSpSp[i+1]);
-			i++;
+//			mean.add(pSpSp[i]+pSpSp[i+1]);
+//			i++;
 		}
+		mean.add(q);
 //		Vector<String> pSplit = p.split(",");
 		
 //		for(int i = 0; i < p.length();i++){

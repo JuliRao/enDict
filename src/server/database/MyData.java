@@ -78,9 +78,10 @@ public class MyData {
 	public static synchronized boolean addUser(String username,String password) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select state "
 				+ "from Dictuser where username = '" +username+"';");
-		if(resultSet.next() == true)
+		/*if(resultSet.next() == true)
 			return false;
-		
+		stmt.executeUpdate("insert into dictuser (username,password,state) "
+				+"values('"+username+"',encode('"+password+"','doreamon'),0);");*/
 		stmt.executeUpdate("insert into Dictuser (username,password,friend)\n"+
 							"values ('"+username+"','"+password+"','');");
 		return true;
@@ -96,6 +97,18 @@ public class MyData {
 			stmt.executeUpdate("update dictuser set state = 1 where username = '"+Iusername+"';");
 			return true;
 		}
+		/*ResultSet resultSet = stmt.executeQuery("select decode(password,'doreamon') from dictuser"
+				+" where username = '"+Iusername+"';");
+		if(resultSet.next()){
+			if(Ipassword.equals(resultSet.getString(1))){
+				stmt.executeUpdate("update dictuser set state = 1 where username = '"+Iusername+"';");
+				return true;
+			}
+			else
+				return false;
+		}
+		else
+			return false;*/
 	}
 	public static synchronized boolean addFriend(String username,String friend) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select * from Dictuser where username = '"
@@ -246,7 +259,7 @@ public class MyData {
 			int n = resultSet.getInt(1);
 			n++;
 			String m = n+"";
-			stmt.executeUpdate("update hotsearch set count = "+m+" where word = '"+word+';');
+			stmt.executeUpdate("update hotsearch set count = "+m+" where word = '"+word+"';");
 		}
 		else{
 			stmt.executeUpdate("insert into hotsearch(word,count) "
@@ -258,8 +271,10 @@ public class MyData {
 		Vector<String> hot = new Vector<String>();
 		
 		ResultSet resultSet = stmt.executeQuery("select word from hotsearch order by count desc");
-		while(resultSet.next()){
+		int n = 0;
+		while(resultSet.next() && n < 10){
 			hot.add(resultSet.getString(1));
+			n++;
 		}
 		return hot;
 	}
@@ -282,7 +297,7 @@ public class MyData {
 			stmt.executeUpdate("insert into "+username+"(word, mean) values('"+word+"','"+mean+"');"); 
 		}
 		else {
-			stmt.executeUpdate("create table "+username +" (word char(20), mean char(200));");
+			stmt.executeUpdate("create table "+username +" (word char(20), mean text);");
 			stmt.executeUpdate("insert into "+username +"(word,mean) "
 					+"values('"+word+"','"+mean+"');");
 		}
@@ -306,4 +321,5 @@ public class MyData {
 		}
 		return wordbook;
 	}
+//	public static synchronized encode()
 }

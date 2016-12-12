@@ -237,8 +237,8 @@ public class HandleAClient implements Runnable {
 	private ResponseData addwordbook(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
 		String username = User;
-		String word = req.getRequest().elementAt(1);
-		String mean = req.getRequest().elementAt(2);
+		String word = req.getRequest().elementAt(0);
+		String mean = req.getRequest().elementAt(1);
 		Vector<String> data = new Vector<String>();
 		database.addwordBook(username, word, mean);
 		data.add("success");
@@ -253,6 +253,7 @@ public class HandleAClient implements Runnable {
 		Vector<String> data = new Vector<String>();
 		
 		data = database.getwordbook(username);
+		System.out.println(data.elementAt(0));
 		res.setResponse(data);
 		res.setType(dataType.getwordbook);
 		

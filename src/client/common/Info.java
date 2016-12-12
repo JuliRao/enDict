@@ -7,6 +7,7 @@ public class Info {
 	static private String word = "";
 	static private Meanings meanings = new Meanings();
 	static String userName = null;
+	static String[][] wordNotes;
 	
 	public static String getUserName() {
 		return userName;
@@ -38,5 +39,13 @@ public class Info {
 
 	public static void setDefaultDictionary(Dictionary defaultDictionary) {
 		Info.defaultDictionary = defaultDictionary;
+	}
+	
+	public static void setWordNotes(String [][] strings) {
+		wordNotes = strings;
+	}
+	
+	public static String[][] getWordNotes() {
+		return wordNotes;
 	}
 }

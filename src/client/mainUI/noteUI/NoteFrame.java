@@ -1,9 +1,30 @@
 package client.mainUI.noteUI;
 
-import client.common.Send;
+import java.awt.Color;
+import java.awt.GridLayout;
 
-public class NoteFrame {
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+
+import client.common.Send;
+import client.theme.MyTheme;
+
+public class NoteFrame extends JFrame {
+	private NoteTable table;
+	private JScrollPane pane;
+	
 	public NoteFrame(Send send) {
+		send.getWordNotes();
 		
+		setSize(800, 500);
+		setResizable(false);
+		setVisible(true);
+		this.setLayout(null);
+		setBackground(MyTheme.Instance().getBackgroundColor());
+		
+		table = new NoteTable();
+		pane = new JScrollPane(table);
+		pane.setBounds(30, 30, 740, 410);
+		add(pane);
 	}
 }

@@ -19,6 +19,7 @@ public class FunctionButton extends JButton {
 	private ImageIcon reverseIcon;
 	
 	public FunctionButton() {
+		this.setBorder(null);
 		this.setBackground(Color.WHITE);
 		this.setSize(width, height);
 	}
@@ -41,6 +42,7 @@ public class FunctionButton extends JButton {
 	}
 	
 	public FunctionButton(ImageIcon icon) {
+		this.setBorder(null);
 		this.setBackground(Color.WHITE);
 		this.setSize(width, height);
 		this.icon = icon;

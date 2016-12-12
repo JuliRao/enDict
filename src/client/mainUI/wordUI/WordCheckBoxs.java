@@ -22,7 +22,7 @@ import common.Dictionary;
 
 public class WordCheckBoxs extends JPanel {
 	private static int width = 80;
-	private static int height = 300;
+	private static int height = 200;
 	
 	private Map<JCheckBox, Dictionary> checkMap = new HashMap<JCheckBox, Dictionary>();
 	public Set<JCheckBox> getBoxs() {
@@ -52,7 +52,7 @@ public class WordCheckBoxs extends JPanel {
 
 		this.setBackground(Color.WHITE);
 		this.setBounds(x, y, width, height);
-		this.setLayout(new GridLayout(6, 1));
+		this.setLayout(new GridLayout(4, 1));
 	}
 	
 	ArrayList<Dictionary> getAccessible() {

@@ -11,6 +11,7 @@ interface WordTheme {
 	public String getFillHeartIcon();
 	public String getStrokeHeartIcon();
 	public String getSearchIcon();
+	public String getAddNoteIcon();
 }
 
 interface MomentsTheme {

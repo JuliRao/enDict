@@ -10,7 +10,6 @@ import java.net.UnknownHostException;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -69,6 +68,7 @@ public class Client extends JFrame implements Send {
         mainPane.wordPanel.setSend(this);
         ((FunctionButton) functionPanel.getComponent(1)).setSend(this);
         ((FunctionButton) functionPanel.getComponent(2)).setSend(this);
+        ((FunctionButton) functionPanel.getComponent(3)).setSend(this);
         
         this.socket = socket;
 		
@@ -140,7 +140,7 @@ public class Client extends JFrame implements Send {
 		Vector<String> strings = new Vector<String>();
 		strings.add(word);
 		requestData.setRequest(strings);
-		
+
 		ResponseData responseData = null;
 		try {
 			toServer.writeObject(requestData);
@@ -256,6 +256,26 @@ public class Client extends JFrame implements Send {
 			}
 		}
 	}
+	
+	public void addNote(String word, String meaning) {
+		System.out.println("Add word...");
+
+		if(Info.getUserName() != null) {
+			RequestData requestData = new RequestData();
+			requestData.setType(dataType.addwordbook);
+			Vector<String> strings = new Vector<String>();
+			strings.add(word);
+			strings.add(meaning);
+			requestData.setRequest(strings);
+			
+			try {
+				toServer.writeObject(requestData);
+				toServer.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void like(Dictionary dictionary) {
 		System.out.println("Like " + dictionary.getName());
@@ -346,17 +366,6 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
-	public static void main(String[] args) {
-		try {
-			new Client(new Socket("114.212.130.243", 8000));
-			//new Client(new Socket("localhost", 8000));
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	@Override
 	public void logout() {
 		System.out.println("Log out");
@@ -365,6 +374,45 @@ public class Client extends JFrame implements Send {
 			data.setType(dataType.logout);
 			toServer.writeObject(data);
 			toServer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getWordNotes() {
+		System.out.println("Get all the notes");
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.getwordbook);
+		
+		ResponseData responseData = null;
+		try {
+			toServer.writeObject(requestData);
+			toServer.flush();
+			responseData = (ResponseData) input.readObject();
+			while(responseData.getResponseType() != dataType.getwordbook)
+				responseData = (ResponseData) input.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		Vector<String> strings = responseData.getResponse();
+		String [][]notes = new String[strings.size() / 2][2];
+		for(int i = 0; i < strings.size() / 2; ++ i) {
+			notes[i] = new String[2];
+			notes[i][0] = strings.get(i * 2);
+			notes[i][1] = strings.get(i * 2 + 1);
+		}
+		
+		System.out.println(notes.length);
+		Info.setWordNotes(notes);
+	}
+	
+	public static void main(String[] args) {
+		try {
+			new Client(new Socket("114.212.130.243", 8000));
+			//new Client(new Socket("localhost", 8000));
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

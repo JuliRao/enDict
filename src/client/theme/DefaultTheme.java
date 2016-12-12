@@ -86,4 +86,9 @@ public class DefaultTheme implements Theme {
 	public String getDialogIcon() {
 		return "data\\image\\planet\\earth.png";
 	}
+
+	@Override
+	public String getAddNoteIcon() {
+		return "data\\image\\planet\\planet.png";
+	}
 }

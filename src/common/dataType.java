@@ -10,4 +10,8 @@ public enum dataType {
 	thumbDown,
 	sendMail,
 	receiveMail,
+	hotSearch,
+	everyDay,
+	addwordbook,
+	getwordbook
 }

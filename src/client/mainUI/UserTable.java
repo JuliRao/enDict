@@ -30,6 +30,7 @@ public class UserTable extends JTable {
 		
 		this.setModel(tableModel);
 		this.setRowHeight(25);
+		
 		setEnabled(true);
 		setDragEnabled(false);
 	}

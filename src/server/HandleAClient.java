@@ -46,7 +46,7 @@ public class HandleAClient implements Runnable {
 	
 	private ResponseData logout(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
-		String username = req.getRequest().elementAt(0);
+		String username = User;
 		System.out.println(username);
 		Vector<String> data = new Vector<String>();
 		if(database.exit(username)==false)
@@ -79,6 +79,7 @@ public class HandleAClient implements Runnable {
 		String dstWord = req.getRequest().elementAt(0);
 		Vector<String> data = new Vector<String>();
 		Search s = new Search();
+//		database.addSearch(dstWord);
 //		System.out.println(dstWord);
 		Vector<String> jinshan = s.getJinshanMean(dstWord);
 		Vector<String> youdao = s.getYoudaoMean(dstWord);
@@ -114,6 +115,7 @@ public class HandleAClient implements Runnable {
 		data.add("Bing");
 		for(int i = 0; i < bing.size(); i++)
 			data.add(bing.elementAt(i));*/
+		database.addSearch(dstWord);
 		res.setResponse(data);
 		res.setType(dataType.search);
 		return res;
@@ -210,6 +212,53 @@ public class HandleAClient implements Runnable {
 		return res;
 	}
 	
+	private ResponseData hotsearch(RequestData req) throws SQLException{
+		ResponseData res = new ResponseData();
+		
+		Vector<String> data = new Vector<String>();
+		data = database.getHot();
+		res.setResponse(data);
+		res.setType(dataType.hotSearch);
+		
+		return res;
+	}
+	
+	private ResponseData everyday(RequestData req) throws SQLException{
+		ResponseData res = new ResponseData();
+		
+		Vector<String> data = new Vector<String>();
+		String p = database.getEveryday();
+		data.add(p);
+		res.setResponse(data);
+		res.setType(dataType.everyDay);
+		return res;
+	}
+	
+	private ResponseData addwordbook(RequestData req) throws SQLException{
+		ResponseData res = new ResponseData();
+		String username = User;
+		String word = req.getRequest().elementAt(1);
+		String mean = req.getRequest().elementAt(2);
+		Vector<String> data = new Vector<String>();
+		database.addwordBook(username, word, mean);
+		data.add("success");
+		res.setResponse(data);
+		res.setType(dataType.addwordbook);
+		return res;
+	}
+	
+	private ResponseData getwordbook(RequestData req) throws SQLException{
+		ResponseData res = new ResponseData();
+		String username = User;
+		Vector<String> data = new Vector<String>();
+		
+		data = database.getwordbook(username);
+		res.setResponse(data);
+		res.setType(dataType.getwordbook);
+		
+		return res;
+	}
+	
 	@Override
 	public void run() {
 		database = MyData.createConnection();
@@ -272,6 +321,30 @@ public class HandleAClient implements Runnable {
 				else if(req.getRequestType() ==dataType. receiveMail){
 					System.out.println("receiveMail");
 					ResponseData res = receivemail(req);
+					toClient.writeObject(res);
+					toClient.flush();
+				}
+				else if(req.getRequestType() == dataType.hotSearch){
+					System.out.println("hotSearch");
+					ResponseData res = hotsearch(req);
+					toClient.writeObject(res);
+					toClient.flush();
+				}
+				else if(req.getRequestType() == dataType.everyDay){
+					System.out.println("everyday");
+					ResponseData res = everyday(req);
+					toClient.writeObject(res);
+					toClient.flush();
+				}
+				else if(req.getRequestType() == dataType.addwordbook){
+					System.out.println("addwordbook");
+					ResponseData res = addwordbook(req);
+					toClient.writeObject(res);
+					toClient.flush();
+				}
+				else if(req.getRequestType() == dataType.getwordbook){
+					System.out.println("getwordbook");
+					ResponseData res = getwordbook(req);
 					toClient.writeObject(res);
 					toClient.flush();
 				}

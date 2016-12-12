@@ -1,5 +1,6 @@
 package server.database;
 import java.sql.*;
+import java.util.Random;
 import java.util.Vector;
 //import java
 
@@ -238,5 +239,71 @@ public class MyData {
 				stmt.executeUpdate("update wordUp set bing = "+s+" where word = '"+word+"';");
 		}
 		return true;
+	}
+	public static synchronized void addSearch(String word) throws SQLException{
+		ResultSet resultSet = stmt.executeQuery("select count from hotsearch where word = '"+word+"';");
+		if(resultSet.next()){
+			int n = resultSet.getInt(1);
+			n++;
+			String m = n+"";
+			stmt.executeUpdate("update hotsearch set count = "+m+" where word = '"+word+';');
+		}
+		else{
+			stmt.executeUpdate("insert into hotsearch(word,count) "
+					+"values('"+word+"', 1);");
+		}
+//		return true;
+	}
+	public static synchronized Vector<String> getHot() throws SQLException {
+		Vector<String> hot = new Vector<String>();
+		
+		ResultSet resultSet = stmt.executeQuery("select word from hotsearch order by count desc");
+		while(resultSet.next()){
+			hot.add(resultSet.getString(1));
+		}
+		return hot;
+	}
+	public static synchronized String getEveryday() throws SQLException{
+		String everyday = "";
+		
+		ResultSet resultSet = stmt.executeQuery("select * from article");
+		Random random = new Random();
+		int n = random.nextInt(10)%11;
+		int m = 0;
+		while(resultSet.next() && m <= n){
+			everyday = resultSet.getString(1);
+			m++;
+		}
+		return everyday;
+	}
+	public static synchronized void addwordBook(String username, String word, String mean) throws SQLException{
+		ResultSet resultSet = con.getMetaData().getTables(null, null, username, null);
+		if(resultSet.next()){
+			stmt.executeUpdate("insert into "+username+"(word, mean) values('"+word+"','"+mean+"');"); 
+		}
+		else {
+			stmt.executeUpdate("create table "+username +" (word char(20), mean char(200));");
+			stmt.executeUpdate("insert into "+username +"(word,mean) "
+					+"values('"+word+"','"+mean+"');");
+		}
+		/*ResultSet resultSet = stmt.executeQuery("select * from " + username + ";");
+		if(resultSet.next()){
+			stmt.executeUpdate("insert into "+username+"(word, mean) values('"+word+"','"+mean+"');"); 
+		}
+		else{
+			stmt.executeUpdate("create table "+username +"(word char(20), mean char(200);");
+			stmt.executeUpdate("insert into "+username +"(word,mean) "
+					+"values('"+word+"','"+mean+"');");
+		}*/
+	}
+	public static synchronized Vector<String> getwordbook(String username) throws SQLException{
+		Vector<String> wordbook = new Vector<String>();
+		
+		ResultSet resultSet = stmt.executeQuery("select * from "+username+";");
+		while(resultSet.next()){
+			wordbook.add(resultSet.getString(1));
+			wordbook.add(resultSet.getString(2));
+		}
+		return wordbook;
 	}
 }

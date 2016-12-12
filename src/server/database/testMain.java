@@ -14,10 +14,12 @@ public class testMain {
 //		if(sql == sql2)
 //			System.out.println("heiheihei");
 		try {
-			Vector<String> data = sql.getThumb("mango");
+			Vector<String> data = sql.getwordbook("mango");
 			for(int i = 0; i < data.size(); i++){
 				System.out.println(data.elementAt(i));
+			
 			}
+//			sql.addwordBook("mango", "how", "怎么样");
 //			sql.sendMessage("patato", "apple", "i like tomato");
 //			sql.sendMessage("tomato", "apple", "i like patato");
 //			sql.exit("apple");

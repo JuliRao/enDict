@@ -42,6 +42,13 @@ public class Meanings {
 			dictionaries.add(value.dictionary);
 		}
 		
+		if(!dictionaries.contains(Dictionary.Baidu))
+			dictionaries.add(Dictionary.Baidu);
+		if(!dictionaries.contains(Dictionary.Bing))
+			dictionaries.add(Dictionary.Bing);
+		if(!dictionaries.contains(Dictionary.YouDao))
+			dictionaries.add(Dictionary.YouDao);
+		
 		return dictionaries;
 	}
 	

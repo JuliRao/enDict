@@ -32,4 +32,5 @@ public interface Theme extends LoginTheme, WordTheme, FunctionTheme, MomentsThem
 	public Font getErrorFont();
 	public String getBackgroundPicture();
 	public String getPaneIcon();
+	public String getDialogIcon();
 }

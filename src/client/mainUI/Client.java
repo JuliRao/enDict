@@ -1,5 +1,7 @@
 package client.mainUI;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,8 +10,10 @@ import java.net.UnknownHostException;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import common.Dictionary;
@@ -39,7 +43,7 @@ public class Client extends JFrame implements Send {
 	private MainPane mainPane = new MainPane();
 	private FunctionPanel functionPanel = new FunctionPanelCreator().createFunctionPanel();
 	private DisPicture disPicture = mainPane.momentsPanel.getMomentsDisplay();
-	
+
 	public Client(Socket socket) {
 		System.out.println("Server connected.");
 		this.setTitle("萌娆词典 - Zhou XinMeng & MaRao");
@@ -74,6 +78,44 @@ public class Client extends JFrame implements Send {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		this.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+	
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+	
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				closeConnection();
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				
+			}
+		});
 	}
 
 	public void changeBackground() {
@@ -121,6 +163,11 @@ public class Client extends JFrame implements Send {
 	public void closeConnection() {
 		System.out.println("Close the Client socket and the io.");
 		try {
+			RequestData data = new RequestData();
+			data.setType(dataType.logout);
+			toServer.writeObject(data);
+			toServer.flush();
+			
 			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -193,15 +240,20 @@ public class Client extends JFrame implements Send {
 	public void sendCard(Vector<String> strings) {
 		System.out.println("Start sending...");
 		
-		RequestData requestData = new RequestData();
-		requestData.setType(dataType.sendMail);
-		requestData.setRequest(strings);
-		
-		try {
-			toServer.writeObject(requestData);
-			toServer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(Info.getUserName() == null) {
+			JOptionPane.showMessageDialog(null, "请先登录", "提示", JOptionPane.PLAIN_MESSAGE, new ImageIcon(MyTheme.Instance().getDialogIcon()));
+		}
+		else {
+			RequestData requestData = new RequestData();
+			requestData.setType(dataType.sendMail);
+			requestData.setRequest(strings);
+			
+			try {
+				toServer.writeObject(requestData);
+				toServer.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -300,6 +352,19 @@ public class Client extends JFrame implements Send {
 			//new Client(new Socket("localhost", 8000));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void logout() {
+		System.out.println("Log out");
+		try {
+			RequestData data = new RequestData();
+			data.setType(dataType.logout);
+			toServer.writeObject(data);
+			toServer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -13,4 +13,5 @@ public interface Send {
 	public void unlike(Dictionary dictionary);
 	public void getUserList();
 	public void getCards();
+	public void logout();
 }

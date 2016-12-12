@@ -1,5 +1,7 @@
 package client.mainUI.momentsUI;
 
+import java.awt.Dimension;
+import java.io.File;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -7,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import client.common.DisPicture;
+import client.config.Config;
 import client.mainUI.pictureUI.CardCreator;
 import client.mainUI.pictureUI.CardFrame;
 import client.theme.MyTheme;
@@ -17,6 +20,17 @@ public class MomentsDisplay extends JPanel implements DisPicture {
 	public MomentsDisplay() {
 		setLayout(null);
 		setBackground(MyTheme.Instance().getBackgroundColor());
+		
+		// the buffer folder
+		File directory  = new File(Config.getReceiveFolder());
+		if (directory.isDirectory()) {
+			File[] array = directory.listFiles();
+			for(File file : array) {
+				if(file.isFile()) {
+					file.delete();
+		        }
+			}
+		}
 	}
 	
 	@Override
@@ -26,11 +40,15 @@ public class MomentsDisplay extends JPanel implements DisPicture {
 			JLabel label = new JLabel(new ImageIcon(path));
 			label.setBounds(this.getX() + 10, this.getY() + 10 + cnt * 390, 380, 380);
 			add(label);
+			
 			repaint();
 			validate();
 			
 			++ cnt;
-			System.out.println(cnt + " " + path);
+			
+			setPreferredSize(new Dimension(380, cnt * 390 + 10));
+			getParent().repaint();
+			getParent().validate();
 		}
 	}
 }

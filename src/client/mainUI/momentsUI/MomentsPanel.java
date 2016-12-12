@@ -60,7 +60,7 @@ public class MomentsPanel extends JPanel {
 		add(scrollPane);
 		add(checkBox);
 		add(refresh);
-		momentsDisplay.setPreferredSize(new Dimension(400, 1000));
+		momentsDisplay.setPreferredSize(new Dimension(400, 350));
 		
 		checkBox.addItemListener(new ItemListener() {
 			
@@ -112,5 +112,9 @@ public class MomentsPanel extends JPanel {
 				send.getCards();
 			}
 		});
+	}
+	
+	public void refresh() {
+		momentsTable.showOnline();
 	}
 }

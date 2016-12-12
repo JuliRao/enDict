@@ -31,5 +31,6 @@ public class NoteTable extends JTable {
 		this.setRowHeight(25);
 		setEnabled(true);
 		setDragEnabled(false);
+		setCellSelectionEnabled(false);
 	}
 }

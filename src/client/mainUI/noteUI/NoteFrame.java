@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import client.common.Info;
 import client.common.Send;
 import client.theme.MyTheme;
 
@@ -14,8 +15,7 @@ public class NoteFrame extends JFrame {
 	private JScrollPane pane;
 	
 	public NoteFrame(Send send) {
-		send.getWordNotes();
-		
+		setTitle(Info.getUserName() + " 的单词本");
 		setSize(800, 500);
 		setResizable(false);
 		setVisible(true);

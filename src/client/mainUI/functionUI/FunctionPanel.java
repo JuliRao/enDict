@@ -12,6 +12,5 @@ public class FunctionPanel extends JPanel {
 	public FunctionPanel() {
 		this.setBackground(MyTheme.Instance().getBackgroundColor());
 		this.setLayout(new FlowLayout());
-
 	}
 }

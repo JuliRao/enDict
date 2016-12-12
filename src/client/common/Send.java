@@ -16,4 +16,6 @@ public interface Send {
 	public void getCards();
 	public void logout();
 	public void getWordNotes();
+	public void getSentence();
+	public void getHotWords();
 }

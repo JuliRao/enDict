@@ -30,6 +30,7 @@ import client.mainUI.functionUI.FunctionPanel;
 import client.mainUI.functionUI.FunctionPanelCreator;
 import client.theme.MyTheme;
 
+@SuppressWarnings("serial")
 public class Client extends JFrame implements Send {
 	private Socket socket;
 	ObjectOutputStream toServer;
@@ -50,7 +51,7 @@ public class Client extends JFrame implements Send {
 		this.setSize(740, 600);
 		this.setLayout(null);
 		this.setResizable(false);
-		this.setVisible(true);
+		
 
         functionPanel.setBounds(40, 500, 650, 37);
         this.add(functionPanel);
@@ -78,6 +79,12 @@ public class Client extends JFrame implements Send {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		getHotWords();
+		getSentence();
+		getUserList();
+		mainPane.pagePanel.refresh();
+		mainPane.momentsPanel.refresh();
 		
 		this.addWindowListener(new WindowListener() {
 			
@@ -116,6 +123,8 @@ public class Client extends JFrame implements Send {
 				
 			}
 		});
+		
+		this.setVisible(true);
 	}
 
 	public void changeBackground() {
@@ -275,6 +284,9 @@ public class Client extends JFrame implements Send {
 				e.printStackTrace();
 			}
 		}
+		else {
+			JOptionPane.showMessageDialog(null, "请先登录", "提示", JOptionPane.PLAIN_MESSAGE, new ImageIcon(MyTheme.Instance().getDialogIcon()));
+		}
 	}
 
 	public void like(Dictionary dictionary) {
@@ -381,30 +393,73 @@ public class Client extends JFrame implements Send {
 	
 	public void getWordNotes() {
 		System.out.println("Get all the notes");
+		if(Info.getUserName() == null) {
+			JOptionPane.showMessageDialog(null, "请先登录", "提示", JOptionPane.PLAIN_MESSAGE, new ImageIcon(MyTheme.Instance().getDialogIcon()));
+		}
+		else {
+			RequestData requestData = new RequestData();
+			requestData.setType(dataType.getwordbook);
+			
+			ResponseData responseData = null;
+			try {
+				toServer.writeObject(requestData);
+				toServer.flush();
+				responseData = (ResponseData) input.readObject();
+				while(responseData.getResponseType() != dataType.getwordbook)
+					responseData = (ResponseData) input.readObject();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			Vector<String> strings = responseData.getResponse();
+			String [][]notes = new String[strings.size() / 2][2];
+			for(int i = 0; i < strings.size() / 2; ++ i) {
+				notes[i] = new String[2];
+				notes[i][0] = strings.get(i * 2);
+				notes[i][1] = strings.get(i * 2 + 1);
+			}
+			Info.setWordNotes(notes);
+		}
+	}
+	
+	public void getSentence() {
+		System.out.println("Get today sentence");
 		RequestData requestData = new RequestData();
-		requestData.setType(dataType.getwordbook);
+		requestData.setType(dataType.everyDay);
 		
 		ResponseData responseData = null;
 		try {
 			toServer.writeObject(requestData);
 			toServer.flush();
 			responseData = (ResponseData) input.readObject();
-			while(responseData.getResponseType() != dataType.getwordbook)
+			while(responseData.getResponseType() != dataType.everyDay)
 				responseData = (ResponseData) input.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		
 		Vector<String> strings = responseData.getResponse();
-		String [][]notes = new String[strings.size() / 2][2];
-		for(int i = 0; i < strings.size() / 2; ++ i) {
-			notes[i] = new String[2];
-			notes[i][0] = strings.get(i * 2);
-			notes[i][1] = strings.get(i * 2 + 1);
+		Info.setSentence(strings.get(0));
+	}
+	
+	public void getHotWords() {
+		System.out.println("Get hot words");
+		RequestData requestData = new RequestData();
+		requestData.setType(dataType.hotSearch);
+		
+		ResponseData responseData = null;
+		try {
+			toServer.writeObject(requestData);
+			toServer.flush();
+			responseData = (ResponseData) input.readObject();
+			while(responseData.getResponseType() != dataType.hotSearch)
+				responseData = (ResponseData) input.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 		
-		System.out.println(notes.length);
-		Info.setWordNotes(notes);
+		Vector<String> strings = responseData.getResponse();
+		Info.setHotWords(strings);
 	}
 	
 	public static void main(String[] args) {

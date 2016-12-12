@@ -44,9 +44,9 @@ public class CardCreator {
 	public void createCard() {
 		copyFile(picturePath, bufferPath);
 		String word = Info.getWord();
-		Meanings meanings = Info.getMeanings();
-		if(meanings != null)
-			addWords(bufferPath, word, Info.getMeanings().getMeanings(Info.getDefaultDictionary()));
+		Vector<String> meaning = Info.getMeanings().getMeanings(Info.getDefaultDictionary());
+		if(meaning != null)
+			addWords(bufferPath, word, meaning);
 	}
 	
 	public String createCard(String word, String meaning) {

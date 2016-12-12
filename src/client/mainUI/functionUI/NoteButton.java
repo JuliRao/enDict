@@ -3,6 +3,7 @@ package client.mainUI.functionUI;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import client.common.Info;
 import client.mainUI.noteUI.NoteFrame;
 
 
@@ -39,7 +40,10 @@ public class NoteButton extends FunctionButton {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new NoteFrame(send);
+				send.getWordNotes();
+				if(Info.getUserName() != null) {
+					new NoteFrame(send);
+				}
 			}
 		});
 	}

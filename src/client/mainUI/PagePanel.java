@@ -51,7 +51,7 @@ public class PagePanel extends JPanel {
 		label.setBounds(495, 80, 170, 30);
 		
 		hotWords.setFont(MyTheme.Instance().getFont());
-		hotWords.setBounds(470, 100, 170, 360);
+		hotWords.setBounds(470, 120, 170, 360);
 		
 		add(label);
 		add(sentence);
@@ -59,7 +59,7 @@ public class PagePanel extends JPanel {
 		add(hotWords);
 	}
 	
-	void refresh() {
+	void initial() {
 		sentence.setText("Today sentence:  " + Info.getSentence());
 		sentence.repaint();
 		
@@ -67,7 +67,7 @@ public class PagePanel extends JPanel {
 		String text = "";
 		Vector<String> strings = Info.getHotWords();
 		for(String string : strings) {
-			text +="\r\n" + ++NO + ".  " + string;
+			text += ++NO + ".  " + string + "\r\n";
 		}
 		
 		hotWords.setText(text);

@@ -1,23 +1,20 @@
 package client.mainUI.momentsUI;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import client.common.Send;
-import client.common.UserList;
-import client.mainUI.UserTable;
+import client.config.Config;
 import client.mainUI.functionUI.FunctionButton;
 import client.theme.MyTheme;
-import client.theme.Theme;
 
 public class MomentsPanel extends JPanel {
 	private MomentsTable momentsTable = new MomentsTable();
@@ -100,21 +97,52 @@ public class MomentsPanel extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				send.getUserList();
-
-				if(checkBox.isSelected()) {
-					momentsTable.showAll();
-				}
-				else {
-					momentsTable.showOnline();
-				}
-				
-				send.getCards();
+				refresh();
 			}
 		});
 	}
 	
-	public void refresh() {
+	
+	public void initial() {
 		momentsTable.showOnline();
+	}
+	
+	public void refresh() {
+		send.getUserList();
+
+		if(checkBox.isSelected()) {
+			momentsTable.showAll();
+		}
+		else {
+			momentsTable.showOnline();
+		}
+		
+		send.getCards();
+	}
+	
+	public void clear() {
+		File directory  = new File(Config.getReceiveFolder());
+		if (directory.isDirectory()) {
+			File[] array = directory.listFiles();
+			for(File file : array) {
+				if(file.isFile()) {
+					file.delete();
+		        }
+			}
+		}
+		
+		send.getUserList();
+
+		if(checkBox.isSelected()) {
+			momentsTable.showAll();
+		}
+		else {
+			momentsTable.showOnline();
+		}
+		
+		momentsDisplay.setCnt(0);
+		momentsDisplay.setPreferredSize(new Dimension(400, 350));
+		momentsDisplay.removeAll();
+		momentsDisplay.repaint();
 	}
 }

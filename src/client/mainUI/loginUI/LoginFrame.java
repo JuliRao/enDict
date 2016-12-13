@@ -71,13 +71,16 @@ public class LoginFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String password = new String(usrPassword.getPassword());
-				boolean success = send.login(usrName.getText(), password);
-				if(success == false) {
+				int flag = send.login(usrName.getText(), password);
+				if(flag == 1) {
 					info.setText("用户名或密码错误，请重试");
 					info.repaint();
 				}
+				else if(flag == 2) {
+					info.setText("该用户已在线，请勿重复登录");
+					info.repaint();
+				}
 				else {
-					Info.setUserName(usrName.getText());
 					dispose();
 				}
 			}
@@ -107,12 +110,13 @@ public class LoginFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String password = new String(usrPassword.getPassword());
-				boolean success = send.signIn(usrName.getText(), password);
+				boolean flag = send.signIn(usrName.getText(), password);
 				
-				if(success == false) {
+				if(flag == false) {
 					info.setText("该用户名已被注册，请重新注册或登录");
 					info.repaint();
 				}
+
 				else {
 					info.setText("注册成功，请登录");
 					info.repaint();

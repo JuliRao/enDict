@@ -1,8 +1,8 @@
 package client.mainUI.loginUI;
 
-import java.awt.LayoutManager;
-
 import javax.swing.JTextField;
+
+import client.theme.MyTheme;
 
 public class LoginText extends JTextField {
 	private static int width = 300;
@@ -11,10 +11,12 @@ public class LoginText extends JTextField {
 	public LoginText() {
 		this.setSize(width, height);
 		this.setLayout(null);
+		this.setFont(MyTheme.Instance().getFont());
 	}
 	
 	public LoginText(int x, int y) {
 		this.setBounds(x, y, width, height);
 		this.setLayout(null);
+		this.setFont(MyTheme.Instance().getFont());
 	}
 }

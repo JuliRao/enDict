@@ -26,7 +26,7 @@ import client.theme.MyTheme;
 public class CardCreator {
 	
 	private String receiveFolder = Config.getReceiveFolder();
-	private String bufferPath = Config.getCardBuffer();
+	private String bufferFolder = Config.getCardBuffer();
 	private String picturePath = "data/image/card/summer2.jpg";
 	
 	private void copyFile(String sourse, String dest) {    
@@ -41,16 +41,30 @@ public class CardCreator {
 		}
 	}
 	
-	public void createCard() {
-		copyFile(picturePath, bufferPath);
-		String word = Info.getWord();
-		Vector<String> meaning = Info.getMeanings().getMeanings(Info.getDefaultDictionary());
-		if(meaning != null)
-			addWords(bufferPath, word, meaning);
+	private void removeAllFile(File directory) {
+		if (directory.isDirectory()) {
+			File[] array = directory.listFiles();
+			for(File file : array) {
+				if(file.isFile()) {
+					file.delete();
+		        }
+			}
+		}
 	}
 	
-	public String createCard(String word, String meaning) {
-		// ???
+	public void createCard() {
+		removeAllFile(new File(Config.getCardBuffer()));
+		String word = Info.getWord();
+		Vector<String> meaning = Info.getMeanings().getMeanings(Info.getDefaultDictionary());
+		
+		String path = bufferFolder + "/" + meaning.hashCode() + ".jpg";
+		
+		copyFile(picturePath, path);
+		if(meaning != null)
+			addWords(path, word, meaning);
+	}
+	
+	public String createCard(String word, String meaning, String user) {
 		int random = meaning.hashCode();
 		String path = receiveFolder + '/' + random + ".jpg";
 		
@@ -62,7 +76,7 @@ public class CardCreator {
 			copyFile(picturePath, path);
 			String[] strings = meaning.split("///");
 			Vector<String> vector = new Vector<String>(Arrays.asList(strings));
-			addWords(path, word, vector);
+			addWords(path, word + " FROM [" + user + "]", vector);
 		}
 		
 		return path;
@@ -82,8 +96,8 @@ public class CardCreator {
 	   g2.setColor(Color.black);
 	   g2.setFont(font);
 	   
-	   int x = 50;
-	   int y = 50;
+	   int x = 20;
+	   int y = 40;
 	  
 	   g2.drawString(word, x, y);
 	   y += 40;
@@ -99,11 +113,6 @@ public class CardCreator {
 		   System.out.println("生成图片出错........");
 		   e.printStackTrace();
 	   }
-	}
-
-	
-	public static void main(String[] args) {
-		new CardCreator().createCard();
 	}
 }
 

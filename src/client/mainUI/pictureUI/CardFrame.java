@@ -1,6 +1,7 @@
 package client.mainUI.pictureUI;
 
 import java.awt.Color;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -9,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
+import client.common.Info;
 import client.common.Send;
 import client.config.Config;
 
@@ -22,7 +24,6 @@ public class CardFrame extends JFrame {
 
 	private Send send;
 
-	// TODO ？？？
 	public CardFrame(Send send) {
 		this.send = send;
 		send.getUserList();
@@ -40,10 +41,14 @@ public class CardFrame extends JFrame {
 		this.getContentPane().setBackground(Color.WHITE);
 		
 		scrollTable.setBounds(25, 25, 150, 300);
+		
+		File directory  = new File(Config.getCardBuffer());
+		if (directory.isDirectory()) {
+			File[] array = directory.listFiles();
+			if(array.length > 0)
+				picture.setIcon(new ImageIcon(array[0].getPath()));
+		}
 		picture.setBounds(200, 25, 420, 370);
-		picture.setIcon(new ImageIcon(Config.getCardBuffer()));
-		picture.repaint();
-		this.validate();
 
 		add(scrollTable);
 		add(picture);

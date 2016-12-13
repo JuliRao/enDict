@@ -21,8 +21,6 @@ public class UserButton extends FunctionButton {
 		this.setToolTipText("登录");
 		
 		addMouseListener(listener);
-		
-		
 	}
 	
 	class LogoutMouseListener implements MouseListener {

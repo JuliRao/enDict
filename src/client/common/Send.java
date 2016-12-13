@@ -7,7 +7,7 @@ import common.Dictionary;
 public interface Send {
 	public void addNote(String word, String meaning);
 	public void searchWord(String word);
-	public boolean login(String user, String password);
+	public int login(String user, String password);
 	public boolean signIn(String user, String password);
 	public void sendCard(Vector<String> strings);
 	public void like(Dictionary dictionary);

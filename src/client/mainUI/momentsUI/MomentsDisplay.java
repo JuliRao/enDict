@@ -35,7 +35,7 @@ public class MomentsDisplay extends JPanel implements DisPicture {
 	
 	@Override
 	public void addPicture(Vector<String> strings) {
-		String path = new CardCreator().createCard(strings.get(1), strings.get(2));
+		String path = new CardCreator().createCard(strings.get(1), strings.get(2), strings.get(0));
 		if(path != null) {
 			JLabel label = new JLabel(new ImageIcon(path));
 			label.setBounds(this.getX() + 10, this.getY() + 10 + cnt * 390, 380, 380);
@@ -50,5 +50,9 @@ public class MomentsDisplay extends JPanel implements DisPicture {
 			getParent().repaint();
 			getParent().validate();
 		}
+	}
+
+	public void setCnt(int i) {
+		cnt = i;
 	}
 }

@@ -83,8 +83,8 @@ public class Client extends JFrame implements Send {
 		getHotWords();
 		getSentence();
 		getUserList();
-		mainPane.pagePanel.refresh();
-		mainPane.momentsPanel.refresh();
+		mainPane.pagePanel.initial();
+		mainPane.momentsPanel.initial();
 		
 		this.addWindowListener(new WindowListener() {
 			
@@ -183,7 +183,7 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
-	public boolean login(String user, String password) {
+	public int login(String user, String password) {
 		System.out.println("Click login");
 		
 		RequestData data = new RequestData();
@@ -208,11 +208,15 @@ public class Client extends JFrame implements Send {
 		}
 		
 		strings = responseData.getResponse();
-		System.out.println(strings.get(0));
 		if(strings.get(0).contains("successfully")) {
-			return true;
+			Info.setUserName(user);
+			mainPane.momentsPanel.refresh();
+			return 0;
 		}
-		return false;	
+		else if(strings.get(0).contains("repeatedly")) {
+			return 2;
+		}
+		return 1;
 	}
 	
 	public boolean signIn(String user, String password) {
@@ -238,7 +242,7 @@ public class Client extends JFrame implements Send {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		strings = responseData.getResponse();
 		if(strings.get(0).contains("successfully")) {
 			return true;
@@ -351,30 +355,33 @@ public class Client extends JFrame implements Send {
 	
 	public void getCards() {
 		System.out.println("Get all the cards");
-		RequestData requestData = new RequestData();
-		requestData.setType(dataType.receiveMail);
 		
-		ResponseData responseData = null;
-		try {
-			toServer.writeObject(requestData);
-			toServer.flush();
-			responseData = (ResponseData) input.readObject();
-			while(responseData.getResponseType() != dataType.receiveMail)
+		if(Info.getUserName() != null) {
+			RequestData requestData = new RequestData();
+			requestData.setType(dataType.receiveMail);
+			
+			ResponseData responseData = null;
+			try {
+				toServer.writeObject(requestData);
+				toServer.flush();
 				responseData = (ResponseData) input.readObject();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		Vector<String> strings = responseData.getResponse();
-		if(strings == null)
-			return;
-		
-		for(int i = 0; i < strings.size() / 3; ++ i) {
-			Vector<String> word = new Vector<String>();
-			word.add(strings.get(i * 3));
-			word.add(strings.get(i * 3 + 1));
-			word.add(strings.get(i * 3 + 2));
-			disPicture.addPicture(word);
+				while(responseData.getResponseType() != dataType.receiveMail)
+					responseData = (ResponseData) input.readObject();
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			Vector<String> strings = responseData.getResponse();
+			if(strings == null)
+				return;
+			
+			for(int i = 0; i < strings.size() / 3; ++ i) {
+				Vector<String> word = new Vector<String>();
+				word.add(strings.get(i * 3));
+				word.add(strings.get(i * 3 + 1));
+				word.add(strings.get(i * 3 + 2));
+				disPicture.addPicture(word);
+			}
 		}
 	}
 	
@@ -386,6 +393,8 @@ public class Client extends JFrame implements Send {
 			data.setType(dataType.logout);
 			toServer.writeObject(data);
 			toServer.flush();
+			
+			mainPane.momentsPanel.clear();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -263,6 +263,8 @@ public class MyData {
 		return true;
 	}
 	public static synchronized void addSearch(String word) throws SQLException{
+		if(word.equals(""))
+			return;
 		ResultSet resultSet = stmt.executeQuery("select count from hotsearch where word = '"+word+"';");
 		if(resultSet.next()){
 			int n = resultSet.getInt(1);
@@ -301,6 +303,8 @@ public class MyData {
 		return everyday;
 	}
 	public static synchronized void addwordBook(String username, String word, String mean) throws SQLException{
+		if(word.equals(""))
+			return;
 		ResultSet resultSet = con.getMetaData().getTables(null, null, username, null);
 		if(resultSet.next()){
 			stmt.executeUpdate("insert into "+username+"(word, mean) values('"+word+"','"+mean+"');"); 

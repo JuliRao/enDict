@@ -33,6 +33,8 @@ public class HandleAClient implements Runnable {
 //		boolean ifUser = database.IfUser(username, password);
 		Vector<String> data = new Vector<String>();
 		data.add(database.IfUser(username, password));
+		if(data.elementAt(0) == "login successfully")
+			User = username;
 		/*System.out.println(ifUser);
 		if(ifUser == true){
 			data.add("login successfully");

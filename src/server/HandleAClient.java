@@ -32,8 +32,9 @@ public class HandleAClient implements Runnable {
 		String password = req.getRequest().elementAt(1);
 //		boolean ifUser = database.IfUser(username, password);
 		Vector<String> data = new Vector<String>();
-		data.add(database.IfUser(username, password));
-		if(data.elementAt(0) == "login successfully")
+		String p = database.IfUser(username, password);
+		data.add(p);
+		if(p.equals("login successfully"))
 			User = username;
 		/*System.out.println(ifUser);
 		if(ifUser == true){

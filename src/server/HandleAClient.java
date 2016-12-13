@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import com.mysql.jdbc.DatabaseMetaData;
 
-import common.ThreeMeanings;
+//import common.ThreeMeanings;
 import common.RequestData;
 import common.ResponseData;
 import common.dataType;
@@ -30,15 +30,16 @@ public class HandleAClient implements Runnable {
 		ResponseData res = new ResponseData();
 		String username = req.getRequest().elementAt(0);
 		String password = req.getRequest().elementAt(1);
-		boolean ifUser = database.IfUser(username, password);
+//		boolean ifUser = database.IfUser(username, password);
 		Vector<String> data = new Vector<String>();
-		System.out.println(ifUser);
+		data.add(database.IfUser(username, password));
+		/*System.out.println(ifUser);
 		if(ifUser == true){
 			data.add("login successfully");
 			User = username;
 		}
 		else
-			data.add("User not exist");
+			data.add("User not exist");*/
 		res.setType(dataType.login);
 		res.setResponse(data);
 		return res;
@@ -237,8 +238,8 @@ public class HandleAClient implements Runnable {
 	private ResponseData addwordbook(RequestData req) throws SQLException{
 		ResponseData res = new ResponseData();
 		String username = User;
-		String word = req.getRequest().elementAt(1);
-		String mean = req.getRequest().elementAt(2);
+		String word = req.getRequest().elementAt(0);
+		String mean = req.getRequest().elementAt(1);
 		Vector<String> data = new Vector<String>();
 		database.addwordBook(username, word, mean);
 		data.add("success");
@@ -253,6 +254,7 @@ public class HandleAClient implements Runnable {
 		Vector<String> data = new Vector<String>();
 		
 		data = database.getwordbook(username);
+//		System.out.println(data.elementAt(0));
 		res.setResponse(data);
 		res.setType(dataType.getwordbook);
 		

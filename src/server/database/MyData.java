@@ -32,6 +32,8 @@ public class MyData {
 		return database;
 	}
 	public static synchronized boolean thumbup(String word,String dict) throws SQLException{
+		if(word.equals(""))
+			return true;
 		ResultSet resultSet = stmt.executeQuery("select * from wordUp where word = '"
 				+word+"';");
 		if(resultSet.next()){
@@ -80,22 +82,42 @@ public class MyData {
 				+ "from Dictuser where username = '" +username+"';");
 		if(resultSet.next() == true)
 			return false;
-		
+		/*stmt.executeUpdate("insert into dictuser (username,password,state) "
+				+"values('"+username+"',encode('"+password+"','doreamon'),0);");*/
 		stmt.executeUpdate("insert into Dictuser (username,password,friend)\n"+
 							"values ('"+username+"','"+password+"','');");
 		return true;
 //		return 
 	}
-	public static synchronized boolean IfUser(String Iusername,String Ipassword) throws SQLException{
+	public static synchronized String IfUser(String Iusername,String Ipassword) throws SQLException{
+		String p = "";
 		ResultSet resultSet = stmt.executeQuery("select state "
 				+ "from Dictuser where username = '" +Iusername +"' and password = '"+Ipassword+"';");
 //		System.out.println();
-		if(resultSet.next() == false)
-			return false;
-		else{
-			stmt.executeUpdate("update dictuser set state = 1 where username = '"+Iusername+"';");
-			return true;
+		if(resultSet.next() == false){
+			p  = "User not exist";
+			return p;
 		}
+		else{
+			if(resultSet.getInt(1) == 1){
+				p = "Do not login repeatedly";
+				return p;
+			}
+			stmt.executeUpdate("update dictuser set state = 1 where username = '"+Iusername+"';");
+			return "login successfully";
+		}
+		/*ResultSet resultSet = stmt.executeQuery("select decode(password,'doreamon') from dictuser"
+				+" where username = '"+Iusername+"';");
+		if(resultSet.next()){
+			if(Ipassword.equals(resultSet.getString(1))){
+				stmt.executeUpdate("update dictuser set state = 1 where username = '"+Iusername+"';");
+				return true;
+			}
+			else
+				return false;
+		}
+		else
+			return false;*/
 	}
 	public static synchronized boolean addFriend(String username,String friend) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select * from Dictuser where username = '"
@@ -246,7 +268,7 @@ public class MyData {
 			int n = resultSet.getInt(1);
 			n++;
 			String m = n+"";
-			stmt.executeUpdate("update hotsearch set count = "+m+" where word = '"+word+';');
+			stmt.executeUpdate("update hotsearch set count = "+m+" where word = '"+word+"';");
 		}
 		else{
 			stmt.executeUpdate("insert into hotsearch(word,count) "
@@ -258,8 +280,10 @@ public class MyData {
 		Vector<String> hot = new Vector<String>();
 		
 		ResultSet resultSet = stmt.executeQuery("select word from hotsearch order by count desc");
-		while(resultSet.next()){
+		int n = 0;
+		while(resultSet.next() && n < 10){
 			hot.add(resultSet.getString(1));
+			n++;
 		}
 		return hot;
 	}
@@ -282,7 +306,7 @@ public class MyData {
 			stmt.executeUpdate("insert into "+username+"(word, mean) values('"+word+"','"+mean+"');"); 
 		}
 		else {
-			stmt.executeUpdate("create table "+username +" (word char(20), mean char(200));");
+			stmt.executeUpdate("create table "+username +" (word char(20), mean text);");
 			stmt.executeUpdate("insert into "+username +"(word,mean) "
 					+"values('"+word+"','"+mean+"');");
 		}
@@ -298,12 +322,15 @@ public class MyData {
 	}
 	public static synchronized Vector<String> getwordbook(String username) throws SQLException{
 		Vector<String> wordbook = new Vector<String>();
-		
-		ResultSet resultSet = stmt.executeQuery("select * from "+username+";");
-		while(resultSet.next()){
-			wordbook.add(resultSet.getString(1));
-			wordbook.add(resultSet.getString(2));
+		ResultSet result = con.getMetaData().getTables(null, null, username, null);
+		if(result.next()){
+			ResultSet resultSet = stmt.executeQuery("select * from "+username+";");
+			while(resultSet.next()){
+				wordbook.add(resultSet.getString(1));
+				wordbook.add(resultSet.getString(2));
+			}
 		}
 		return wordbook;
 	}
+//	public static synchronized encode()
 }

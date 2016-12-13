@@ -144,29 +144,31 @@ public class Client extends JFrame implements Send {
 	public void searchWord(String word) {
 		System.out.println("Search " + word);
 		
-		RequestData requestData = new RequestData();
-		requestData.setType(dataType.search);
-		Vector<String> strings = new Vector<String>();
-		strings.add(word);
-		requestData.setRequest(strings);
-
-		ResponseData responseData = null;
-		try {
-			toServer.writeObject(requestData);
-			toServer.flush();
-			
-			responseData = (ResponseData) input.readObject();
-			while(responseData.getResponseType() != dataType.search)
+		if(!word.equals("")) {
+			RequestData requestData = new RequestData();
+			requestData.setType(dataType.search);
+			Vector<String> strings = new Vector<String>();
+			strings.add(word);
+			requestData.setRequest(strings);
+	
+			ResponseData responseData = null;
+			try {
+				toServer.writeObject(requestData);
+				toServer.flush();
+				
 				responseData = (ResponseData) input.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+				while(responseData.getResponseType() != dataType.search)
+					responseData = (ResponseData) input.readObject();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			strings = responseData.getResponse();
+			Info.setWord(word);
+			Info.setMeanings(new Meanings(strings));
 		}
-		
-		strings = responseData.getResponse();
-		Info.setWord(word);
-		Info.setMeanings(new Meanings(strings));
 	}
 	
 	public void closeConnection() {
@@ -274,18 +276,20 @@ public class Client extends JFrame implements Send {
 		System.out.println("Add word...");
 
 		if(Info.getUserName() != null) {
-			RequestData requestData = new RequestData();
-			requestData.setType(dataType.addwordbook);
-			Vector<String> strings = new Vector<String>();
-			strings.add(word);
-			strings.add(meaning);
-			requestData.setRequest(strings);
-			
-			try {
-				toServer.writeObject(requestData);
-				toServer.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(!word.equals("")) {
+				RequestData requestData = new RequestData();
+				requestData.setType(dataType.addwordbook);
+				Vector<String> strings = new Vector<String>();
+				strings.add(word);
+				strings.add(meaning);
+				requestData.setRequest(strings);
+				
+				try {
+					toServer.writeObject(requestData);
+					toServer.flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		else {

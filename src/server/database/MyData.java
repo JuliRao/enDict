@@ -32,6 +32,8 @@ public class MyData {
 		return database;
 	}
 	public static synchronized boolean thumbup(String word,String dict) throws SQLException{
+		if(word.equals(""))
+			return true;
 		ResultSet resultSet = stmt.executeQuery("select * from wordUp where word = '"
 				+word+"';");
 		if(resultSet.next()){
@@ -78,24 +80,31 @@ public class MyData {
 	public static synchronized boolean addUser(String username,String password) throws SQLException{
 		ResultSet resultSet = stmt.executeQuery("select state "
 				+ "from Dictuser where username = '" +username+"';");
-		/*if(resultSet.next() == true)
+		if(resultSet.next() == true)
 			return false;
-		stmt.executeUpdate("insert into dictuser (username,password,state) "
+		/*stmt.executeUpdate("insert into dictuser (username,password,state) "
 				+"values('"+username+"',encode('"+password+"','doreamon'),0);");*/
 		stmt.executeUpdate("insert into Dictuser (username,password,friend)\n"+
 							"values ('"+username+"','"+password+"','');");
 		return true;
 //		return 
 	}
-	public static synchronized boolean IfUser(String Iusername,String Ipassword) throws SQLException{
+	public static synchronized String IfUser(String Iusername,String Ipassword) throws SQLException{
+		String p = "";
 		ResultSet resultSet = stmt.executeQuery("select state "
 				+ "from Dictuser where username = '" +Iusername +"' and password = '"+Ipassword+"';");
 //		System.out.println();
-		if(resultSet.next() == false)
-			return false;
+		if(resultSet.next() == false){
+			p  = "User not exist";
+			return p;
+		}
 		else{
+			if(resultSet.getInt(1) == 1){
+				p = "Do not login repeatedly";
+				return p;
+			}
 			stmt.executeUpdate("update dictuser set state = 1 where username = '"+Iusername+"';");
-			return true;
+			return "login successfully";
 		}
 		/*ResultSet resultSet = stmt.executeQuery("select decode(password,'doreamon') from dictuser"
 				+" where username = '"+Iusername+"';");
@@ -313,11 +322,13 @@ public class MyData {
 	}
 	public static synchronized Vector<String> getwordbook(String username) throws SQLException{
 		Vector<String> wordbook = new Vector<String>();
-		
-		ResultSet resultSet = stmt.executeQuery("select * from "+username+";");
-		while(resultSet.next()){
-			wordbook.add(resultSet.getString(1));
-			wordbook.add(resultSet.getString(2));
+		ResultSet result = con.getMetaData().getTables(null, null, username, null);
+		if(result.next()){
+			ResultSet resultSet = stmt.executeQuery("select * from "+username+";");
+			while(resultSet.next()){
+				wordbook.add(resultSet.getString(1));
+				wordbook.add(resultSet.getString(2));
+			}
 		}
 		return wordbook;
 	}

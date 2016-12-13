@@ -13,9 +13,11 @@ public class UserList {
 		UserList.list = list;
 	}
 
-	public static void initList() {
+	public static void clearList() {
 		list.clear();
-		list.add(new User("zhou", false));
-		list.add(new User("what", true));
+	}
+	
+	public static void addUser(User user){
+		list.add(user);
 	}
 }

@@ -32,6 +32,7 @@ public class CardFrame extends JFrame {
 		
 		this.setLayout(null);
 		this.setTitle("发送单词卡");
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setResizable(false);
 		this.setSize(650, 450);
 		this.setVisible(true);

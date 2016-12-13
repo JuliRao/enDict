@@ -1,26 +1,54 @@
 package client.mainUI.momentsUI;
 
+import java.awt.Dimension;
+import java.io.File;
+import java.util.Vector;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import client.common.DisPicture;
+import client.config.Config;
+import client.mainUI.pictureUI.CardCreator;
+import client.mainUI.pictureUI.CardFrame;
 import client.theme.MyTheme;
 
-public class MomentsDisplay extends JPanel {
+public class MomentsDisplay extends JPanel implements DisPicture {
+	private int cnt = 0;
+	
 	public MomentsDisplay() {
 		setLayout(null);
 		setBackground(MyTheme.Instance().getBackgroundColor());
 		
-		JLabel label = new JLabel(new ImageIcon("data/image/card/a.png"));
-		label.setBounds(this.getX() + 10, this.getY() + 10, 380, 380);
-		add(label);
-		
-		JLabel label2 = new JLabel(new ImageIcon("data/image/card/summer2.jpg"));
-		label2.setBounds(this.getX() + 10, this.getY() + 400, 380, 380);
-		add(label2);
+		// the buffer folder
+		File directory  = new File(Config.getReceiveFolder());
+		if (directory.isDirectory()) {
+			File[] array = directory.listFiles();
+			for(File file : array) {
+				if(file.isFile()) {
+					file.delete();
+		        }
+			}
+		}
 	}
 	
-	public void addPicture() {
-		
+	@Override
+	public void addPicture(Vector<String> strings) {
+		String path = new CardCreator().createCard(strings.get(1), strings.get(2));
+		if(path != null) {
+			JLabel label = new JLabel(new ImageIcon(path));
+			label.setBounds(this.getX() + 10, this.getY() + 10 + cnt * 390, 380, 380);
+			add(label);
+			
+			repaint();
+			validate();
+			
+			++ cnt;
+			
+			setPreferredSize(new Dimension(380, cnt * 390 + 10));
+			getParent().repaint();
+			getParent().validate();
+		}
 	}
 }

@@ -7,27 +7,30 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import common.Dictionary;
-import common.ThreeMeanings;
 import client.common.Displayable;
 import client.common.Info;
+import client.common.Meanings;
 import client.common.Refreshable;
-import client.common.Searchable;
 import client.common.Send;
+import client.mainUI.functionUI.FunctionButton;
 import client.theme.MyTheme;
 
 public class WordPanel extends JPanel {
 	private WordLabel wordLabel = new WordLabel("EN ", 20, 20);
 	private WordText wordText = new WordText(55, 20);
 	private WordButton searchButton = new WordButton(new ImageIcon(MyTheme.Instance().getSearchIcon()), 580, 20);
-	private WordCheckBoxs checkBoxs = new WordCheckBoxs(new String[]{"有道词典", "百度词典", "必应词典"}, 50, 65);
+	private WordCheckBoxs checkBoxs = new WordCheckBoxs(new Dictionary[]{Dictionary.Baidu, Dictionary.YouDao, Dictionary.Bing}, 35, 65);
 	private WordTransPanel transPanel = new WordTransPanel();
+	private FunctionButton addNoteButton = new FunctionButton(new ImageIcon(MyTheme.Instance().getAddNoteIcon()));
 	
 	private Refreshable refreshable = transPanel;
 	private Displayable displayable = transPanel;
@@ -45,10 +48,13 @@ public class WordPanel extends JPanel {
 	private void goSearch() {
 		String word = wordText.getText();
 		send.searchWord(word);
-		Searchable threeMeanings = Info.getMeanings();
-		displayable.displayBaidu(threeMeanings.getMeaning(Dictionary.Baidu));
-		displayable.displayBing(threeMeanings.getMeaning(Dictionary.Bing));
-		displayable.displayYoudao(threeMeanings.getMeaning(Dictionary.YouDao));
+		Meanings threeMeanings = Info.getMeanings();
+		displayable.displayBaidu(threeMeanings.getMeanings(Dictionary.Baidu));
+		displayable.displayBing(threeMeanings.getMeanings(Dictionary.Bing));
+		displayable.displayYoudao(threeMeanings.getMeanings(Dictionary.YouDao));
+		
+		ArrayList<Dictionary> dictionaries = checkBoxs.getAccessible();
+		refreshable.refresh(dictionaries);
 	}
 	
 	public WordPanel() {
@@ -60,15 +66,19 @@ public class WordPanel extends JPanel {
 		add(searchButton);
 		add(checkBoxs);
 		add(transPanel);
+		add(addNoteButton);
 		
+		addNoteButton.setToolTipText("加入单词本");
+		addNoteButton.setBounds(35, 340, 40, 40);
 		transPanel.setLocation(170, 75);
 		
-		for(JCheckBox checkBox : checkBoxs.getCheckBoxList()) {
+		for(JCheckBox checkBox : checkBoxs.getBoxs()) {
 			checkBox.addItemListener(new ItemListener() {
 				
 				@Override
 				public void itemStateChanged(ItemEvent e) {
-					refreshable.refresh(checkBoxs.isAccessable());
+					ArrayList<Dictionary> dictionaries = checkBoxs.getAccessible();
+					refreshable.refresh(dictionaries);
 				}
 			});
 		}
@@ -119,6 +129,42 @@ public class WordPanel extends JPanel {
 				if(wordText.isLegal()) {
 					goSearch();
 				}
+			}
+		});
+		
+		addNoteButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO 自动生成的方法存根
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Vector<String> meaning = Info.getMeanings().getMeanings(Info.getDefaultDictionary());
+				String string = "";
+				for(String string2 : meaning)
+					string += string2 + "  ";
+				send.addNote(Info.getWord(), string);
 			}
 		});
 	}

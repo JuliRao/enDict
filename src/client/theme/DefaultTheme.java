@@ -81,4 +81,14 @@ public class DefaultTheme implements Theme {
 	public Font getCardFont() {
 		return new Font("Serif", Font.BOLD, 20);
 	}
+
+	@Override
+	public String getDialogIcon() {
+		return "data\\image\\planet\\earth.png";
+	}
+
+	@Override
+	public String getAddNoteIcon() {
+		return "data\\image\\planet\\planet.png";
+	}
 }

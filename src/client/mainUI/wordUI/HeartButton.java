@@ -11,7 +11,7 @@ import client.theme.MyTheme;
 public class HeartButton extends JButton {
 	static int width = 50;
 	static int height = 50;
-	
+
 	private ImageIcon stroke = new ImageIcon(MyTheme.Instance().getStrokeHeartIcon());
 	private ImageIcon fill = new ImageIcon(MyTheme.Instance().getFillHeartIcon());
 
@@ -26,5 +26,21 @@ public class HeartButton extends JButton {
 		this.setSize(width, height);
 		this.setLayout(null);
 		this.setBorder(null);
+	}
+	
+	public boolean isFilled() {
+		if(this.getIcon().equals(stroke))
+			return false;
+		else {
+			return true;
+		}
+	}
+
+	public void stroke() {
+		setIcon(stroke);
+	}
+
+	public void fill() {
+		setIcon(fill);
 	}
 }

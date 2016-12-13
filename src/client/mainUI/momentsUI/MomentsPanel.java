@@ -13,16 +13,24 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import client.common.Send;
+import client.common.UserList;
+import client.mainUI.UserTable;
+import client.mainUI.functionUI.FunctionButton;
 import client.theme.MyTheme;
 import client.theme.Theme;
 
 public class MomentsPanel extends JPanel {
 	private MomentsTable momentsTable = new MomentsTable();
 	private MomentsDisplay momentsDisplay = new MomentsDisplay();
+	
+	public MomentsDisplay getMomentsDisplay() {
+		return momentsDisplay;
+	}
+
 	private JScrollPane scrollTable = new JScrollPane(momentsTable);
 	private JScrollPane scrollPane = new JScrollPane(momentsDisplay);
 	private JCheckBox checkBox = new JCheckBox("显示离线用户");
-	private JButton button = new JButton();
+	private FunctionButton refresh = new FunctionButton(MyTheme.Instance().getSearchIcon());
 	
 	private Send send;
 	
@@ -44,14 +52,15 @@ public class MomentsPanel extends JPanel {
 		checkBox.setBackground(MyTheme.Instance().getBackgroundColor());
 		checkBox.setBounds(22, 370, 110, 30);
 		
-		button.setBackground(MyTheme.Instance().getBackgroundColor());
-		button.setBounds(150, 370, 30, 30);
+		refresh.setToolTipText("刷新");
+		refresh.setBackground(MyTheme.Instance().getBackgroundColor());
+		refresh.setBounds(145, 370, 30, 30);
 		
 		add(scrollTable);
 		add(scrollPane);
 		add(checkBox);
-		add(button);
-		momentsDisplay.setPreferredSize(new Dimension(400, 1000));
+		add(refresh);
+		momentsDisplay.setPreferredSize(new Dimension(400, 350));
 		
 		checkBox.addItemListener(new ItemListener() {
 			
@@ -67,7 +76,7 @@ public class MomentsPanel extends JPanel {
 		});
 		
 		
-		button.addMouseListener(new MouseListener() {
+		refresh.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -92,8 +101,20 @@ public class MomentsPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				send.getUserList();
+
+				if(checkBox.isSelected()) {
+					momentsTable.showAll();
+				}
+				else {
+					momentsTable.showOnline();
+				}
+				
 				send.getCards();
 			}
 		});
+	}
+	
+	public void refresh() {
+		momentsTable.showOnline();
 	}
 }

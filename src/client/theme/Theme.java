@@ -11,6 +11,7 @@ interface WordTheme {
 	public String getFillHeartIcon();
 	public String getStrokeHeartIcon();
 	public String getSearchIcon();
+	public String getAddNoteIcon();
 }
 
 interface MomentsTheme {
@@ -32,4 +33,5 @@ public interface Theme extends LoginTheme, WordTheme, FunctionTheme, MomentsThem
 	public Font getErrorFont();
 	public String getBackgroundPicture();
 	public String getPaneIcon();
+	public String getDialogIcon();
 }

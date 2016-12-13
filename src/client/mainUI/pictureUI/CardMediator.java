@@ -1,8 +1,15 @@
 package client.mainUI.pictureUI;
 
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.JButton;
 
+import client.common.Info;
 import client.common.Send;
+import client.common.User;
+import client.common.UserList;
 
 public class CardMediator implements Mediator {
 	private CardTable table;
@@ -26,7 +33,30 @@ public class CardMediator implements Mediator {
 		this.sendAllButton = sendAllButton;
 	}
 	
-	public void startSend() {
-		send.sendCard();
+	public void startSend(boolean isAll) {
+		Vector<String> strings = new Vector<String>();
+		strings.add(Info.getWord());
+		
+		String meaningString = "";
+		for(String string : Info.getMeanings().getMeanings(Info.getDefaultDictionary())) {
+			meaningString += string + "///";
+		}
+		
+		strings.add(meaningString);
+		
+		if(isAll) {
+			ArrayList<User> list = UserList.getList();
+			for(User user : list) {
+				strings.add(user.getName());
+			}
+		}
+		else {
+			int []NOs = table.getSelectedRows();
+			for(int NO : NOs) {
+				strings.add(UserList.getList().get(NO).getName());
+			}
+		}
+		
+		send.sendCard(strings);
 	}
 }

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import com.mysql.jdbc.DatabaseMetaData;
 
-import common.ThreeMeanings;
+//import common.ThreeMeanings;
 import common.RequestData;
 import common.ResponseData;
 import common.dataType;

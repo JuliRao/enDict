@@ -5,8 +5,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import client.common.Send;
 import client.mainUI.momentsUI.MomentsPanel;
 import client.mainUI.wordUI.WordPanel;
 import client.theme.MyTheme;
@@ -23,5 +25,15 @@ public class MainPane extends JTabbedPane {
         addTab("首页", icon, pagePanel);
         addTab("词典", icon, wordPanel);
         addTab("动态", icon, momentsPanel);
+	}
+	
+	public void setSend(Send send) {
+		wordPanel.setSend(send);
+		momentsPanel.setSend(send);
+	}
+	
+	public void initial() {
+		momentsPanel.initial();
+		pagePanel.initial();
 	}
 }

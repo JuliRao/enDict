@@ -43,7 +43,6 @@ public class Client extends JFrame implements Send {
 	ObjectInputStream input;
 	
 	private ImageIcon background = new ImageIcon(MyTheme.Instance().getBackgroundPicture()); 	// 背景图片
-	private ImageIcon background2 = new ImageIcon("data/image/tree.jpg"); 	// 背景图片
 	private JLabel label = new JLabel(background);
 	
 	private MainPane mainPane = new MainPane();
@@ -71,11 +70,8 @@ public class Client extends JFrame implements Send {
         this.getContentPane().add(label, new Integer(Integer.MIN_VALUE)); 
         
         // 设置相应操作
-        mainPane.momentsPanel.setSend(this);
-        mainPane.wordPanel.setSend(this);
-        ((FunctionButton) functionPanel.getComponent(1)).setSend(this);
-        ((FunctionButton) functionPanel.getComponent(2)).setSend(this);
-        ((FunctionButton) functionPanel.getComponent(3)).setSend(this);
+        mainPane.setSend(this);
+        functionPanel.setSend(this);
         
         this.socket = socket;
 		
@@ -89,8 +85,8 @@ public class Client extends JFrame implements Send {
 		getHotWords();
 		getSentence();
 		getUserList();
-		mainPane.pagePanel.initial();
-		mainPane.momentsPanel.initial();
+		
+		mainPane.initial();
         
 		addMouseListener(new MouseAdapter() {
             @Override
@@ -144,6 +140,7 @@ public class Client extends JFrame implements Send {
 	}
 
 	public void changeBackground() {
+		ImageIcon background2 = new ImageIcon("data/image/tree.jpg"); 	// 背景图片
 		this.remove(label);
 		
 		label = new JLabel(background2);

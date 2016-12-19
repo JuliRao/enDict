@@ -37,16 +37,17 @@ public class MomentsDisplay extends JPanel implements DisPicture {
 	public void addPicture(Vector<String> strings) {
 		String path = new CardCreator().createCard(strings.get(1), strings.get(2), strings.get(0));
 		if(path != null) {
+			
+			setPreferredSize(new Dimension(380, (cnt + 1) * 390 + 10));
+			
 			JLabel label = new JLabel(new ImageIcon(path));
-			label.setBounds(this.getX() + 10, this.getY() + 10 + cnt * 390, 380, 380);
+			label.setBounds(10, 10 + cnt * 390, 380, 380);
 			add(label);
 			
 			repaint();
 			validate();
 			
 			++ cnt;
-			
-			setPreferredSize(new Dimension(380, cnt * 390 + 10));
 			getParent().repaint();
 			getParent().validate();
 		}

@@ -77,8 +77,6 @@ public class Client extends JFrame implements Send {
         ((FunctionButton) functionPanel.getComponent(2)).setSend(this);
         ((FunctionButton) functionPanel.getComponent(3)).setSend(this);
         
-		this.setVisible(true);
-        
         this.socket = socket;
 		
 		try {
@@ -141,6 +139,8 @@ public class Client extends JFrame implements Send {
 				
 			}
 		});
+		
+		this.setVisible(true);
 	}
 
 	public void changeBackground() {
@@ -492,7 +492,6 @@ public class Client extends JFrame implements Send {
 	}
 	
 	public static void main(String[] args) {
-		new Client(null);
 		try {
 
 //			new Client(new Socket("114.212.130.243", 8000));

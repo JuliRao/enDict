@@ -81,6 +81,7 @@ public class LoginFrame extends JFrame {
 					info.repaint();
 				}
 				else {
+//					System.out.println("sss");
 					dispose();
 				}
 			}

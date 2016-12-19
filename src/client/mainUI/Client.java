@@ -1,5 +1,7 @@
 package client.mainUI;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
@@ -12,8 +14,12 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import common.Dictionary;
 import common.RequestData;
@@ -43,16 +49,16 @@ public class Client extends JFrame implements Send {
 	private MainPane mainPane = new MainPane();
 	private FunctionPanel functionPanel = new FunctionPanelCreator().createFunctionPanel();
 	private DisPicture disPicture = mainPane.momentsPanel.getMomentsDisplay();
+	
+	private JPopupMenu jmb = new MainMenu();
 
 	public Client(Socket socket) {
-		System.out.println("Server connected.");
 		this.setTitle("萌娆词典 - Zhou XinMeng & MaRao");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(740, 600);
 		this.setLayout(null);
 		this.setResizable(false);
 		
-
         functionPanel.setBounds(40, 500, 650, 37);
         this.add(functionPanel);
         mainPane.setBounds(40, 40, 650, 450);
@@ -71,6 +77,8 @@ public class Client extends JFrame implements Send {
         ((FunctionButton) functionPanel.getComponent(2)).setSend(this);
         ((FunctionButton) functionPanel.getComponent(3)).setSend(this);
         
+		this.setVisible(true);
+        
         this.socket = socket;
 		
 		try {
@@ -85,6 +93,16 @@ public class Client extends JFrame implements Send {
 		getUserList();
 		mainPane.pagePanel.initial();
 		mainPane.momentsPanel.initial();
+        
+		addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    // 弹出菜单
+                    jmb.show(getContentPane(), e.getX(), e.getY());
+                }
+            }
+        });
 		
 		this.addWindowListener(new WindowListener() {
 			
@@ -123,8 +141,6 @@ public class Client extends JFrame implements Send {
 				
 			}
 		});
-		
-		this.setVisible(true);
 	}
 
 	public void changeBackground() {
@@ -476,13 +492,19 @@ public class Client extends JFrame implements Send {
 	}
 	
 	public static void main(String[] args) {
+		new Client(null);
 		try {
+
 //			new Client(new Socket("114.212.130.243", 8000));
-			new Client(new Socket("localhost", 8000));
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+//			new Client(new Socket("localhost", 8000));
+//		} catch (UnknownHostException e) {
+//			e.printStackTrace();
+
+			new Client(new Socket("114.212.130.243", 8000));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//new Client(new Socket("localhost", 8000));
 	}
 }

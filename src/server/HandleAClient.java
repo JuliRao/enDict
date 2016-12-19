@@ -13,7 +13,12 @@ import common.ResponseData;
 import common.dataType;
 import server.database.MyData;
 
-
+/**
+ * 每个客户端的处理程序类
+ * 包括搜索点赞、收发消息和登录注册等主要功能
+ * @author 周心萌
+ *
+ */
 public class HandleAClient implements Runnable {
 
 	private Socket socket;
@@ -260,8 +265,11 @@ public class HandleAClient implements Runnable {
 		
 		return res;
 	}
-	
+/**
+ * 线程启动run	
+ */
 	@Override
+
 	public void run() {
 		database = MyData.createConnection();
 //		MyData database = MyData.createConnection();

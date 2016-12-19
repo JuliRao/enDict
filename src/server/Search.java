@@ -52,6 +52,11 @@ public class Search {
 		return mean;
 	}*/
 	
+	/**
+	 * 联网获取有道的单词释义
+	 * @param dstWord
+	 * @return
+	 */
 	public Vector<String> getYoudaoMean(String dstWord){
 		Vector<String> mean = new Vector<>();
 		String url = "http://dict.youdao.com/w/eng/"+dstWord+"/#keyfrom=dict2.index";
@@ -64,6 +69,11 @@ public class Search {
 		}
 		return mean;
 	}
+	/**
+	 * 联网获取Bing的单词释义
+	 * @param dstWord
+	 * @return
+	 */
 	public Vector<String> getBingMean(String dstWord){
 		Vector<String> mean = new Vector();
 		String url = "http://cn.bing.com/dict/search?q="+dstWord;
@@ -129,7 +139,11 @@ public class Search {
 //		System.out.println(p);
 		return mean;
 	}
-	
+	/**
+	 * 联网获取金山的单词释义
+	 * @param dstWord
+	 * @return
+	 */
 	public Vector<String> getJinshanMean(String dstWord){
 		Vector<String> mean = new Vector<>();
 		String url = "http://www.iciba.com/"+dstWord;

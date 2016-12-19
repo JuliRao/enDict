@@ -8,6 +8,11 @@ import common.dataType;
 /*<<<<<<< HEAD
 public class ResponseData implements Serializable{
 =======*/
+/**
+ * 服务端向客户端的返回数据类
+ * @author 周心萌
+ *
+ */
 public class ResponseData implements Serializable {
 
 //	private String responseType;

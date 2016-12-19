@@ -3,7 +3,11 @@ import java.sql.*;
 import java.util.Random;
 import java.util.Vector;
 //import java
-
+/**
+ * 数据库与服务端的交互类
+ * @author 周心萌
+ *
+ */
 public class MyData {
 	private String driver = "com.mysql.jdbc.Driver";
 	private String url = "jdbc:mysql://localhost:3306/DictData";
@@ -172,7 +176,7 @@ public class MyData {
 				+ username + "';");
 		Vector<String> message =  new Vector<String>();
 		while(resultSet.next()){
-			System.out.println(resultSet.getString(2));
+//			System.out.println(resultSet.getString(2));
 			message.add(resultSet.getString(1));
 			message.add(resultSet.getString(3));
 			message.add(resultSet.getString(2));

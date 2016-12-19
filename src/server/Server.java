@@ -13,6 +13,15 @@ import java.net.Socket;
 
 import server.database.*;
 
+/**
+ * 服务端类
+ * 创建一个服务端程序与客户端建立链接
+ * 与数据库建立链接
+ * 循环接收来自客户端的消息
+ * @author 周心萌
+ *
+ */
+
 public class Server {
 	
 	private int clientNo = 0;

@@ -5,7 +5,11 @@ import java.util.Vector;
 import java.io.Serializable;
 
 import common.dataType;
-
+/**
+ * 客户端向服务端的请求数据类
+ * @author 周心萌
+ *
+ */
 /*<<<<<<< HEAD
 public class RequestData implements Serializable{
 =======*/

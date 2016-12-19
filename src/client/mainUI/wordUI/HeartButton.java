@@ -8,6 +8,7 @@ import javax.swing.JButton;
 
 import client.theme.MyTheme;
 
+@SuppressWarnings("serial")
 public class HeartButton extends JButton {
 	static int width = 50;
 	static int height = 50;

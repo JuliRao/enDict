@@ -5,13 +5,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import javax.swing.AbstractButton;
 import javax.swing.JLabel;
 
 import client.common.Info;
-import client.common.Send;
 import client.mainUI.loginUI.LoginFrame;
 
+@SuppressWarnings("serial")
 public class UserButton extends FunctionButton {
 	private LoginMouseListener listener = new LoginMouseListener();
 	private LogoutMouseListener listener2 = new LogoutMouseListener();

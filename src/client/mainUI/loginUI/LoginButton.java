@@ -4,6 +4,7 @@ import javax.swing.JButton;
 
 import client.theme.MyTheme;
 
+@SuppressWarnings("serial")
 public class LoginButton extends JButton {
 	private static int width = 80;
 	private static int height = 30;

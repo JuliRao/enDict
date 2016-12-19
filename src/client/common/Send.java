@@ -4,6 +4,12 @@ import java.util.Vector;
 
 import common.Dictionary;
 
+/**
+ * 
+ * @author marao
+ * 定义与服务器端交互的函数
+ *
+ */
 public interface Send {
 	public void addNote(String word, String meaning);
 	public void searchWord(String word);

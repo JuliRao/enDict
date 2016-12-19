@@ -14,6 +14,13 @@ import client.common.Info;
 import client.config.Config;
 import client.theme.MyTheme;
 
+/**
+ * 
+ * @author marao
+ * 首页展示页
+ *
+ */
+@SuppressWarnings("serial")
 public class PagePanel extends JPanel {
 	JTextArea sentence = new JTextArea();
 	JLabel picture;

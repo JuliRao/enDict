@@ -1,5 +1,11 @@
 package client.common;
 
+/**
+ * 
+ * @author marao
+ * 存储所有的用户信息
+ *
+ */
 public class User {
 	private String name;
 	private boolean isOnline;

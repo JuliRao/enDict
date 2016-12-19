@@ -3,13 +3,13 @@ package client.mainUI.functionUI;
 import java.awt.Color;
 import java.awt.Image;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import client.common.Send;
 import client.theme.MyTheme;
 
+@SuppressWarnings("serial")
 public class FunctionButton extends JButton {
 	private static int width = 33;
 	private static int height = 33;

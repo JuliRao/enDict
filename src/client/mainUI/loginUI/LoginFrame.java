@@ -3,18 +3,21 @@ package client.mainUI.loginUI;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import client.common.Info;
 import client.common.Send;
 
+/**
+ * 
+ * @author marao
+ * 用户登录注册界面
+ *
+ */
+@SuppressWarnings("serial")
 public class LoginFrame extends JFrame {
 	private JTextField usrName = new LoginText(130, 25);
 	private JPasswordField usrPassword = new LoginPassword(130, 75);

@@ -4,6 +4,12 @@ import javax.swing.JLabel;
 
 import client.theme.MyTheme;
 
+/**
+ * 
+ * @author marao
+ * 生成一个功能区
+ *
+ */
 public class FunctionPanelCreator {
 	
 	public FunctionPanel createFunctionPanel() {

@@ -26,6 +26,12 @@ interface FunctionTheme {
 	public Font getCardFont();
 }
 
+/**
+ * 
+ * @author marao
+ * 与界面主题相关的函数
+ *
+ */
 public interface Theme extends LoginTheme, WordTheme, FunctionTheme, MomentsTheme {
 	public Color getBackgroundColor();
 	public Color getErrorColor();

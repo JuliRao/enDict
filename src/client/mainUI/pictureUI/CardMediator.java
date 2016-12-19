@@ -1,6 +1,5 @@
 package client.mainUI.pictureUI;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -13,7 +12,9 @@ import client.common.UserList;
 
 public class CardMediator implements Mediator {
 	private CardTable table;
+	@SuppressWarnings("unused")
 	private JButton sendButton;
+	@SuppressWarnings("unused")
 	private JButton sendAllButton;
 	private Send send;
 	

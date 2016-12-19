@@ -16,6 +16,7 @@ import client.config.Config;
 import client.mainUI.functionUI.FunctionButton;
 import client.theme.MyTheme;
 
+@SuppressWarnings("serial")
 public class MomentsPanel extends JPanel {
 	private MomentsTable momentsTable = new MomentsTable();
 	private MomentsDisplay momentsDisplay = new MomentsDisplay();

@@ -6,6 +6,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class WordButton extends JButton {
 	private static int width = 30;
 	private static int height = 30;

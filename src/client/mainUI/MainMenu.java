@@ -11,6 +11,13 @@ import client.common.Info;
 import client.theme.MyTheme;
 import common.Dictionary;
 
+/**
+ *  
+ * @author marao
+ * 右键菜单
+ *
+ */
+@SuppressWarnings("serial")
 public class MainMenu extends JPopupMenu {
 	public MainMenu() {
 		JMenu jm1 = new JMenu("默认词典");

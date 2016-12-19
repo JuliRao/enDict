@@ -1,18 +1,18 @@
 package client.mainUI.wordUI;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.print.attribute.standard.Chromaticity;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
-
-import client.common.Refreshable;
 import client.theme.MyTheme;
 
+/**
+ * 
+ * @author marao
+ * 用户输入框
+ *
+ */
+@SuppressWarnings("serial")
 public class WordText extends JTextField {
 	
 	private static int width = 500;

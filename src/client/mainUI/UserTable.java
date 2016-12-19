@@ -9,6 +9,13 @@ import client.common.User;
 import client.common.UserList;
 import client.theme.MyTheme;
 
+/**
+ * 
+ * @author marao
+ * 用户列表
+ *
+ */
+@SuppressWarnings("serial")
 public class UserTable extends JTable {
 	public boolean isCellEditable(int row, int column) {
 		return false;

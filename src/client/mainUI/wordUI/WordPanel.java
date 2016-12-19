@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
@@ -24,6 +23,13 @@ import client.common.Send;
 import client.mainUI.functionUI.FunctionButton;
 import client.theme.MyTheme;
 
+/**
+ * 
+ * @author marao
+ * 与搜索相关的模块
+ *
+ */
+@SuppressWarnings("serial")
 public class WordPanel extends JPanel {
 	private WordLabel wordLabel = new WordLabel("EN ", 20, 20);
 	private WordText wordText = new WordText(55, 20);
@@ -45,6 +51,9 @@ public class WordPanel extends JPanel {
 		this.send = send;
 	}
 
+	/**
+	 * 搜索用户输入的英文单词
+	 */
 	private void goSearch() {
 		String word = wordText.getText();
 		send.searchWord(word);

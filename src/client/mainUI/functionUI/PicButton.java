@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import client.mainUI.pictureUI.CardCreator;
 import client.mainUI.pictureUI.CardFrame;
 
+@SuppressWarnings("serial")
 public class PicButton extends FunctionButton {
 	public PicButton(String path) {
 		super(path);

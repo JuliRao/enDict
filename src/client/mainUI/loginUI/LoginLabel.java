@@ -2,6 +2,7 @@ package client.mainUI.loginUI;
 
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class LoginLabel extends JLabel {
 	private static int width = 40;
 	private static int height = 30;

@@ -5,16 +5,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import common.Dictionary;
-
 import client.common.Send;
 import client.theme.MyTheme;
 
+@SuppressWarnings("serial")
 public class DictionaryPanel extends JPanel {
 	private JTextArea translation = new JTextArea();
 	private HeartButton button = new HeartButton();

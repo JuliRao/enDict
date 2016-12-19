@@ -2,12 +2,6 @@ package client.mainUI.wordUI;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +9,15 @@ import java.util.Set;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import common.Dictionary;
 
+/**
+ * 
+ * @author marao
+ * 用户选择显示的词典
+ *
+ */
+@SuppressWarnings("serial")
 public class WordCheckBoxs extends JPanel {
 	private static int width = 80;
 	private static int height = 200;

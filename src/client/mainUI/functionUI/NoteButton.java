@@ -7,6 +7,7 @@ import client.common.Info;
 import client.mainUI.noteUI.NoteFrame;
 
 
+@SuppressWarnings("serial")
 public class NoteButton extends FunctionButton {
 	public NoteButton(String path) {
 		super(path);

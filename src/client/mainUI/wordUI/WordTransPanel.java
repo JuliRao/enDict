@@ -12,10 +12,16 @@ import javax.swing.JPanel;
 import common.Dictionary;
 import client.common.Displayable;
 import client.common.Info;
-import client.common.Meanings;
 import client.common.Refreshable;
 import client.theme.MyTheme;
 
+/**
+ * 
+ * @author marao
+ * 单词释义区
+ *
+ */
+@SuppressWarnings("serial")
 public class WordTransPanel extends JPanel implements Refreshable, Displayable {
 	static int width = 450;
 	static int height = 305;

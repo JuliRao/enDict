@@ -2,6 +2,7 @@ package client.mainUI.loginUI;
 
 import javax.swing.JPasswordField;
 
+@SuppressWarnings("serial")
 public class LoginPassword extends JPasswordField {
 	private static int width = 300;
 	private static int height = 30;

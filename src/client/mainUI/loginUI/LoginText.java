@@ -4,6 +4,7 @@ import javax.swing.JTextField;
 
 import client.theme.MyTheme;
 
+@SuppressWarnings("serial")
 public class LoginText extends JTextField {
 	private static int width = 300;
 	private static int height = 30;

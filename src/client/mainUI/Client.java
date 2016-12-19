@@ -8,15 +8,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -31,11 +27,16 @@ import client.common.Meanings;
 import client.common.Send;
 import client.common.User;
 import client.common.UserList;
-import client.mainUI.functionUI.FunctionButton;
 import client.mainUI.functionUI.FunctionPanel;
 import client.mainUI.functionUI.FunctionPanelCreator;
 import client.theme.MyTheme;
 
+/**
+ * 
+ * @author marao
+ * 客户端类，与服务器交互
+ *
+ */
 @SuppressWarnings("serial")
 public class Client extends JFrame implements Send {
 	private Socket socket;
@@ -74,7 +75,6 @@ public class Client extends JFrame implements Send {
         functionPanel.setSend(this);
         
         this.socket = socket;
-		
 		try {
 			toServer = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
@@ -154,6 +154,9 @@ public class Client extends JFrame implements Send {
 		repaint();
 	}
 	
+	/**
+	 * 搜索单词
+	 */
 	public void searchWord(String word) {
 		System.out.println("Search " + word);
 		
@@ -198,6 +201,9 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
+	/**
+	 * 用户登录
+	 */
 	public int login(String user, String password) {
 		System.out.println("Click login");
 		
@@ -234,6 +240,9 @@ public class Client extends JFrame implements Send {
 		return 1;
 	}
 	
+	/**
+	 * 用户注册
+	 */
 	public boolean signIn(String user, String password) {
 		System.out.println("Click sign up");
 		
@@ -265,6 +274,9 @@ public class Client extends JFrame implements Send {
 		return false;	
 	}
 	
+	/**
+	 * 发送单词卡
+	 */
 	public void sendCard(Vector<String> strings) {
 		System.out.println("Start sending...");
 		
@@ -285,6 +297,9 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
+	/**
+	 * 将单词及解释加入单词本
+	 */
 	public void addNote(String word, String meaning) {
 		System.out.println("Add word...");
 
@@ -310,6 +325,9 @@ public class Client extends JFrame implements Send {
 		}
 	}
 
+	/**
+	 * 给某个词典点赞
+	 */
 	public void like(Dictionary dictionary) {
 		System.out.println("Like " + dictionary.getName());
 		
@@ -328,6 +346,9 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
+	/**
+	 * 取消给某个词典点的赞
+	 */
 	public void unlike(Dictionary dictionary) {
 		System.out.println("Unlike " + dictionary.getName());
 		
@@ -346,6 +367,9 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
+	/**
+	 * 获得用户列表（在线&不在线）
+	 */
 	public void getUserList() {
 		System.out.println("Get all the user");
 		RequestData requestData = new RequestData();
@@ -370,6 +394,9 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
+	/**
+	 * 获得所有收到的单词卡
+	 */
 	public void getCards() {
 		System.out.println("Get all the cards");
 		
@@ -402,6 +429,9 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
+	/**
+	 * 用户退出登录
+	 */
 	@Override
 	public void logout() {
 		System.out.println("Log out");
@@ -417,6 +447,9 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
+	/**
+	 * 获得生词本中的所有单词及释义
+	 */
 	public void getWordNotes() {
 		System.out.println("Get all the notes");
 		if(Info.getUserName() == null) {
@@ -448,6 +481,9 @@ public class Client extends JFrame implements Send {
 		}
 	}
 	
+	/**
+	 * 获得每日一句
+	 */
 	public void getSentence() {
 		System.out.println("Get today sentence");
 		RequestData requestData = new RequestData();

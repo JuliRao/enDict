@@ -3,12 +3,12 @@ package client.mainUI.functionUI;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import client.common.Send;
 import client.theme.MyTheme;
 
+@SuppressWarnings("serial")
 public class FunctionPanel extends JPanel {
 	
 	public FunctionPanel() {

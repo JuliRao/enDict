@@ -1,16 +1,18 @@
 package client.mainUI.noteUI;
 
-import java.util.ArrayList;
-
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import client.common.Info;
-import client.common.Send;
-import client.common.User;
-import client.common.UserList;
 import client.theme.MyTheme;
 
+/**
+ * 
+ * @author marao
+ * 用于显示生词本的表格
+ *
+ */
+@SuppressWarnings("serial")
 public class NoteTable extends JTable {
 	public boolean isCellEditable(int row, int column) {
 		return false;

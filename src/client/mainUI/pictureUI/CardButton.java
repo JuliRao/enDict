@@ -7,6 +7,7 @@ import javax.swing.JButton;
 
 import client.theme.MyTheme;
 
+@SuppressWarnings("serial")
 public class CardButton extends JButton {
 	
 	private static int width = 150;
@@ -15,7 +16,7 @@ public class CardButton extends JButton {
 	private Mediator mediator;
 	
 	public CardButton(Mediator mediator, String s, int x, int y) {
-		this.mediator = mediator;
+		this.setMediator(mediator);
 		
 		this.setText(s);
 		this.setBounds(x, y, width, height);
@@ -58,5 +59,13 @@ public class CardButton extends JButton {
 				}
 			}
 		});
+	}
+
+	public Mediator getMediator() {
+		return mediator;
+	}
+
+	public void setMediator(Mediator mediator) {
+		this.mediator = mediator;
 	}
 }

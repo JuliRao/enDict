@@ -14,6 +14,7 @@ import client.common.Info;
 import client.common.Send;
 import client.config.Config;
 
+@SuppressWarnings({ "serial", "unused" })
 public class CardFrame extends JFrame {
 	private CardMediator mediator = new CardMediator();
 	private CardTable cardTable;

@@ -121,7 +121,9 @@ public class HandleAClient implements Runnable {
 		data.add("Bing");
 		for(int i = 0; i < bing.size(); i++)
 			data.add(bing.elementAt(i));*/
-		database.addSearch(dstWord);
+//		System.out.println("wojpq");
+		if(data.size()!=3)
+			database.addSearch(dstWord);
 		res.setResponse(data);
 		res.setType(dataType.search);
 		return res;

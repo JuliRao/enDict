@@ -26,12 +26,11 @@ public class UserButton extends FunctionButton {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO 自动生成的方法存根
 			send.logout();
 			Info.setUserName(null);
 
-			((JLabel) getParent().getComponent(4)).setText("未登录");
-			((JLabel) getParent().getComponent(4)).repaint();
+			((JLabel) getParent().getComponent(3)).setText("未登录");
+			((JLabel) getParent().getComponent(3)).repaint();
 			
 			setToolTipText("登录");
 			removeMouseListener(listener2);
@@ -100,8 +99,8 @@ public class UserButton extends FunctionButton {
 					@Override
 					public void windowClosed(WindowEvent e) {
 						if(Info.getUserName() != null) {
-							((JLabel) getParent().getComponent(4)).setText("欢迎登陆：" + Info.getUserName());
-							((JLabel) getParent().getComponent(4)).repaint();
+							((JLabel) getParent().getComponent(3)).setText("欢迎登陆：" + Info.getUserName());
+							((JLabel) getParent().getComponent(3)).repaint();
 							
 							setToolTipText("退出登录");
 							removeMouseListener(listener);

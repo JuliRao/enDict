@@ -67,16 +67,18 @@ public class DictionaryPanel extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Send send = ((WordPanel)getParent().getParent()).getSend();
-				if(button.isFilled()) {
-					button.stroke();
-					button.repaint();
-					send.unlike(dictionary);
-				}
-				else {
-					button.fill();
-					button.repaint();
-					send.like(dictionary);
+				if(!translation.getText().contains("未搜索到结果") && translation.getLineCount() > 2) {
+					Send send = ((WordPanel)getParent().getParent()).getSend();
+					if(button.isFilled()) {
+						button.stroke();
+						button.repaint();
+						send.unlike(dictionary);
+					}
+					else {
+						button.fill();
+						button.repaint();
+						send.like(dictionary);
+					}
 				}
 			}
 		});
@@ -86,6 +88,9 @@ public class DictionaryPanel extends JPanel {
 		translation.setText(dictionary.getName() + "\r\n");
 		for(String string : meanings) {
 			translation.append(string + "\r\n");
+		}
+		if(meanings.size() == 0) {
+			translation.append("未搜索到结果" + "\r\n");
 		}
 		
 		button.stroke();
